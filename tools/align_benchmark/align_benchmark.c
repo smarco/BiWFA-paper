@@ -119,6 +119,7 @@ typedef struct {
   void* wfa_match_funct_arguments;
   uint64_t wfa_max_memory;
   bool wfa_bidirectional;
+  int wfa_max_threads;
   // Other algorithms parameters
   int bandwidth;
   // Misc
@@ -188,6 +189,7 @@ benchmark_args parameters = {
   .wfa_match_funct_arguments = NULL,
   .wfa_max_memory = UINT64_MAX,
   .wfa_bidirectional = false,
+  .wfa_max_threads = 1,
   // Other algorithms parameters
   .bandwidth = -1,
   // Misc
@@ -201,7 +203,7 @@ benchmark_args parameters = {
   // System
   .num_threads = 1,
   .batch_size = 10000,
-  .progress = 10000,
+  .progress = 100000,
   .verbose = 0,
 };
 
@@ -293,12 +295,10 @@ int match_function(int v,int h,void* arguments) {
  * Configuration
  */
 wavefront_aligner_t* align_input_configure_wavefront(
-    align_input_t* const align_input,
-    mm_allocator_t* const mm_allocator) {
+    align_input_t* const align_input) {
   // Set attributes
   wavefront_aligner_attr_t attributes = wavefront_aligner_attr_default;
   attributes.memory_mode = parameters.wfa_memory_mode;
-  attributes.mm_allocator = mm_allocator;
   if (parameters.wfa_score_only) {
     attributes.alignment_scope = compute_score;
   }
@@ -373,6 +373,7 @@ wavefront_aligner_t* align_input_configure_wavefront(
   attributes.plot_params.resolution_points = parameters.plot;
   attributes.system.verbose = parameters.verbose;
   attributes.system.max_memory_abort = parameters.wfa_max_memory;
+  attributes.system.max_num_threads = parameters.wfa_max_threads;
   // Allocate
   return wavefront_aligner_new(&attributes);
 }
@@ -390,10 +391,10 @@ void align_input_configure_global(
   align_input->output_file = parameters.output_file;
   align_input->output_full = parameters.output_full;
   // MM
-  align_input->mm_allocator = mm_allocator_new(BUFFER_SIZE_8M);
+  align_input->mm_allocator = mm_allocator_new(BUFFER_SIZE_1M);
   // WFA
   if (align_benchmark_is_wavefront(parameters.algorithm)) {
-    align_input->wf_aligner = align_input_configure_wavefront(align_input,align_input->mm_allocator);
+    align_input->wf_aligner = align_input_configure_wavefront(align_input);
   } else {
     align_input->wf_aligner = NULL;
   }
@@ -615,7 +616,7 @@ void align_benchmark_sequential() {
       align_benchmark_print_progress(seqs_processed);
     }
     // DEBUG
-    // mm_allocator_print(stderr,align_input.mm_allocator,true);
+    // mm_allocator_print(stderr,align_input.wf_aligner->mm_allocator,true);
     // Plot
     if (parameters.plot > 0) align_benchmark_plot_wf(&align_input,seqs_processed);
   }
@@ -690,7 +691,7 @@ void align_benchmark_parallel() {
       align_benchmark_print_progress(seqs_processed);
     }
     // DEBUG
-    // mm_allocator_print(stderr,align_input.mm_allocator,true);
+    // mm_allocator_print(stderr,align_input.wf_aligner->mm_allocator,true);
   }
   // Print benchmark results
   timer_stop(&parameters.timer_global);
@@ -764,6 +765,7 @@ void usage() {
       "              P2 = steps-between-cutoffs                                \n"
       "          --wfa-max-memory <Bytes>                                      \n"
       "          --wfa-bidirectional                                           \n"
+      "          --wfa-max-threads <INT> (intra-parallelism; default=1)        \n"
       "        [Other Parameters]                                              \n"
       "          --bandwidth <INT>                                             \n"
       "        [Misc]                                                          \n"
@@ -797,10 +799,11 @@ void parse_arguments(int argc,char** argv) {
     { "wfa-custom-match-funct", no_argument, 0, 1004 },
     { "wfa-max-memory", required_argument, 0, 1005 },
     { "wfa-bidirectional", no_argument, 0, 1006 },
+    { "wfa-max-threads", required_argument, 0, 1007 },
     /* Other alignment parameters */
     { "bandwidth", required_argument, 0, 2000 },
     /* Misc */
-    { "check", optional_argument, 0, 'c' },
+    { "check", required_argument, 0, 'c' },
     { "check-distance", required_argument, 0, 3001 },
     { "check-bandwidth", required_argument, 0, 3002 },
     { "plot", optional_argument, 0, 3003 },
@@ -988,6 +991,9 @@ void parse_arguments(int argc,char** argv) {
     case 1006: // --wfa-bidirectional
       parameters.wfa_bidirectional = true;
       break;
+    case 1007: // --wfa-max-threads
+      parameters.wfa_max_threads = atoi(optarg);
+      break;
     /*
      * Other alignment parameters
      */
@@ -998,11 +1004,7 @@ void parse_arguments(int argc,char** argv) {
      * Misc
      */
     case 'c':
-      if (optarg ==  NULL) { // default = score
-        parameters.check_correct = true;
-        parameters.check_score = true;
-        parameters.check_alignments = false;
-      } else if (strcasecmp(optarg,"display")==0) {
+      if (strcasecmp(optarg,"display")==0) {
         parameters.check_display = true;
       } else if (strcasecmp(optarg,"correct")==0) {
         parameters.check_correct = true;

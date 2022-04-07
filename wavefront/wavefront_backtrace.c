@@ -78,21 +78,24 @@ void wavefronts_backtrace_matches(
     wavefront_aligner_t* const wf_aligner,
     const int k,
     wf_offset_t offset,
-    const int num_matches,
+    int num_matches,
     cigar_t* const cigar) {
+  // Parameters
+  const uint64_t matches_lut = 0x4D4D4D4D4D4D4D4Dul; // Matches LUT = "MMMMMMMM"
+  char* operations = cigar->operations + cigar->begin_offset;
+  // Update offset first
+  cigar->begin_offset -= num_matches;
+  // Blocks of 8-matches
+  while (num_matches >= 8) {
+    operations -= 8;
+    *((uint64_t*)(operations+1)) = matches_lut;
+    num_matches -= 8;
+  }
+  // Remaining matches
   int i;
   for (i=0;i<num_matches;++i) {
-    // DEBUG
-#ifdef WAVEFRONT_DEBUG
-    const int v = WAVEFRONT_V(k,offset);
-    const int h = WAVEFRONT_H(k,offset);
-    if (wf_aligner->pattern[v-1] != wf_aligner->text[h-1]) { // Check match
-      fprintf(stderr,"[WFA::Backtrace] Checking a match-traceback error (mismatching bases)\n");
-      exit(1);
-    }
-#endif
-    // Set Match
-    cigar->operations[(cigar->begin_offset)--] = 'M';
+    *operations = 'M';
+    --operations;
   }
 }
 /*

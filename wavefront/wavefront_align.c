@@ -67,8 +67,8 @@ bool wavefront_align_reached_limits(
     wavefront_aligner_t* const wf_aligner,
     const int score) {
   // Check alignment-score limit
-  if (score >= wf_aligner->alignment_form.max_alignment_score) {
-    wf_aligner->cigar.score = wf_aligner->alignment_form.max_alignment_score;
+  if (score >= wf_aligner->system.max_alignment_score) {
+    wf_aligner->cigar.score = wf_aligner->system.max_alignment_score;
     wf_aligner->align_status.status = WF_STATUS_MAX_SCORE_REACHED;
     return true; // Stop
   }
@@ -275,8 +275,6 @@ int wavefront_align_sequences(
   // Compute wavefronts of increasing score
   int score = wf_aligner->align_status.score;
   while (true) {
-    // DEBUG
-    //wavefront_aligner_print(stderr,wf_aligner,score,score,7,0);
     // Exact extend s-wavefront
     const int finished = (*wf_align_extend)(wf_aligner,score);
     if (finished) {
@@ -300,6 +298,8 @@ int wavefront_align_sequences(
     if (wf_aligner->plot_params.plot_enabled) {
       wavefront_plot(wf_aligner,wf_aligner->pattern,wf_aligner->text,score);
     }
+    // DEBUG
+    // wavefront_aligner_print(stderr,wf_aligner,0,score,7,0);
   }
   // Return OK
   wf_aligner->align_status.score = score;
@@ -374,7 +374,7 @@ void wavefront_align_end(
     wf_memory_used = wavefront_aligner_get_size(wf_aligner);
     // Slab
     if (wf_memory_used > wf_aligner->system.max_memory_resident) {
-      wavefront_slab_reap(wf_aligner->wavefront_slab,wf_slab_reap_all);
+      wavefront_slab_reap(wf_aligner->wavefront_slab);
     }
   }
   // DEBUG

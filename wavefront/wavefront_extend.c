@@ -35,6 +35,10 @@
 #include "wavefront_compute.h"
 #include "wavefront_heuristic.h"
 
+#ifdef WFA_PARALLEL
+#include <omp.h>
+#endif
+
 /*
  * Termination (detect end of alignment)
  */
@@ -101,9 +105,14 @@ bool wavefront_extend_endsfree_check_termination(
     const int pattern_left = pattern_length - v_pos;
     const int pattern_end_free = wf_aligner->alignment_form.pattern_end_free;
     if (pattern_left <= pattern_end_free) {
-      wf_aligner->alignment_end_pos.score = score;
-      wf_aligner->alignment_end_pos.k = k;
-      wf_aligner->alignment_end_pos.offset = offset;
+      #ifdef WFA_PARALLEL
+      #pragma omp critical
+      #endif
+      {
+        wf_aligner->alignment_end_pos.score = score;
+        wf_aligner->alignment_end_pos.k = k;
+        wf_aligner->alignment_end_pos.offset = offset;
+      }
       return true; // Quit (we are done)
     }
   }
@@ -112,9 +121,14 @@ bool wavefront_extend_endsfree_check_termination(
     const int text_left = text_length - h_pos;
     const int text_end_free = wf_aligner->alignment_form.text_end_free;
     if (text_left <= text_end_free) {
-      wf_aligner->alignment_end_pos.score = score;
-      wf_aligner->alignment_end_pos.k = k;
-      wf_aligner->alignment_end_pos.offset = offset;
+      #ifdef WFA_PARALLEL
+      #pragma omp critical
+      #endif
+      {
+        wf_aligner->alignment_end_pos.score = score;
+        wf_aligner->alignment_end_pos.k = k;
+        wf_aligner->alignment_end_pos.offset = offset;
+      }
       return true; // Quit (we are done)
     }
   }
@@ -122,85 +136,109 @@ bool wavefront_extend_endsfree_check_termination(
   return false;
 }
 /*
- * "Extension" functions (comparing characters)
+ * Extend kernel
  */
-int wavefront_extend_matches_packed(
+FORCE_INLINE wf_offset_t wavefront_extend_matches_packed_kernel(
     wavefront_aligner_t* const wf_aligner,
-    const int score,
-    const int score_mod,
-    const bool endsfree,
-    const bool compute_max) {
-  // Fetch m-wavefront
-  wavefront_t* const mwavefront = wf_aligner->wf_components.mwavefronts[score_mod];
-  if (mwavefront==NULL) return false;
-  // Extend diagonally each wavefront point
+    const int k,
+    wf_offset_t offset) {
+  // Fetch pattern/text blocks
+  uint64_t* pattern_blocks = (uint64_t*)(wf_aligner->pattern+WAVEFRONT_V(k,offset));
+  uint64_t* text_blocks = (uint64_t*)(wf_aligner->text+WAVEFRONT_H(k,offset));
+  // Compare 64-bits blocks
+  uint64_t cmp = *pattern_blocks ^ *text_blocks;
+  while (__builtin_expect(cmp==0,0)) {
+    // Increment offset (full block)
+    offset += 8;
+    // Next blocks
+    ++pattern_blocks;
+    ++text_blocks;
+    // Compare
+    cmp = *pattern_blocks ^ *text_blocks;
+  }
+  // Count equal characters
+  const int equal_right_bits = __builtin_ctzl(cmp);
+  const int equal_chars = DIV_FLOOR(equal_right_bits,8);
+  offset += equal_chars;
+  // Return extended offset
+  return offset;
+}
+/*
+ * Wavefront offset extension comparing characters
+ *   Remember:
+ *   - No offset is out of boundaries !(h>tlen,v>plen)
+ *   - if (h==tlen,v==plen) extension won't increment (sentinels)
+ */
+FORCE_NO_INLINE void wavefront_extend_matches_packed_end2end(
+    wavefront_aligner_t* const wf_aligner,
+    wavefront_t* const mwavefront,
+    const int lo,
+    const int hi) {
   wf_offset_t* const offsets = mwavefront->offsets;
-  const int lo = mwavefront->lo;
-  const int hi = mwavefront->hi;
+  int k;
+  for (k=lo;k<=hi;++k) {
+    // Fetch offset
+    const wf_offset_t offset = offsets[k];
+    if (offset == WAVEFRONT_OFFSET_NULL) continue;
+    // Extend offset
+    offsets[k] = wavefront_extend_matches_packed_kernel(wf_aligner,k,offset);
+  }
+}
+FORCE_NO_INLINE wf_offset_t wavefront_extend_matches_packed_max(
+    wavefront_aligner_t* const wf_aligner,
+    wavefront_t* const mwavefront,
+    const int lo,
+    const int hi) {
+  wf_offset_t* const offsets = mwavefront->offsets;
   wf_offset_t max_antidiag = 0;
   int k;
   for (k=lo;k<=hi;++k) {
-    // Check offset & positions
-    //   - No offset should be out of boundaries !(h>tlen,v>plen)
-    //   - if (h==tlen,v==plen) extension won't increment (sentinels)
+    // Fetch offset
+    const wf_offset_t offset = offsets[k];
+    if (offset == WAVEFRONT_OFFSET_NULL) continue;
+    // Extend offset
+    offsets[k] = wavefront_extend_matches_packed_kernel(wf_aligner,k,offset);
+    // Compute max
+    const wf_offset_t antidiag = WAVEFRONT_ANTIDIAGONAL(k,offsets[k]);
+    if (max_antidiag < antidiag) max_antidiag = antidiag;
+  }
+  return max_antidiag;
+}
+FORCE_NO_INLINE bool wavefront_extend_matches_packed_endsfree(
+    wavefront_aligner_t* const wf_aligner,
+    wavefront_t* const mwavefront,
+    const int score,
+    const int lo,
+    const int hi) {
+  wf_offset_t* const offsets = mwavefront->offsets;
+  int k;
+  for (k=lo;k<=hi;++k) {
+    // Fetch offset
     wf_offset_t offset = offsets[k];
     if (offset == WAVEFRONT_OFFSET_NULL) continue;
-    // Fetch pattern/text blocks
-    uint64_t* pattern_blocks = (uint64_t*)(wf_aligner->pattern+WAVEFRONT_V(k,offset));
-    uint64_t* text_blocks = (uint64_t*)(wf_aligner->text+WAVEFRONT_H(k,offset));
-    // Compare 64-bits blocks
-    uint64_t cmp = *pattern_blocks ^ *text_blocks;
-    while (__builtin_expect(cmp==0,0)) {
-      // Increment offset (full block)
-      offset += 8;
-      // Next blocks
-      ++pattern_blocks;
-      ++text_blocks;
-      // Compare
-      cmp = *pattern_blocks ^ *text_blocks;
-    }
-    // Count equal characters
-    const int equal_right_bits = __builtin_ctzl(cmp);
-    const int equal_chars = DIV_FLOOR(equal_right_bits,8);
-    offset += equal_chars;
-    // Update offset
+    // Extend offset
+    offset = wavefront_extend_matches_packed_kernel(wf_aligner,k,offset);
     offsets[k] = offset;
-    // Compute max
-    if (compute_max) {
-       const wf_offset_t antidiag = WAVEFRONT_ANTIDIAGONAL(k,offset);
-      if (max_antidiag < antidiag) max_antidiag = antidiag;
-    }
     // Check ends-free reaching boundaries
-    if (endsfree && wavefront_extend_endsfree_check_termination(wf_aligner,mwavefront,score,k,offset)) {
-      return 1; // Quit (we are done)
+    if (wavefront_extend_endsfree_check_termination(wf_aligner,mwavefront,score,k,offset)) {
+      return true; // Quit (we are done)
     }
-  }
-  // If compute-max flag, return maximum antidiagonal (bialign)
-  if (compute_max) {
-    return max_antidiag;
-  }
-  // Check end-to-end finished
-  if (!endsfree) {
-    return wavefront_extend_end2end_check_termination(wf_aligner,mwavefront,score,score_mod);
   }
   // Alignment not finished
-  return 0;
+  return false;
 }
 bool wavefront_extend_matches_custom(
     wavefront_aligner_t* const wf_aligner,
+    wavefront_t* const mwavefront,
     const int score,
-    const int score_mod,
+    const int lo,
+    const int hi,
     const bool endsfree) {
-  // Fetch m-wavefront
-  wavefront_t* const mwavefront = wf_aligner->wf_components.mwavefronts[score_mod];
-  if (mwavefront==NULL) return false;
   // Parameters (custom matching function)
   alignment_match_funct_t match_funct = wf_aligner->match_funct;
   void* const func_arguments = wf_aligner->match_funct_arguments;
   // Extend diagonally each wavefront point
   wf_offset_t* const offsets = mwavefront->offsets;
-  const int lo = mwavefront->lo;
-  const int hi = mwavefront->hi;
   int k;
   for (k=lo;k<=hi;++k) {
     // Check offset
@@ -219,39 +257,12 @@ bool wavefront_extend_matches_custom(
       return true; // Quit (we are done)
     }
   }
-  // Check end-to-end finished
-  if (!endsfree) {
-    return wavefront_extend_end2end_check_termination(wf_aligner,mwavefront,score,score_mod);
-  }
   // Alignment not finished
   return false;
 }
 /*
  * Wavefront exact "extension"
  */
-int wavefront_extend_end2end(
-    wavefront_aligner_t* const wf_aligner,
-    const int score) {
-  // Compute score
-  const bool memory_modular = wf_aligner->wf_components.memory_modular;
-  const int max_score_scope = wf_aligner->wf_components.max_score_scope;
-  const int score_mod = (memory_modular) ? score % max_score_scope : score;
-  // Extend wavefront
-  const int end_reached = wavefront_extend_matches_packed(wf_aligner,score,score_mod,false,false);
-  if (end_reached) {
-    wf_aligner->align_status.status = WF_STATUS_SUCCESSFUL;
-    return 1; // Done
-  }
-  // Cut-off wavefront heuristically
-  if (wf_aligner->heuristic.strategy != wf_heuristic_none) {
-    const bool alignment_dropped = wavefront_heuristic_cufoff(wf_aligner,score);
-    if (alignment_dropped) {
-      wf_aligner->align_status.status = WF_STATUS_HEURISTICALY_DROPPED;
-      return 1; // Done
-    }
-  }
-  return 0; // Not done
-}
 int wavefront_extend_end2end_max(
     wavefront_aligner_t* const wf_aligner,
     const int score) {
@@ -259,25 +270,131 @@ int wavefront_extend_end2end_max(
   const bool memory_modular = wf_aligner->wf_components.memory_modular;
   const int max_score_scope = wf_aligner->wf_components.max_score_scope;
   const int score_mod = (memory_modular) ? score % max_score_scope : score;
-  // Extend wavefront & return max
-  return wavefront_extend_matches_packed(wf_aligner,score,score_mod,false,true);
+  // Fetch m-wavefront
+  wavefront_t* const mwavefront = wf_aligner->wf_components.mwavefronts[score_mod];
+  if (mwavefront==NULL) return 0; // Not done
+  // Multithreading dispatcher
+  const int lo = mwavefront->lo;
+  const int hi = mwavefront->hi;
+  wf_offset_t max_antidiag = 0;
+  const int num_threads = wavefront_compute_num_threads(wf_aligner,lo,hi);
+  if (num_threads == 1) {
+    // Extend wavefront
+    max_antidiag = wavefront_extend_matches_packed_max(wf_aligner,mwavefront,lo,hi);
+  } else {
+#ifdef WFA_PARALLEL
+    // Extend wavefront in parallel
+    #pragma omp parallel num_threads(num_threads)
+    {
+      int t_lo, t_hi;
+      wavefront_compute_thread_limits(
+          omp_get_thread_num(),omp_get_num_threads(),lo,hi,&t_lo,&t_hi);
+      wf_offset_t t_max_antidiag = wavefront_extend_matches_packed_max(wf_aligner,mwavefront,t_lo,t_hi);
+      #ifdef WFA_PARALLEL
+      #pragma omp critical
+      #endif
+      {
+        if (t_max_antidiag > max_antidiag) max_antidiag = t_max_antidiag;
+      }
+    }
+#endif
+  }
+  // Cut-off wavefront heuristically
+  if (wf_aligner->heuristic.strategy != wf_heuristic_none) {
+    const bool alignment_dropped = wavefront_heuristic_cufoff(wf_aligner,score);
+    if (alignment_dropped) {
+      wf_aligner->align_status.status = WF_STATUS_HEURISTICALY_DROPPED;
+      fprintf(stderr,"[WFA:Extend_max] Heuristically dropped error \n");
+      exit(-1);
+    }
+  }
+  return max_antidiag;
 }
-int wavefront_extend_endsfree(
+int wavefront_extend_end2end(
     wavefront_aligner_t* const wf_aligner,
     const int score) {
   // Compute score
   const bool memory_modular = wf_aligner->wf_components.memory_modular;
   const int max_score_scope = wf_aligner->wf_components.max_score_scope;
   const int score_mod = (memory_modular) ? score % max_score_scope : score;
-  // Extend wavefront
-  const int end_reached = wavefront_extend_matches_packed(wf_aligner,score,score_mod,true,false);
+  // Fetch m-wavefront
+  wavefront_t* const mwavefront = wf_aligner->wf_components.mwavefronts[score_mod];
+  if (mwavefront==NULL) return 0; // Not done
+  // Multithreading dispatcher
+  const int lo = mwavefront->lo;
+  const int hi = mwavefront->hi;
+  bool end_reached = false;
+  const int num_threads = wavefront_compute_num_threads(wf_aligner,lo,hi);
+  if (num_threads == 1) {
+    // Extend wavefront
+    wavefront_extend_matches_packed_end2end(wf_aligner,mwavefront,lo,hi);
+  } else {
+#ifdef WFA_PARALLEL
+    // Extend wavefront in parallel
+    #pragma omp parallel num_threads(num_threads)
+    {
+      int t_lo, t_hi;
+      wavefront_compute_thread_limits(
+          omp_get_thread_num(),omp_get_num_threads(),lo,hi,&t_lo,&t_hi);
+      wavefront_extend_matches_packed_end2end(wf_aligner,mwavefront,t_lo,t_hi);
+    }
+#endif
+  }
+  // Check end-to-end finished
+  end_reached = wavefront_extend_end2end_check_termination(wf_aligner,mwavefront,score,score_mod);
   if (end_reached) {
     wf_aligner->align_status.status = WF_STATUS_SUCCESSFUL;
     return 1; // Done
   }
   // Cut-off wavefront heuristically
   if (wf_aligner->heuristic.strategy != wf_heuristic_none) {
-    const bool alignment_dropped = wavefront_heuristic_cufoff(wf_aligner,score);
+    const bool alignment_dropped = wavefront_heuristic_cufoff(wf_aligner,score_mod);
+    if (alignment_dropped) {
+      wf_aligner->align_status.status = WF_STATUS_HEURISTICALY_DROPPED;
+      return 1; // Done
+    }
+  }
+  return 0; // Not done
+}
+int wavefront_extend_endsfree(
+    wavefront_aligner_t* const wf_aligner,
+    const int score) {
+  // Modular wavefront
+  const bool memory_modular = wf_aligner->wf_components.memory_modular;
+  const int max_score_scope = wf_aligner->wf_components.max_score_scope;
+  const int score_mod = (memory_modular) ? score % max_score_scope : score;
+  // Fetch m-wavefront
+  wavefront_t* const mwavefront = wf_aligner->wf_components.mwavefronts[score_mod];
+  if (mwavefront==NULL) return 0; // Not done
+  // Multithreading dispatcher
+  const int lo = mwavefront->lo;
+  const int hi = mwavefront->hi;
+  bool end_reached = false;
+  const int num_threads = wavefront_compute_num_threads(wf_aligner,lo,hi);
+  if (num_threads == 1) {
+    // Extend wavefront
+    end_reached = wavefront_extend_matches_packed_endsfree(wf_aligner,mwavefront,score,lo,hi);
+  } else {
+#ifdef WFA_PARALLEL
+    // Extend wavefront in parallel
+    #pragma omp parallel num_threads(num_threads)
+    {
+      int t_lo, t_hi;
+      wavefront_compute_thread_limits(
+          omp_get_thread_num(),omp_get_num_threads(),lo,hi,&t_lo,&t_hi);
+      if (wavefront_extend_matches_packed_endsfree(wf_aligner,mwavefront,score,t_lo,t_hi)) {
+        end_reached = true;
+      }
+    }
+#endif
+  }
+  if (end_reached) {
+    wf_aligner->align_status.status = WF_STATUS_SUCCESSFUL;
+    return 1; // Done
+  }
+  // Cut-off wavefront heuristically
+  if (wf_aligner->heuristic.strategy != wf_heuristic_none) {
+    const bool alignment_dropped = wavefront_heuristic_cufoff(wf_aligner,score_mod);
     if (alignment_dropped) {
       wf_aligner->align_status.status = WF_STATUS_HEURISTICALY_DROPPED;
       return 1; // Done
@@ -292,16 +409,43 @@ int wavefront_extend_custom(
   const bool memory_modular = wf_aligner->wf_components.memory_modular;
   const int max_score_scope = wf_aligner->wf_components.max_score_scope;
   const int score_mod = (memory_modular) ? score % max_score_scope : score;
-  // Extend wavefront
+  // Fetch m-wavefront
+  wavefront_t* const mwavefront = wf_aligner->wf_components.mwavefronts[score];
+  if (mwavefront==NULL) return 0; // Not done
+  // Multithreading dispatcher
   const bool endsfree = (wf_aligner->alignment_form.span == alignment_endsfree);
-  const bool end_reached = wavefront_extend_matches_custom(wf_aligner,score,score_mod,endsfree);
+  const int lo = mwavefront->lo;
+  const int hi = mwavefront->hi;
+  bool end_reached = false;
+  const int num_threads = wavefront_compute_num_threads(wf_aligner,lo,hi);
+  if (num_threads == 1) {
+    // Extend wavefront
+    end_reached = wavefront_extend_matches_custom(wf_aligner,mwavefront,score,lo,hi,endsfree);
+  } else {
+#ifdef WFA_PARALLEL
+    // Extend wavefront in parallel
+    #pragma omp parallel num_threads(num_threads)
+    {
+      int t_lo, t_hi;
+      wavefront_compute_thread_limits(
+          omp_get_thread_num(),omp_get_num_threads(),lo,hi,&t_lo,&t_hi);
+      if (wavefront_extend_matches_custom(wf_aligner,mwavefront,score,t_lo,t_hi,endsfree)) {
+        end_reached = true;
+      }
+    }
+#endif
+  }
+  // Check end-to-end finished
+  if (!endsfree) {
+    end_reached = wavefront_extend_end2end_check_termination(wf_aligner,mwavefront,score,score_mod);
+  }
   if (end_reached) {
     wf_aligner->align_status.status = WF_STATUS_SUCCESSFUL;
     return 1; // Done
   }
   // Cut-off wavefront heuristically
   if (wf_aligner->heuristic.strategy != wf_heuristic_none) {
-    const bool alignment_dropped = wavefront_heuristic_cufoff(wf_aligner,score);
+    const bool alignment_dropped = wavefront_heuristic_cufoff(wf_aligner,score_mod);
     if (alignment_dropped) {
       wf_aligner->align_status.status = WF_STATUS_HEURISTICALY_DROPPED;
       return 1; // Done

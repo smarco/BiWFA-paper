@@ -65,7 +65,6 @@ void wavefront_bialign_junction_configure(
       .pattern_end_free = 0,
       .text_begin_free = form->text_begin_free,
       .text_end_free = 0,
-      .max_alignment_score = INT_MAX, // Unlimited
   };
   alignment_span_t span_reverse =
       (form->pattern_end_free > 0 || form->text_end_free > 0) ? alignment_endsfree : alignment_end2end;
@@ -75,7 +74,6 @@ void wavefront_bialign_junction_configure(
       .pattern_end_free = 0,
       .text_begin_free = form->text_end_free,
       .text_end_free = 0,
-      .max_alignment_score = INT_MAX, // Unlimited
   };
   // Configure WF-compute function (global)
   switch (distance_metric) {
@@ -502,10 +500,10 @@ void wavefront_bialign(
   const int junction_v = WAVEFRONT_V(junction.k_forward,junction.offset_forward);
   // DEBUG
   if (wf_aligner->system.verbose == 1) {
-    fprintf(stderr,"[WFA::BiAlign] ");
-    int i; for (i=0;i<rec_level;++i) fprintf(stderr,"   ");
-    fprintf(stderr,"[%d] Junction at (h,v,score) = (%d,%d,%d)\n",
-        rec_level,junction_h,junction_v,junction.score);
+    //fprintf(stderr,"[WFA::BiAlign] ");
+    //int i; for (i=0;i<rec_level;++i) fprintf(stderr,"   ");
+    //fprintf(stderr,"[%d] Junction at (h,v,score) = (%d,%d,%d)\n",
+    //    rec_level,junction_h,junction_v,junction.score);
   }
   // Align half_0
   alignment_span_t span_0 =
@@ -516,7 +514,6 @@ void wavefront_bialign(
       .pattern_end_free = 0,
       .text_begin_free = form->text_begin_free,
       .text_end_free = 0,
-      .max_alignment_score = INT_MAX, // Unlimited
   };
   wavefront_bialign(
       wf_aligner,pattern,junction_v,text,junction_h,
@@ -531,7 +528,6 @@ void wavefront_bialign(
       .pattern_end_free = form->pattern_end_free,
       .text_begin_free = 0,
       .text_end_free = form->text_end_free,
-      .max_alignment_score = INT_MAX, // Unlimited
   };
   wavefront_bialign(wf_aligner,
       pattern+junction_v,pattern_length-junction_v,

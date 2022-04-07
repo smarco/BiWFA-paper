@@ -169,7 +169,8 @@ wavefront_aligner_t* wavefront_aligner_new(
   wavefront_aligner_t* const wf_aligner = mm_allocator_alloc(mm_allocator,wavefront_aligner_t);
   wf_aligner->mm_allocator = mm_allocator;
   wf_aligner->mm_allocator_own = mm_allocator_own;
-  wf_aligner->wavefront_slab = wavefront_slab_new(1000,bt_piggyback,mm_allocator);
+  const wf_slab_mode_t slab_mode = (memory_modular) ? wf_slab_reuse : wf_slab_tight;
+  wf_aligner->wavefront_slab = wavefront_slab_new(1000,bt_piggyback,slab_mode,mm_allocator);
   // Configuration
   wf_aligner->pattern_length = pattern_length;
   wf_aligner->text_length = text_length;
@@ -278,7 +279,7 @@ void wavefront_aligner_reap(
   if (wf_aligner->aligner_forward != NULL) wavefront_aligner_reap(wf_aligner->aligner_forward);
   if (wf_aligner->aligner_reverse != NULL) wavefront_aligner_reap(wf_aligner->aligner_reverse);
   // Slab
-  wavefront_slab_reap(wf_aligner->wavefront_slab,wf_slab_reap_all);
+  wavefront_slab_reap(wf_aligner->wavefront_slab);
 }
 void wavefront_aligner_delete(
     wavefront_aligner_t* const wf_aligner) {
@@ -385,7 +386,7 @@ void wavefront_aligner_set_match_funct(
 void wavefront_aligner_set_max_alignment_score(
     wavefront_aligner_t* const wf_aligner,
     const int max_alignment_score) {
-  wf_aligner->alignment_form.max_alignment_score = max_alignment_score;
+  wf_aligner->system.max_alignment_score = max_alignment_score;
 }
 void wavefront_aligner_set_max_memory(
     wavefront_aligner_t* const wf_aligner,

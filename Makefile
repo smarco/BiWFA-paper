@@ -19,10 +19,13 @@ AR_FLAGS=-rsc
 ifndef BUILD_EXAMPLES 
 BUILD_EXAMPLES=0
 endif
-
 ifndef BUILD_TOOLS 
 BUILD_TOOLS=1
 endif
+ifndef BUILD_WFA_PARALLEL
+BUILD_WFA_PARALLEL=1
+endif
+
 ###############################################################################
 # Configuration rules
 ###############################################################################
@@ -41,10 +44,7 @@ ifeq ($(BUILD_EXAMPLES),1)
     APPS+=examples
 endif
 
-release: CC_FLAGS+=-O3 -march=native -flto
-release: build
-
-all: CC_FLAGS+=-O3 -march=native
+all: CC_FLAGS+=-O3 -march=native -flto
 all: build
 
 debug: build
