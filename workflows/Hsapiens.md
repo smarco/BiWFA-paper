@@ -118,6 +118,28 @@ ls seq_pairs/ | while read SET; do
     # -c 48 because the memory consumption can be high
     sbatch -c 48 --job-name $SET --wrap 'TMPFOLDER=/scratch/tmp/$SLURM_JOBID; cd $TMPFOLDER; \time -v '${RUN_BENCHMARK}' -a gap-affine-wfa -i '${FULL_PATH_SEQ}' --affine-penalties 0,4,6,2 --wfa-memory-mode high --check correct --output '$PREFIX'.high.out 2> '$PREFIX'.high.log'
   done
-  break
+done
+```
+
+Collect statistics:
+
+```shell
+mkdir -p seq_statistics/
+
+rm seq_statistics/statistics.tsv
+rm seq_statistics/scores.tsv
+
+ls seq_alignments/ | while read SET; do
+  echo $SET
+      
+  ls seq_pairs/$SET/*.seq | while read PATH_SEQ; do
+    NAME=$(basename $PATH_SEQ .seq)
+    PREFIX=seq_alignments/$SET/$NAME
+
+    grep 'Time.Alignment' $PREFIX.*.log | cut -f 3 -d '/' | cut -f 1,2,4,5 -d '.' | tr -s ' ' | sed 's/ (s)//' | sed 's/.Alignment//' | sed 's/\./ /' | tr ' ' '\t' | awk -v OFS='\t' -v SET=$SET '{print(SET,$0,"time_s")}' >> seq_statistics/statistics.tsv
+    grep 'Maximum resident' $PREFIX.*.log  | cut -f 3 -d '/' | sed 's/.log://' | sed 's/Maximum resident set size (kbytes): //g' | tr '.' '\t' | awk -v OFS='\t' -v SET=$SET '{print(SET,$0,"memory_kb")}' >> seq_statistics/statistics.tsv
+
+    grep '^-' $PREFIX.*.out | cut -f 1 | cut -f 3 -d '/' | sed 's/out://' | tr '.' '\t' | awk -v OFS='\t' -v SET=$SET '{print(SET,$0,"memory_kb")}' >> seq_statistics/scores.tsv
+  done
 done
 ```
