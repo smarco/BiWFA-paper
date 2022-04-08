@@ -489,12 +489,14 @@ void align_benchmark_print_results(
   fprintf(stderr,"=> Time.Benchmark      ");
   timer_print(stderr,&parameters.timer_global,NULL);
   if (parameters.num_threads == 1) {
-    fprintf(stderr,"  => Time.Alignment    ");
-    timer_print(stderr,&align_input->timer,&parameters.timer_global);
+    fprintf(stderr,"  => Time.Alignment    %2.3f (s)\n",
+        TIMER_CONVERT_NS_TO_S(timer_get_total_ns(&align_input->timer)));
+    //timer_print(stderr,&align_input->timer,&parameters.timer_global);
   } else {
     for (int i=0;i<parameters.num_threads;++i) {
-      fprintf(stderr,"  => Time.Alignment.Thread.%0d    ",i);
-      timer_print(stderr,&align_input[i].timer,&parameters.timer_global);
+      fprintf(stderr,"  => Time.Alignment.Thread.%0d    %2.3f (s)\n",i,
+          TIMER_CONVERT_NS_TO_S(timer_get_total_ns(&align_input[i].timer)));
+      //timer_print(stderr,&align_input[i].timer,&parameters.timer_global);
     }
   }
   // Print Stats
