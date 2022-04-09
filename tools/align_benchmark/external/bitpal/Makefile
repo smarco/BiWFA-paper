@@ -1,20 +1,16 @@
 ###############################################################################
 # Definitions
 ###############################################################################
-FOLDER_WFA=../../..
-FOLDER_ROOT=..
-FOLDER_BUILD=$(FOLDER_ROOT)/build
+FOLDER_BUILD=../build
+
+CC=gcc
+CC_FLAGS=-Wall -march=native -Ofast 
 
 ###############################################################################
 # Modules
 ###############################################################################
-MODULES=benchmark_check \
-        benchmark_edit \
-        benchmark_gap_affine \
-        benchmark_gap_affine2p \
-        benchmark_gap_linear \
-        benchmark_indel \
-        benchmark_utils
+MODULES=bitpal.m0.x1.g1 \
+        bitpal.m1.x4.g2
         
 SRCS=$(addsuffix .c, $(MODULES))
 OBJS=$(addprefix $(FOLDER_BUILD)/, $(SRCS:.c=.o))
@@ -22,19 +18,8 @@ OBJS=$(addprefix $(FOLDER_BUILD)/, $(SRCS:.c=.o))
 ###############################################################################
 # Rules
 ###############################################################################
-SUBDIRS=external
-
-all: $(SUBDIRS) $(OBJS) 
+all: $(OBJS)
 
 # General building rule
 $(FOLDER_BUILD)/%.o : %.c
-	$(CC) $(CC_FLAGS) -I$(FOLDER_ROOT) -I$(FOLDER_WFA) -c $< -o $@
-
-###############################################################################
-# Subdir rule
-###############################################################################
-export
-$(SUBDIRS):
-	$(MAKE) --directory=$@ all
-	
-.PHONY: $(SUBDIRS) 
+	$(CC) $(CC_FLAGS) -O3 -c $< -o $@

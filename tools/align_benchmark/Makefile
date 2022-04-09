@@ -13,6 +13,8 @@ endif
 
 LI_FLAGS=-L$(FOLDER_LIB) -I$(FOLDER_ROOT) -I$(FOLDER_WFA) -I.
 LIB_WFA=$(FOLDER_LIB)/libwfa.a
+LIB_EDLIB=external/edlib/build/lib/
+LIB_GABA=external/libgaba/libgaba.a
 ###############################################################################
 # Rules
 ###############################################################################
@@ -27,6 +29,11 @@ BIN=$(FOLDER_BIN)/align_benchmark
 all: setup 
 all: $(SUBDIRS)
 all: OBJS+=$(FOLDER_BUILD)/*.o
+all: OBJS+=external/build/*.o
+all: LD_FLAGS+=-L$(LIB_EDLIB) -Wl,-rpath=$(PWD)/tools/align_benchmark/$(LIB_EDLIB) -ledlib # Edlib
+all: LD_FLAGS+=$(LIB_GABA) # Gaba
+all: LD_FLAGS+=-lstdc++ # wfalm
+
 all: align_benchmark
 
 align_benchmark: */*.c */*.h align_benchmark.c $(LIB_WFA)

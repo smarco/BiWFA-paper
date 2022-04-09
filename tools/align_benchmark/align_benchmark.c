@@ -30,6 +30,8 @@
  */
 #include <omp.h>
 
+#define EXTERNAL_BENCHMARKS
+
 #include "utils/commons.h"
 #include "utils/sequence_buffer.h"
 #include "system/profiler_timer.h"
@@ -47,6 +49,17 @@
 #include "benchmark/benchmark_gap_linear.h"
 #include "benchmark/benchmark_gap_affine.h"
 #include "benchmark/benchmark_gap_affine2p.h"
+
+#ifdef EXTERNAL_BENCHMARKS
+#include "benchmark/external/benchmark_bitpal.h"
+#include "benchmark/external/benchmark_daligner.h"
+#include "benchmark/external/benchmark_diffutils.h"
+#include "benchmark/external/benchmark_edlib.h"
+#include "benchmark/external/benchmark_gaba.h"
+#include "benchmark/external/benchmark_ksw2.h"
+#include "benchmark/external/benchmark_lh3.h"
+#include "benchmark/external/benchmark_wfalm.h"
+#endif
 
 /*
  * Algorithms
@@ -72,6 +85,21 @@ typedef enum {
   // Gap-affine dual-cost
   alignment_gap_affine2p_dp,
   alignment_gap_affine2p_wavefront,
+#ifdef EXTERNAL_BENCHMARKS
+  // External algorithms
+  alignment_bitpal_edit,
+  alignment_bitpal_scored,
+  alignment_daligner,
+  alignment_diffutils,
+  alignment_edlib,
+  alignment_gaba_aband,
+  alignment_ksw2_extz2_sse,
+  alignment_ksw2_extd2_sse,
+  alignment_lv89,
+  alignment_wfalm,
+  alignment_wfalm_lowmem,
+  alignment_wfalm_rec
+#endif
 } alignment_algorithm_type;
 bool align_benchmark_is_wavefront(
     const alignment_algorithm_type algorithm) {
@@ -122,6 +150,11 @@ typedef struct {
   int wfa_max_threads;
   // Other algorithms parameters
   int bandwidth;
+#ifdef EXTERNAL_BENCHMARKS
+  bool ksw2_approx_max__drop;
+  int ksw2_bandwidth;
+  int ksw2_zdrop;
+#endif
   // Misc
   bool check_display;
   bool check_correct;
@@ -192,6 +225,11 @@ benchmark_args parameters = {
   .wfa_max_threads = 1,
   // Other algorithms parameters
   .bandwidth = -1,
+#ifdef EXTERNAL_BENCHMARKS
+  .ksw2_approx_max__drop = false,
+  .ksw2_bandwidth = -1,
+  .ksw2_zdrop = -1,
+#endif
   // Misc
   .check_bandwidth = -1,
   .check_display = false,
@@ -578,6 +616,53 @@ void align_benchmark_run_algorithm(
     case alignment_gap_affine2p_wavefront:
       benchmark_gap_affine2p_wavefront(align_input,&parameters.affine2p_penalties);
       break;
+#ifdef EXTERNAL_BENCHMARKS
+      /*
+       * External Algorithms
+       */
+      case alignment_bitpal_edit:
+        benchmark_bitpal_m0_x1_g1(align_input);
+        break;
+      case alignment_bitpal_scored:
+        benchmark_bitpal_m1_x4_g2(align_input);
+        break;
+      case alignment_daligner:
+        benchmark_daligner(align_input);
+        break;
+      case alignment_diffutils:
+        benchmark_diffutils(align_input,true);
+        break;
+      case alignment_edlib:
+        benchmark_edlib(align_input);
+        break;
+      case alignment_gaba_aband:
+        benchmark_gaba_aband(align_input,&parameters.affine_penalties);
+        break;
+      case alignment_ksw2_extz2_sse:
+        benchmark_ksw2_extz2_sse(
+            align_input,&parameters.affine_penalties,
+            parameters.ksw2_approx_max__drop,
+            parameters.ksw2_bandwidth,parameters.ksw2_zdrop);
+        break;
+      case alignment_ksw2_extd2_sse:
+        benchmark_ksw2_extd2_sse(
+            align_input,&parameters.affine2p_penalties,
+            parameters.ksw2_approx_max__drop,
+            parameters.ksw2_bandwidth,parameters.ksw2_zdrop);
+        break;
+      case alignment_lv89:
+        benchmark_lv89(align_input);
+        break;
+      case alignment_wfalm:
+        benchmark_wfalm_global_affine(align_input,&parameters.affine_penalties);
+        break;
+      case alignment_wfalm_lowmem:
+        benchmark_wfalm_global_affine_lowmem(align_input,&parameters.affine_penalties);
+        break;
+      case alignment_wfalm_rec:
+        benchmark_wfalm_global_affine_rec(align_input,&parameters.affine_penalties);
+        break;
+#endif
     default:
       fprintf(stderr,"Algorithm not implemented\n");
       exit(1);
@@ -734,6 +819,28 @@ void usage() {
       "            [Gap-affine-2pieces (Concave 2-pieces)]                     \n"
       "              gap-affine2p-dp                                           \n"
       "              gap-affine2p-wfa                                          \n"
+#ifdef EXTERNAL_BENCHMARKS
+      "            [External/BitPal]                                           \n"
+      "              bitpal-edit          (Edit)[score-only]                   \n"
+      "              bitpal-scored        (Gap-linear)[score-only]             \n"
+      "            [External/Daligner]                                         \n"
+      "              daligner             (Edit)                               \n"
+      "            [External/Diffutils]                                        \n"
+      "              diffutils            (Edit)                               \n"
+      "            [External/Edlib]                                            \n"
+      "              edlib                (Edit)                               \n"
+      "            [External/GABA]                                             \n"
+      "              gaba-aband           (Gap-affine)                         \n"
+      "            [External/KSW2]                                             \n"
+      "              ksw2-extz2-sse       (Gap-affine)                         \n"
+      "              ksw2-extd2-sse       (Gap-affine-2pieces)                 \n"
+      "            [External/LV89]                                             \n"
+      "              lv89                 (Edit)[score-only]                   \n"
+      "            [External/WFAlm]                                            \n"
+      "              wfalm                (Gap-affine)                         \n"
+      "              wfalm-lowmem         (Gap-affine)[low-mem]                \n"
+      "              wfalm-rec            (Gap-affine)[ultralow-mem]           \n"
+#endif
       "        [Input & Output]                                                \n"
       "          --input|i <File>                                              \n"
       "          --output|o <File>                                             \n"
@@ -770,6 +877,12 @@ void usage() {
       "          --wfa-max-threads <INT> (intra-parallelism; default=1)        \n"
       "        [Other Parameters]                                              \n"
       "          --bandwidth <INT>                                             \n"
+#ifdef EXTERNAL_BENCHMARKS
+      "          --ba-block-size <INT>                                         \n"
+      "          --ksw2-approx-max-drop                                        \n"
+      "          --ksw2-bandwidth <INT>                                        \n"
+      "          --ksw2-zdrop <INT>                                            \n"
+#endif
       "        [Misc]                                                          \n"
       "          --check|c 'correct'|'score'|'alignment'                       \n"
       "          --check-distance 'indel'|'edit'|'linear'|'affine'|'affine2p'  \n"
@@ -804,6 +917,12 @@ void parse_arguments(int argc,char** argv) {
     { "wfa-max-threads", required_argument, 0, 1007 },
     /* Other alignment parameters */
     { "bandwidth", required_argument, 0, 2000 },
+#ifdef EXTERNAL_BENCHMARKS
+    { "ba-block-size", required_argument, 0, 2001 },
+    { "ksw2-approx-max-drop", no_argument, 0, 2002 },
+    { "ksw2-bandwidth", required_argument, 0, 2003 },
+    { "ksw2-zdrop", required_argument, 0, 2004 },
+#endif
     /* Misc */
     { "check", required_argument, 0, 'c' },
     { "check-distance", required_argument, 0, 3001 },
@@ -864,6 +983,43 @@ void parse_arguments(int argc,char** argv) {
         parameters.algorithm = alignment_gap_affine2p_dp;
       } else if (strcmp(optarg,"gap-affine2p-wfa")==0) {
         parameters.algorithm = alignment_gap_affine2p_wavefront;
+#ifdef EXTERNAL_BENCHMARKS
+      /*
+       * External Algorithm
+       */
+      // External (BitPal)
+      } else if (strcmp(optarg,"bitpal-edit")==0) {
+        parameters.algorithm = alignment_bitpal_edit;
+      } else if (strcmp(optarg,"bitpal-scored")==0) {
+        parameters.algorithm = alignment_bitpal_scored;
+      // External (Daligner)
+      } else if (strcmp(optarg,"daligner")==0) {
+        parameters.algorithm = alignment_daligner;
+      // External (Diffutils)
+      } else if (strcmp(optarg,"diffutils")==0) {
+        parameters.algorithm = alignment_diffutils;
+      // External (Edlib)
+      } else if (strcmp(optarg,"edlib")==0) {
+        parameters.algorithm = alignment_edlib;
+      // External (Gaba)
+      } else if (strcmp(optarg,"gaba-aband")==0) {
+        parameters.algorithm = alignment_gaba_aband;
+      // External (KSW2)
+      } else if (strcmp(optarg,"ksw2-extz2-sse")==0) {
+        parameters.algorithm = alignment_ksw2_extz2_sse;
+      } else if (strcmp(optarg,"ksw2-extd2-sse")==0) {
+        parameters.algorithm = alignment_ksw2_extd2_sse;
+      // External (LV89)
+      } else if (strcmp(optarg,"lv89")==0) {
+        parameters.algorithm = alignment_lv89;
+      // External (wfalm)
+      } else if (strcmp(optarg,"wfalm")==0) {
+        parameters.algorithm = alignment_wfalm;
+      } else if (strcmp(optarg,"wfalm-lowmem")==0) {
+        parameters.algorithm = alignment_wfalm_lowmem;
+      } else if (strcmp(optarg,"wfalm-rec")==0) {
+        parameters.algorithm = alignment_wfalm_rec;
+#endif
       } else {
         fprintf(stderr,"Algorithm '%s' not recognized\n",optarg);
         exit(1);
@@ -1002,11 +1158,26 @@ void parse_arguments(int argc,char** argv) {
     case 2000: // --bandwidth
       parameters.bandwidth = atoi(optarg);
       break;
+#ifdef EXTERNAL_BENCHMARKS
+    case 2002: // --ksw2-approx-max-drop
+      parameters.ksw2_approx_max__drop = true;
+      break;
+    case 2003: // --ksw2-bandwidth
+      parameters.ksw2_bandwidth = atoi(optarg);
+      break;
+    case 2004: // --ksw2-zdrop
+      parameters.ksw2_zdrop = atoi(optarg);
+      break;
+#endif
     /*
      * Misc
      */
     case 'c':
-      if (strcasecmp(optarg,"display")==0) {
+      if (optarg ==  NULL) { // default = score
+        parameters.check_correct = true;
+        parameters.check_score = true;
+        parameters.check_alignments = false;
+      } else if (strcasecmp(optarg,"display")==0) {
         parameters.check_display = true;
       } else if (strcasecmp(optarg,"correct")==0) {
         parameters.check_correct = true;
