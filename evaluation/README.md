@@ -133,21 +133,24 @@ mkdir -p seq_statistics/
 
 rm seq_statistics/statistics.tsv
 rm seq_statistics/scores.tsv
+rm seq_statistics/lengths.tsv
 
 ls seq_pairs/ | while read SET; do
   echo $SET
-      
-#  ls seq_pairs/$SET/*.seq | while read PATH_SEQ; do
-#    NAME=$(basename $PATH_SEQ .seq)
-#    PREFIX=seq_alignments/$SET/$NAME
-#
+ 
+  cat seq_alignments/$SET/*.log | python3 ../log2info.py | awk -v OFS='\t' -v SET=$SET '{print(SET,$0)}' >> seq_statistics/statistics.tsv
+  grep '^-' seq_alignments/$SET/*.out | cut -f 1 | cut -f 3 -d '/' | sed 's/out://' | tr '.' '\t' | awk -v OFS='\t' -v SET=$SET '{print(SET,$0)}' >> seq_statistics/scores.tsv
+  
+  ls seq_pairs/$SET/*.seq | while read PATH_SEQ; do
+    NAME=$(basename $PATH_SEQ .seq)
+    PREFIX=seq_alignments/$SET/$NAME
+    
+    cat $PATH_SEQ | tr '\n' ' ' | less -S | awk -v OFS='\t' -v SET=$SET -v NAME=$NAME '{print(SET, NAME, length($1), length($2))}' >> seq_statistics/lengths.tsv
+
 #    grep 'Time.Alignment' $PREFIX.*.log | grep call -v | cut -f 3 -d '/' | cut -f 1,2,4,5 -d '.' | tr -s ' ' | sed 's/ (s)//' | sed 's/.Alignment//' | sed 's/\./ /' | tr ' ' '\t' | awk -v OFS='\t' -v SET=$SET '{print(SET,$0,"time_s")}' >> seq_statistics/statistics.tsv
 #    grep 'Maximum resident' $PREFIX.*.log  | cut -f 3 -d '/' | sed 's/.log://' | sed 's/Maximum resident set size (kbytes): //g' | tr '.' '\t' | awk -v OFS='\t' -v SET=$SET '{print(SET,$0,"memory_kb")}' >> seq_statistics/statistics.tsv
 #    grep '^-' $PREFIX.*.out | cut -f 1 | cut -f 3 -d '/' | sed 's/out://' | tr '.' '\t' | awk -v OFS='\t' -v SET=$SET '{print(SET,$0,"memory_kb")}' >> seq_statistics/scores.tsv
-#  done
-  
-  cat seq_alignments/$SET/*.log | python3 ../log2info.py | awk -v OFS='\t' -v SET=$SET '{print(SET,$0)}' >> seq_statistics/statistics.tsv
-  grep '^-' seq_alignments/$SET/*.out | cut -f 1 | cut -f 3 -d '/' | sed 's/out://' | tr '.' '\t' | awk -v OFS='\t' -v SET=$SET '{print(SET,$0)}' >> seq_statistics/scores.tsv
+  done
 done
 ```
 
@@ -210,6 +213,13 @@ mkdir -p seq_statistics/
 
 cat seq_alignments/*.log | python3 ../log2info.py | awk -v OFS='\t' -v SET='ONT_UL' '{print(SET,$0)}' > seq_statistics/statistics.tsv
 grep '^-' seq_alignments/*.out | cut -f 1 | cut -f 2 -d '/' | sed 's/out://' | tr '.' '\t' | awk -v OFS='\t' -v SET="ONT_UL" '{print(SET,$0)}' > seq_statistics/scores.tsv
+
+ls seq_pairs/*.seq | while read PATH_SEQ; do
+  NAME=$(basename $PATH_SEQ .seq)
+  PREFIX=seq_alignments/$SET/$NAME
+    
+  cat $PATH_SEQ | tr '\n' ' ' | less -S | awk -v OFS='\t' -v SET="ONT_UL" -v NAME=$NAME '{print(SET, NAME, length($1), length($2))}' >> seq_statistics/lengths.tsv
+done
 ```
 
 
@@ -264,6 +274,13 @@ mkdir -p seq_statistics/
    
 cat seq_alignments/*.log | python3 ../log2info.py | awk -v OFS='\t' -v SET='ONT_UL' '{print(SET,$0)}' > seq_statistics/statistics.tsv
 grep '^-' seq_alignments/*.out | cut -f 1 | cut -f 2 -d '/' | sed 's/out://' | tr '.' '\t' | awk -v OFS='\t' -v SET="ONT_UL" '{print(SET,$0)}' > seq_statistics/scores.tsv
+
+ls seq_pairs/*.seq | while read PATH_SEQ; do
+  NAME=$(basename $PATH_SEQ .seq)
+  PREFIX=seq_alignments/$SET/$NAME
+    
+  cat $PATH_SEQ | tr '\n' ' ' | less -S | awk -v OFS='\t' -v SET="PACBIO" -v NAME=$NAME '{print(SET, NAME, length($1), length($2))}' >> seq_statistics/lengths.tsv
+done
 ```
 
 ## Statistics
@@ -275,4 +292,5 @@ cd /gpfs/projects/bsc18/bsc18995/biwfa
 
 cat */seq_statistics/statistics.tsv > statistics_all.tsv
 cat */seq_statistics/scores.tsv > scores_all.tsv
+cat */seq_statistics/lengths.tsv > lengths_all.tsv
 ```
