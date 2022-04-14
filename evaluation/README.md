@@ -16,7 +16,7 @@ git checkout benchmark
 make clean all
 ```
 
-## Dataset 1
+## ONT PromethION
 
 Prepare the data:
 
@@ -155,7 +155,7 @@ done
 ```
 
 
-## ONT UL
+## ONT MinION > 500 kbps
 
 Prepare sequence pairs:
 
@@ -294,3 +294,5 @@ cat */seq_statistics/statistics.tsv > statistics_all.tsv
 cat */seq_statistics/scores.tsv > scores_all.tsv
 cat */seq_statistics/lengths.tsv > lengths_all.tsv
 ```
+
+Plot the statistics with the `scripts/plots.R` script.
