@@ -10214,6 +10214,7 @@ ont_regions	f70f0920-35d9-4b81-bf68-eede0c2aec98	ksw2-extz2-sse	-158756
 ont_regions	f70f0920-35d9-4b81-bf68-eede0c2aec98	wfa-high	-158756
 ont_regions	f70f0920-35d9-4b81-bf68-eede0c2aec98	wfalm-lowmem	-158756
 ont_regions	f70f0920-35d9-4b81-bf68-eede0c2aec98	wfalm	-158756
+ont_regions	f70f0920-35d9-4b81-bf68-eede0c2aec98	wfalm-rec	-158756
 ont_regions	f70f0920-35d9-4b81-bf68-eede0c2aec98	wfa-low	-158756
 ont_regions	f70f0920-35d9-4b81-bf68-eede0c2aec98	wfa-med	-158756
 ont_regions	f741ecd7-666f-44fb-8676-07c7724d2116	biwfa	-45114
@@ -10221,6 +10222,7 @@ ont_regions	f741ecd7-666f-44fb-8676-07c7724d2116	ksw2-extz2-sse	-45114
 ont_regions	f741ecd7-666f-44fb-8676-07c7724d2116	wfa-high	-45114
 ont_regions	f741ecd7-666f-44fb-8676-07c7724d2116	wfalm-lowmem	-45114
 ont_regions	f741ecd7-666f-44fb-8676-07c7724d2116	wfalm	-45114
+ont_regions	f741ecd7-666f-44fb-8676-07c7724d2116	wfalm-rec	-45114
 ont_regions	f741ecd7-666f-44fb-8676-07c7724d2116	wfa-low	-45114
 ont_regions	f741ecd7-666f-44fb-8676-07c7724d2116	wfa-med	-45114
 ont_regions	f75fb062-b6bd-471b-bc68-64bb06537744	biwfa	-40366
@@ -10228,6 +10230,7 @@ ont_regions	f75fb062-b6bd-471b-bc68-64bb06537744	ksw2-extz2-sse	-40366
 ont_regions	f75fb062-b6bd-471b-bc68-64bb06537744	wfa-high	-40366
 ont_regions	f75fb062-b6bd-471b-bc68-64bb06537744	wfalm-lowmem	-40366
 ont_regions	f75fb062-b6bd-471b-bc68-64bb06537744	wfalm	-40366
+ont_regions	f75fb062-b6bd-471b-bc68-64bb06537744	wfalm-rec	-40366
 ont_regions	f75fb062-b6bd-471b-bc68-64bb06537744	wfa-low	-40366
 ont_regions	f75fb062-b6bd-471b-bc68-64bb06537744	wfa-med	-40366
 ont_regions	f776cdd1-cddc-4c16-86ca-42859476a3e9	biwfa	-68256
@@ -10235,6 +10238,7 @@ ont_regions	f776cdd1-cddc-4c16-86ca-42859476a3e9	ksw2-extz2-sse	-68256
 ont_regions	f776cdd1-cddc-4c16-86ca-42859476a3e9	wfa-high	-68256
 ont_regions	f776cdd1-cddc-4c16-86ca-42859476a3e9	wfalm-lowmem	-68256
 ont_regions	f776cdd1-cddc-4c16-86ca-42859476a3e9	wfalm	-68256
+ont_regions	f776cdd1-cddc-4c16-86ca-42859476a3e9	wfalm-rec	-68256
 ont_regions	f776cdd1-cddc-4c16-86ca-42859476a3e9	wfa-low	-68256
 ont_regions	f776cdd1-cddc-4c16-86ca-42859476a3e9	wfa-med	-68256
 ont_regions	f77e1178-e26a-48da-87a0-881cb85ba9db	biwfa	-78804
@@ -10242,6 +10246,7 @@ ont_regions	f77e1178-e26a-48da-87a0-881cb85ba9db	ksw2-extz2-sse	-78804
 ont_regions	f77e1178-e26a-48da-87a0-881cb85ba9db	wfa-high	-78804
 ont_regions	f77e1178-e26a-48da-87a0-881cb85ba9db	wfalm-lowmem	-78804
 ont_regions	f77e1178-e26a-48da-87a0-881cb85ba9db	wfalm	-78804
+ont_regions	f77e1178-e26a-48da-87a0-881cb85ba9db	wfalm-rec	-78804
 ont_regions	f77e1178-e26a-48da-87a0-881cb85ba9db	wfa-low	-78804
 ont_regions	f77e1178-e26a-48da-87a0-881cb85ba9db	wfa-med	-78804
 ont_regions	f790a381-dbf4-46d1-b732-d3ada7f11af5	biwfa	-3284
@@ -10249,6 +10254,7 @@ ont_regions	f790a381-dbf4-46d1-b732-d3ada7f11af5	ksw2-extz2-sse	-3284
 ont_regions	f790a381-dbf4-46d1-b732-d3ada7f11af5	wfa-high	-3284
 ont_regions	f790a381-dbf4-46d1-b732-d3ada7f11af5	wfalm-lowmem	-3284
 ont_regions	f790a381-dbf4-46d1-b732-d3ada7f11af5	wfalm	-3284
+ont_regions	f790a381-dbf4-46d1-b732-d3ada7f11af5	wfalm-rec	-3284
 ont_regions	f790a381-dbf4-46d1-b732-d3ada7f11af5	wfa-low	-3284
 ont_regions	f790a381-dbf4-46d1-b732-d3ada7f11af5	wfa-med	-3284
 ont_regions	f7aaa074-0a69-4221-a734-b1110b10391e	biwfa	-65634
@@ -10256,6 +10262,7 @@ ont_regions	f7aaa074-0a69-4221-a734-b1110b10391e	ksw2-extz2-sse	-65634
 ont_regions	f7aaa074-0a69-4221-a734-b1110b10391e	wfa-high	-65634
 ont_regions	f7aaa074-0a69-4221-a734-b1110b10391e	wfalm-lowmem	-65634
 ont_regions	f7aaa074-0a69-4221-a734-b1110b10391e	wfalm	-65634
+ont_regions	f7aaa074-0a69-4221-a734-b1110b10391e	wfalm-rec	-65634
 ont_regions	f7aaa074-0a69-4221-a734-b1110b10391e	wfa-low	-65634
 ont_regions	f7aaa074-0a69-4221-a734-b1110b10391e	wfa-med	-65634
 ont_regions	f7b2ba60-d743-4764-a828-cf0110672526	biwfa	-63158
@@ -10263,6 +10270,7 @@ ont_regions	f7b2ba60-d743-4764-a828-cf0110672526	ksw2-extz2-sse	-63158
 ont_regions	f7b2ba60-d743-4764-a828-cf0110672526	wfa-high	-63158
 ont_regions	f7b2ba60-d743-4764-a828-cf0110672526	wfalm-lowmem	-63158
 ont_regions	f7b2ba60-d743-4764-a828-cf0110672526	wfalm	-63158
+ont_regions	f7b2ba60-d743-4764-a828-cf0110672526	wfalm-rec	-63158
 ont_regions	f7b2ba60-d743-4764-a828-cf0110672526	wfa-low	-63158
 ont_regions	f7b2ba60-d743-4764-a828-cf0110672526	wfa-med	-63158
 ont_regions	f7be55d1-87c5-46df-b3d3-1bfc88c6c9a3	biwfa	-22
@@ -10270,6 +10278,7 @@ ont_regions	f7be55d1-87c5-46df-b3d3-1bfc88c6c9a3	ksw2-extz2-sse	-22
 ont_regions	f7be55d1-87c5-46df-b3d3-1bfc88c6c9a3	wfa-high	-22
 ont_regions	f7be55d1-87c5-46df-b3d3-1bfc88c6c9a3	wfalm-lowmem	-22
 ont_regions	f7be55d1-87c5-46df-b3d3-1bfc88c6c9a3	wfalm	-22
+ont_regions	f7be55d1-87c5-46df-b3d3-1bfc88c6c9a3	wfalm-rec	-22
 ont_regions	f7be55d1-87c5-46df-b3d3-1bfc88c6c9a3	wfa-low	-22
 ont_regions	f7be55d1-87c5-46df-b3d3-1bfc88c6c9a3	wfa-med	-22
 ont_regions	f7cec973-a4f1-480c-b12f-05df4ca6d5ba	biwfa	-174276
@@ -10277,6 +10286,7 @@ ont_regions	f7cec973-a4f1-480c-b12f-05df4ca6d5ba	ksw2-extz2-sse	-174276
 ont_regions	f7cec973-a4f1-480c-b12f-05df4ca6d5ba	wfa-high	-174276
 ont_regions	f7cec973-a4f1-480c-b12f-05df4ca6d5ba	wfalm-lowmem	-174276
 ont_regions	f7cec973-a4f1-480c-b12f-05df4ca6d5ba	wfalm	-174276
+ont_regions	f7cec973-a4f1-480c-b12f-05df4ca6d5ba	wfalm-rec	-174276
 ont_regions	f7cec973-a4f1-480c-b12f-05df4ca6d5ba	wfa-low	-174276
 ont_regions	f7cec973-a4f1-480c-b12f-05df4ca6d5ba	wfa-med	-174276
 ont_regions	f7d5bbe9-62ad-4db6-81c1-84700f3140be	biwfa	-46182
@@ -10284,6 +10294,7 @@ ont_regions	f7d5bbe9-62ad-4db6-81c1-84700f3140be	ksw2-extz2-sse	-46182
 ont_regions	f7d5bbe9-62ad-4db6-81c1-84700f3140be	wfa-high	-46182
 ont_regions	f7d5bbe9-62ad-4db6-81c1-84700f3140be	wfalm-lowmem	-46182
 ont_regions	f7d5bbe9-62ad-4db6-81c1-84700f3140be	wfalm	-46182
+ont_regions	f7d5bbe9-62ad-4db6-81c1-84700f3140be	wfalm-rec	-46182
 ont_regions	f7d5bbe9-62ad-4db6-81c1-84700f3140be	wfa-low	-46182
 ont_regions	f7d5bbe9-62ad-4db6-81c1-84700f3140be	wfa-med	-46182
 ont_regions	f809ca89-18ea-44d6-bae2-346d83087808	biwfa	-46494
@@ -10291,6 +10302,7 @@ ont_regions	f809ca89-18ea-44d6-bae2-346d83087808	ksw2-extz2-sse	-46494
 ont_regions	f809ca89-18ea-44d6-bae2-346d83087808	wfa-high	-46494
 ont_regions	f809ca89-18ea-44d6-bae2-346d83087808	wfalm-lowmem	-46494
 ont_regions	f809ca89-18ea-44d6-bae2-346d83087808	wfalm	-46494
+ont_regions	f809ca89-18ea-44d6-bae2-346d83087808	wfalm-rec	-46494
 ont_regions	f809ca89-18ea-44d6-bae2-346d83087808	wfa-low	-46494
 ont_regions	f809ca89-18ea-44d6-bae2-346d83087808	wfa-med	-46494
 ont_regions	f82cb147-ba56-4c01-a595-8a40c5e9544e	biwfa	-34022
@@ -10298,6 +10310,7 @@ ont_regions	f82cb147-ba56-4c01-a595-8a40c5e9544e	ksw2-extz2-sse	-34022
 ont_regions	f82cb147-ba56-4c01-a595-8a40c5e9544e	wfa-high	-34022
 ont_regions	f82cb147-ba56-4c01-a595-8a40c5e9544e	wfalm-lowmem	-34022
 ont_regions	f82cb147-ba56-4c01-a595-8a40c5e9544e	wfalm	-34022
+ont_regions	f82cb147-ba56-4c01-a595-8a40c5e9544e	wfalm-rec	-34022
 ont_regions	f82cb147-ba56-4c01-a595-8a40c5e9544e	wfa-low	-34022
 ont_regions	f82cb147-ba56-4c01-a595-8a40c5e9544e	wfa-med	-34022
 ont_regions	f84ec39c-335a-4598-97c2-2b40e91bdba6	biwfa	-48010
@@ -10305,6 +10318,7 @@ ont_regions	f84ec39c-335a-4598-97c2-2b40e91bdba6	ksw2-extz2-sse	-48010
 ont_regions	f84ec39c-335a-4598-97c2-2b40e91bdba6	wfa-high	-48010
 ont_regions	f84ec39c-335a-4598-97c2-2b40e91bdba6	wfalm-lowmem	-48010
 ont_regions	f84ec39c-335a-4598-97c2-2b40e91bdba6	wfalm	-48010
+ont_regions	f84ec39c-335a-4598-97c2-2b40e91bdba6	wfalm-rec	-48010
 ont_regions	f84ec39c-335a-4598-97c2-2b40e91bdba6	wfa-low	-48010
 ont_regions	f84ec39c-335a-4598-97c2-2b40e91bdba6	wfa-med	-48010
 ont_regions	f882ae52-52b1-4ea7-835c-20875fb1000a	biwfa	-57084
@@ -10312,6 +10326,7 @@ ont_regions	f882ae52-52b1-4ea7-835c-20875fb1000a	ksw2-extz2-sse	-57084
 ont_regions	f882ae52-52b1-4ea7-835c-20875fb1000a	wfa-high	-57084
 ont_regions	f882ae52-52b1-4ea7-835c-20875fb1000a	wfalm-lowmem	-57084
 ont_regions	f882ae52-52b1-4ea7-835c-20875fb1000a	wfalm	-57084
+ont_regions	f882ae52-52b1-4ea7-835c-20875fb1000a	wfalm-rec	-57084
 ont_regions	f882ae52-52b1-4ea7-835c-20875fb1000a	wfa-low	-57084
 ont_regions	f882ae52-52b1-4ea7-835c-20875fb1000a	wfa-med	-57084
 ont_regions	f8da21ee-abaa-4c73-98a1-b1ca448c579b	biwfa	-900
@@ -10319,6 +10334,7 @@ ont_regions	f8da21ee-abaa-4c73-98a1-b1ca448c579b	ksw2-extz2-sse	-900
 ont_regions	f8da21ee-abaa-4c73-98a1-b1ca448c579b	wfa-high	-900
 ont_regions	f8da21ee-abaa-4c73-98a1-b1ca448c579b	wfalm-lowmem	-900
 ont_regions	f8da21ee-abaa-4c73-98a1-b1ca448c579b	wfalm	-900
+ont_regions	f8da21ee-abaa-4c73-98a1-b1ca448c579b	wfalm-rec	-900
 ont_regions	f8da21ee-abaa-4c73-98a1-b1ca448c579b	wfa-low	-900
 ont_regions	f8da21ee-abaa-4c73-98a1-b1ca448c579b	wfa-med	-900
 ont_regions	f8e0ef8b-d610-4118-9c46-ecf457230f4a	biwfa	-48612
@@ -10326,6 +10342,7 @@ ont_regions	f8e0ef8b-d610-4118-9c46-ecf457230f4a	ksw2-extz2-sse	-48612
 ont_regions	f8e0ef8b-d610-4118-9c46-ecf457230f4a	wfa-high	-48612
 ont_regions	f8e0ef8b-d610-4118-9c46-ecf457230f4a	wfalm-lowmem	-48612
 ont_regions	f8e0ef8b-d610-4118-9c46-ecf457230f4a	wfalm	-48612
+ont_regions	f8e0ef8b-d610-4118-9c46-ecf457230f4a	wfalm-rec	-48612
 ont_regions	f8e0ef8b-d610-4118-9c46-ecf457230f4a	wfa-low	-48612
 ont_regions	f8e0ef8b-d610-4118-9c46-ecf457230f4a	wfa-med	-48612
 ont_regions	f8e1f4a8-70b3-454e-a3d0-25a9d5f446c5	biwfa	-35836
@@ -10333,6 +10350,7 @@ ont_regions	f8e1f4a8-70b3-454e-a3d0-25a9d5f446c5	ksw2-extz2-sse	-35836
 ont_regions	f8e1f4a8-70b3-454e-a3d0-25a9d5f446c5	wfa-high	-35836
 ont_regions	f8e1f4a8-70b3-454e-a3d0-25a9d5f446c5	wfalm-lowmem	-35836
 ont_regions	f8e1f4a8-70b3-454e-a3d0-25a9d5f446c5	wfalm	-35836
+ont_regions	f8e1f4a8-70b3-454e-a3d0-25a9d5f446c5	wfalm-rec	-35836
 ont_regions	f8e1f4a8-70b3-454e-a3d0-25a9d5f446c5	wfa-low	-35836
 ont_regions	f8e1f4a8-70b3-454e-a3d0-25a9d5f446c5	wfa-med	-35836
 ont_regions	f953f793-3502-4a31-b127-589163cca5e9	biwfa	-66846
@@ -10340,6 +10358,7 @@ ont_regions	f953f793-3502-4a31-b127-589163cca5e9	ksw2-extz2-sse	-66846
 ont_regions	f953f793-3502-4a31-b127-589163cca5e9	wfa-high	-66846
 ont_regions	f953f793-3502-4a31-b127-589163cca5e9	wfalm-lowmem	-66846
 ont_regions	f953f793-3502-4a31-b127-589163cca5e9	wfalm	-66846
+ont_regions	f953f793-3502-4a31-b127-589163cca5e9	wfalm-rec	-66846
 ont_regions	f953f793-3502-4a31-b127-589163cca5e9	wfa-low	-66846
 ont_regions	f953f793-3502-4a31-b127-589163cca5e9	wfa-med	-66846
 ont_regions	f962b77b-57ef-4d36-8839-7b3498a95c63	biwfa	-34754
@@ -10347,6 +10366,7 @@ ont_regions	f962b77b-57ef-4d36-8839-7b3498a95c63	ksw2-extz2-sse	-34754
 ont_regions	f962b77b-57ef-4d36-8839-7b3498a95c63	wfa-high	-34754
 ont_regions	f962b77b-57ef-4d36-8839-7b3498a95c63	wfalm-lowmem	-34754
 ont_regions	f962b77b-57ef-4d36-8839-7b3498a95c63	wfalm	-34754
+ont_regions	f962b77b-57ef-4d36-8839-7b3498a95c63	wfalm-rec	-34754
 ont_regions	f962b77b-57ef-4d36-8839-7b3498a95c63	wfa-low	-34754
 ont_regions	f962b77b-57ef-4d36-8839-7b3498a95c63	wfa-med	-34754
 ont_regions	f98c2ea1-638a-4f7e-8ff6-136346f7f9eb	biwfa	-138634
@@ -10354,6 +10374,7 @@ ont_regions	f98c2ea1-638a-4f7e-8ff6-136346f7f9eb	ksw2-extz2-sse	-138634
 ont_regions	f98c2ea1-638a-4f7e-8ff6-136346f7f9eb	wfa-high	-138634
 ont_regions	f98c2ea1-638a-4f7e-8ff6-136346f7f9eb	wfalm-lowmem	-138634
 ont_regions	f98c2ea1-638a-4f7e-8ff6-136346f7f9eb	wfalm	-138634
+ont_regions	f98c2ea1-638a-4f7e-8ff6-136346f7f9eb	wfalm-rec	-138634
 ont_regions	f98c2ea1-638a-4f7e-8ff6-136346f7f9eb	wfa-low	-138634
 ont_regions	f98c2ea1-638a-4f7e-8ff6-136346f7f9eb	wfa-med	-138634
 ont_regions	f9af14bc-367e-46cd-9131-be346d606f1f	biwfa	-55258
@@ -10361,6 +10382,7 @@ ont_regions	f9af14bc-367e-46cd-9131-be346d606f1f	ksw2-extz2-sse	-55258
 ont_regions	f9af14bc-367e-46cd-9131-be346d606f1f	wfa-high	-55258
 ont_regions	f9af14bc-367e-46cd-9131-be346d606f1f	wfalm-lowmem	-55258
 ont_regions	f9af14bc-367e-46cd-9131-be346d606f1f	wfalm	-55258
+ont_regions	f9af14bc-367e-46cd-9131-be346d606f1f	wfalm-rec	-55258
 ont_regions	f9af14bc-367e-46cd-9131-be346d606f1f	wfa-low	-55258
 ont_regions	f9af14bc-367e-46cd-9131-be346d606f1f	wfa-med	-55258
 ont_regions	f9f1bd86-1d23-4e47-af6f-0555720a9214	biwfa	-59454
@@ -10368,6 +10390,7 @@ ont_regions	f9f1bd86-1d23-4e47-af6f-0555720a9214	ksw2-extz2-sse	-59454
 ont_regions	f9f1bd86-1d23-4e47-af6f-0555720a9214	wfa-high	-59454
 ont_regions	f9f1bd86-1d23-4e47-af6f-0555720a9214	wfalm-lowmem	-59454
 ont_regions	f9f1bd86-1d23-4e47-af6f-0555720a9214	wfalm	-59454
+ont_regions	f9f1bd86-1d23-4e47-af6f-0555720a9214	wfalm-rec	-59454
 ont_regions	f9f1bd86-1d23-4e47-af6f-0555720a9214	wfa-low	-59454
 ont_regions	f9f1bd86-1d23-4e47-af6f-0555720a9214	wfa-med	-59454
 ont_regions	fa0d768a-2927-49ce-999b-e56e4a66a1d8	biwfa	-42586
@@ -10375,6 +10398,7 @@ ont_regions	fa0d768a-2927-49ce-999b-e56e4a66a1d8	ksw2-extz2-sse	-42586
 ont_regions	fa0d768a-2927-49ce-999b-e56e4a66a1d8	wfa-high	-42586
 ont_regions	fa0d768a-2927-49ce-999b-e56e4a66a1d8	wfalm-lowmem	-42586
 ont_regions	fa0d768a-2927-49ce-999b-e56e4a66a1d8	wfalm	-42586
+ont_regions	fa0d768a-2927-49ce-999b-e56e4a66a1d8	wfalm-rec	-42586
 ont_regions	fa0d768a-2927-49ce-999b-e56e4a66a1d8	wfa-low	-42586
 ont_regions	fa0d768a-2927-49ce-999b-e56e4a66a1d8	wfa-med	-42586
 ont_regions	fa49a97c-13d5-494f-aacd-560c6ba3c19e	biwfa	-52582
@@ -10382,6 +10406,7 @@ ont_regions	fa49a97c-13d5-494f-aacd-560c6ba3c19e	ksw2-extz2-sse	-52582
 ont_regions	fa49a97c-13d5-494f-aacd-560c6ba3c19e	wfa-high	-52582
 ont_regions	fa49a97c-13d5-494f-aacd-560c6ba3c19e	wfalm-lowmem	-52582
 ont_regions	fa49a97c-13d5-494f-aacd-560c6ba3c19e	wfalm	-52582
+ont_regions	fa49a97c-13d5-494f-aacd-560c6ba3c19e	wfalm-rec	-52582
 ont_regions	fa49a97c-13d5-494f-aacd-560c6ba3c19e	wfa-low	-52582
 ont_regions	fa49a97c-13d5-494f-aacd-560c6ba3c19e	wfa-med	-52582
 ont_regions	fa9c0850-46ea-442e-9eff-066a9cec3e85	biwfa	-113706
@@ -10389,6 +10414,7 @@ ont_regions	fa9c0850-46ea-442e-9eff-066a9cec3e85	ksw2-extz2-sse	-113706
 ont_regions	fa9c0850-46ea-442e-9eff-066a9cec3e85	wfa-high	-113706
 ont_regions	fa9c0850-46ea-442e-9eff-066a9cec3e85	wfalm-lowmem	-113706
 ont_regions	fa9c0850-46ea-442e-9eff-066a9cec3e85	wfalm	-113706
+ont_regions	fa9c0850-46ea-442e-9eff-066a9cec3e85	wfalm-rec	-113706
 ont_regions	fa9c0850-46ea-442e-9eff-066a9cec3e85	wfa-low	-113706
 ont_regions	fa9c0850-46ea-442e-9eff-066a9cec3e85	wfa-med	-113706
 ont_regions	fad0e9ce-40aa-46d4-af15-36529dd32478	biwfa	-85700
@@ -10396,6 +10422,7 @@ ont_regions	fad0e9ce-40aa-46d4-af15-36529dd32478	ksw2-extz2-sse	-85700
 ont_regions	fad0e9ce-40aa-46d4-af15-36529dd32478	wfa-high	-85700
 ont_regions	fad0e9ce-40aa-46d4-af15-36529dd32478	wfalm-lowmem	-85700
 ont_regions	fad0e9ce-40aa-46d4-af15-36529dd32478	wfalm	-85700
+ont_regions	fad0e9ce-40aa-46d4-af15-36529dd32478	wfalm-rec	-85700
 ont_regions	fad0e9ce-40aa-46d4-af15-36529dd32478	wfa-low	-85700
 ont_regions	fad0e9ce-40aa-46d4-af15-36529dd32478	wfa-med	-85700
 ont_regions	fad651df-ce3d-44b1-b92b-7a90245ecc30	biwfa	-31598
@@ -10403,6 +10430,7 @@ ont_regions	fad651df-ce3d-44b1-b92b-7a90245ecc30	ksw2-extz2-sse	-31598
 ont_regions	fad651df-ce3d-44b1-b92b-7a90245ecc30	wfa-high	-31598
 ont_regions	fad651df-ce3d-44b1-b92b-7a90245ecc30	wfalm-lowmem	-31598
 ont_regions	fad651df-ce3d-44b1-b92b-7a90245ecc30	wfalm	-31598
+ont_regions	fad651df-ce3d-44b1-b92b-7a90245ecc30	wfalm-rec	-31598
 ont_regions	fad651df-ce3d-44b1-b92b-7a90245ecc30	wfa-low	-31598
 ont_regions	fad651df-ce3d-44b1-b92b-7a90245ecc30	wfa-med	-31598
 ont_regions	fb5b5bac-55d2-49a3-b296-4ba9b2c34a6c	biwfa	-68698
@@ -10410,6 +10438,7 @@ ont_regions	fb5b5bac-55d2-49a3-b296-4ba9b2c34a6c	ksw2-extz2-sse	-68698
 ont_regions	fb5b5bac-55d2-49a3-b296-4ba9b2c34a6c	wfa-high	-68698
 ont_regions	fb5b5bac-55d2-49a3-b296-4ba9b2c34a6c	wfalm-lowmem	-68698
 ont_regions	fb5b5bac-55d2-49a3-b296-4ba9b2c34a6c	wfalm	-68698
+ont_regions	fb5b5bac-55d2-49a3-b296-4ba9b2c34a6c	wfalm-rec	-68698
 ont_regions	fb5b5bac-55d2-49a3-b296-4ba9b2c34a6c	wfa-low	-68698
 ont_regions	fb5b5bac-55d2-49a3-b296-4ba9b2c34a6c	wfa-med	-68698
 ont_regions	fb884515-2485-48d2-a4e4-2b0b4d74a73c	biwfa	-41124
@@ -10417,6 +10446,7 @@ ont_regions	fb884515-2485-48d2-a4e4-2b0b4d74a73c	ksw2-extz2-sse	-41124
 ont_regions	fb884515-2485-48d2-a4e4-2b0b4d74a73c	wfa-high	-41124
 ont_regions	fb884515-2485-48d2-a4e4-2b0b4d74a73c	wfalm-lowmem	-41124
 ont_regions	fb884515-2485-48d2-a4e4-2b0b4d74a73c	wfalm	-41124
+ont_regions	fb884515-2485-48d2-a4e4-2b0b4d74a73c	wfalm-rec	-41124
 ont_regions	fb884515-2485-48d2-a4e4-2b0b4d74a73c	wfa-low	-41124
 ont_regions	fb884515-2485-48d2-a4e4-2b0b4d74a73c	wfa-med	-41124
 ont_regions	fbee843e-abca-41b4-93b4-cdce7378eb5c	biwfa	-51856
@@ -10424,6 +10454,7 @@ ont_regions	fbee843e-abca-41b4-93b4-cdce7378eb5c	ksw2-extz2-sse	-51856
 ont_regions	fbee843e-abca-41b4-93b4-cdce7378eb5c	wfa-high	-51856
 ont_regions	fbee843e-abca-41b4-93b4-cdce7378eb5c	wfalm-lowmem	-51856
 ont_regions	fbee843e-abca-41b4-93b4-cdce7378eb5c	wfalm	-51856
+ont_regions	fbee843e-abca-41b4-93b4-cdce7378eb5c	wfalm-rec	-51856
 ont_regions	fbee843e-abca-41b4-93b4-cdce7378eb5c	wfa-low	-51856
 ont_regions	fbee843e-abca-41b4-93b4-cdce7378eb5c	wfa-med	-51856
 ont_regions	fbf4cd63-be56-4240-8742-e4d033ccb572	biwfa	-36560
@@ -10431,6 +10462,7 @@ ont_regions	fbf4cd63-be56-4240-8742-e4d033ccb572	ksw2-extz2-sse	-36560
 ont_regions	fbf4cd63-be56-4240-8742-e4d033ccb572	wfa-high	-36560
 ont_regions	fbf4cd63-be56-4240-8742-e4d033ccb572	wfalm-lowmem	-36560
 ont_regions	fbf4cd63-be56-4240-8742-e4d033ccb572	wfalm	-36560
+ont_regions	fbf4cd63-be56-4240-8742-e4d033ccb572	wfalm-rec	-36560
 ont_regions	fbf4cd63-be56-4240-8742-e4d033ccb572	wfa-low	-36560
 ont_regions	fbf4cd63-be56-4240-8742-e4d033ccb572	wfa-med	-36560
 ont_regions	fc068770-914c-40ee-be6e-206af809baa7	biwfa	-51528
@@ -10438,6 +10470,7 @@ ont_regions	fc068770-914c-40ee-be6e-206af809baa7	ksw2-extz2-sse	-51528
 ont_regions	fc068770-914c-40ee-be6e-206af809baa7	wfa-high	-51528
 ont_regions	fc068770-914c-40ee-be6e-206af809baa7	wfalm-lowmem	-51528
 ont_regions	fc068770-914c-40ee-be6e-206af809baa7	wfalm	-51528
+ont_regions	fc068770-914c-40ee-be6e-206af809baa7	wfalm-rec	-51528
 ont_regions	fc068770-914c-40ee-be6e-206af809baa7	wfa-low	-51528
 ont_regions	fc068770-914c-40ee-be6e-206af809baa7	wfa-med	-51528
 ont_regions	fc282150-3eb9-4b24-84de-a1c7a35c73db	biwfa	-35276
@@ -10445,6 +10478,7 @@ ont_regions	fc282150-3eb9-4b24-84de-a1c7a35c73db	ksw2-extz2-sse	-35276
 ont_regions	fc282150-3eb9-4b24-84de-a1c7a35c73db	wfa-high	-35276
 ont_regions	fc282150-3eb9-4b24-84de-a1c7a35c73db	wfalm-lowmem	-35276
 ont_regions	fc282150-3eb9-4b24-84de-a1c7a35c73db	wfalm	-35276
+ont_regions	fc282150-3eb9-4b24-84de-a1c7a35c73db	wfalm-rec	-35276
 ont_regions	fc282150-3eb9-4b24-84de-a1c7a35c73db	wfa-low	-35276
 ont_regions	fc282150-3eb9-4b24-84de-a1c7a35c73db	wfa-med	-35276
 ont_regions	fce0e0f3-2cdc-4fca-9f21-f441aed6c1ea	biwfa	-51742
@@ -10452,6 +10486,7 @@ ont_regions	fce0e0f3-2cdc-4fca-9f21-f441aed6c1ea	ksw2-extz2-sse	-51742
 ont_regions	fce0e0f3-2cdc-4fca-9f21-f441aed6c1ea	wfa-high	-51742
 ont_regions	fce0e0f3-2cdc-4fca-9f21-f441aed6c1ea	wfalm-lowmem	-51742
 ont_regions	fce0e0f3-2cdc-4fca-9f21-f441aed6c1ea	wfalm	-51742
+ont_regions	fce0e0f3-2cdc-4fca-9f21-f441aed6c1ea	wfalm-rec	-51742
 ont_regions	fce0e0f3-2cdc-4fca-9f21-f441aed6c1ea	wfa-low	-51742
 ont_regions	fce0e0f3-2cdc-4fca-9f21-f441aed6c1ea	wfa-med	-51742
 ont_regions	fcf54e27-b989-4583-8646-de86d78d9b3d	biwfa	-34230
@@ -10459,6 +10494,7 @@ ont_regions	fcf54e27-b989-4583-8646-de86d78d9b3d	ksw2-extz2-sse	-34230
 ont_regions	fcf54e27-b989-4583-8646-de86d78d9b3d	wfa-high	-34230
 ont_regions	fcf54e27-b989-4583-8646-de86d78d9b3d	wfalm-lowmem	-34230
 ont_regions	fcf54e27-b989-4583-8646-de86d78d9b3d	wfalm	-34230
+ont_regions	fcf54e27-b989-4583-8646-de86d78d9b3d	wfalm-rec	-34230
 ont_regions	fcf54e27-b989-4583-8646-de86d78d9b3d	wfa-low	-34230
 ont_regions	fcf54e27-b989-4583-8646-de86d78d9b3d	wfa-med	-34230
 ont_regions	fd2101d3-ebab-4753-8308-710401b3fb2c	biwfa	-44928
@@ -10466,6 +10502,7 @@ ont_regions	fd2101d3-ebab-4753-8308-710401b3fb2c	ksw2-extz2-sse	-44928
 ont_regions	fd2101d3-ebab-4753-8308-710401b3fb2c	wfa-high	-44928
 ont_regions	fd2101d3-ebab-4753-8308-710401b3fb2c	wfalm-lowmem	-44928
 ont_regions	fd2101d3-ebab-4753-8308-710401b3fb2c	wfalm	-44928
+ont_regions	fd2101d3-ebab-4753-8308-710401b3fb2c	wfalm-rec	-44928
 ont_regions	fd2101d3-ebab-4753-8308-710401b3fb2c	wfa-low	-44928
 ont_regions	fd2101d3-ebab-4753-8308-710401b3fb2c	wfa-med	-44928
 ont_regions	fd82942c-5f32-4d11-9c78-18fb032545a5	biwfa	-58850
@@ -10473,6 +10510,7 @@ ont_regions	fd82942c-5f32-4d11-9c78-18fb032545a5	ksw2-extz2-sse	-58850
 ont_regions	fd82942c-5f32-4d11-9c78-18fb032545a5	wfa-high	-58850
 ont_regions	fd82942c-5f32-4d11-9c78-18fb032545a5	wfalm-lowmem	-58850
 ont_regions	fd82942c-5f32-4d11-9c78-18fb032545a5	wfalm	-58850
+ont_regions	fd82942c-5f32-4d11-9c78-18fb032545a5	wfalm-rec	-58850
 ont_regions	fd82942c-5f32-4d11-9c78-18fb032545a5	wfa-low	-58850
 ont_regions	fd82942c-5f32-4d11-9c78-18fb032545a5	wfa-med	-58850
 ont_regions	fe0e4312-2f21-4899-be1c-974f53bb1d49	biwfa	-44108
@@ -10480,6 +10518,7 @@ ont_regions	fe0e4312-2f21-4899-be1c-974f53bb1d49	ksw2-extz2-sse	-44108
 ont_regions	fe0e4312-2f21-4899-be1c-974f53bb1d49	wfa-high	-44108
 ont_regions	fe0e4312-2f21-4899-be1c-974f53bb1d49	wfalm-lowmem	-44108
 ont_regions	fe0e4312-2f21-4899-be1c-974f53bb1d49	wfalm	-44108
+ont_regions	fe0e4312-2f21-4899-be1c-974f53bb1d49	wfalm-rec	-44108
 ont_regions	fe0e4312-2f21-4899-be1c-974f53bb1d49	wfa-low	-44108
 ont_regions	fe0e4312-2f21-4899-be1c-974f53bb1d49	wfa-med	-44108
 ont_regions	fe290ee1-cfed-433d-9c9c-b2e587bad0b0	biwfa	-114438
@@ -10487,6 +10526,7 @@ ont_regions	fe290ee1-cfed-433d-9c9c-b2e587bad0b0	ksw2-extz2-sse	-114438
 ont_regions	fe290ee1-cfed-433d-9c9c-b2e587bad0b0	wfa-high	-114438
 ont_regions	fe290ee1-cfed-433d-9c9c-b2e587bad0b0	wfalm-lowmem	-114438
 ont_regions	fe290ee1-cfed-433d-9c9c-b2e587bad0b0	wfalm	-114438
+ont_regions	fe290ee1-cfed-433d-9c9c-b2e587bad0b0	wfalm-rec	-114438
 ont_regions	fe290ee1-cfed-433d-9c9c-b2e587bad0b0	wfa-low	-114438
 ont_regions	fe290ee1-cfed-433d-9c9c-b2e587bad0b0	wfa-med	-114438
 ont_regions	fe6ef483-c508-4fe1-abf0-f983a62e854c	biwfa	-61756
@@ -10494,6 +10534,7 @@ ont_regions	fe6ef483-c508-4fe1-abf0-f983a62e854c	ksw2-extz2-sse	-61756
 ont_regions	fe6ef483-c508-4fe1-abf0-f983a62e854c	wfa-high	-61756
 ont_regions	fe6ef483-c508-4fe1-abf0-f983a62e854c	wfalm-lowmem	-61756
 ont_regions	fe6ef483-c508-4fe1-abf0-f983a62e854c	wfalm	-61756
+ont_regions	fe6ef483-c508-4fe1-abf0-f983a62e854c	wfalm-rec	-61756
 ont_regions	fe6ef483-c508-4fe1-abf0-f983a62e854c	wfa-low	-61756
 ont_regions	fe6ef483-c508-4fe1-abf0-f983a62e854c	wfa-med	-61756
 ont_regions	fe8f248b-2489-460b-a2b5-d87bf09385b4	biwfa	-34774
@@ -10501,6 +10542,7 @@ ont_regions	fe8f248b-2489-460b-a2b5-d87bf09385b4	ksw2-extz2-sse	-34774
 ont_regions	fe8f248b-2489-460b-a2b5-d87bf09385b4	wfa-high	-34774
 ont_regions	fe8f248b-2489-460b-a2b5-d87bf09385b4	wfalm-lowmem	-34774
 ont_regions	fe8f248b-2489-460b-a2b5-d87bf09385b4	wfalm	-34774
+ont_regions	fe8f248b-2489-460b-a2b5-d87bf09385b4	wfalm-rec	-34774
 ont_regions	fe8f248b-2489-460b-a2b5-d87bf09385b4	wfa-low	-34774
 ont_regions	fe8f248b-2489-460b-a2b5-d87bf09385b4	wfa-med	-34774
 ont_regions	fec74064-5615-4028-afd5-e8fe3f6d5abc	biwfa	-85294
@@ -10508,6 +10550,7 @@ ont_regions	fec74064-5615-4028-afd5-e8fe3f6d5abc	ksw2-extz2-sse	-85294
 ont_regions	fec74064-5615-4028-afd5-e8fe3f6d5abc	wfa-high	-85294
 ont_regions	fec74064-5615-4028-afd5-e8fe3f6d5abc	wfalm-lowmem	-85294
 ont_regions	fec74064-5615-4028-afd5-e8fe3f6d5abc	wfalm	-85294
+ont_regions	fec74064-5615-4028-afd5-e8fe3f6d5abc	wfalm-rec	-85294
 ont_regions	fec74064-5615-4028-afd5-e8fe3f6d5abc	wfa-low	-85294
 ont_regions	fec74064-5615-4028-afd5-e8fe3f6d5abc	wfa-med	-85294
 ont_regions	fed78adf-38a6-4805-871a-b27daebc2a6b	biwfa	-51406
@@ -10515,6 +10558,7 @@ ont_regions	fed78adf-38a6-4805-871a-b27daebc2a6b	ksw2-extz2-sse	-51406
 ont_regions	fed78adf-38a6-4805-871a-b27daebc2a6b	wfa-high	-51406
 ont_regions	fed78adf-38a6-4805-871a-b27daebc2a6b	wfalm-lowmem	-51406
 ont_regions	fed78adf-38a6-4805-871a-b27daebc2a6b	wfalm	-51406
+ont_regions	fed78adf-38a6-4805-871a-b27daebc2a6b	wfalm-rec	-51406
 ont_regions	fed78adf-38a6-4805-871a-b27daebc2a6b	wfa-low	-51406
 ont_regions	fed78adf-38a6-4805-871a-b27daebc2a6b	wfa-med	-51406
 ont_regions	feecc16a-d70a-4042-95a5-373b256a55d6	biwfa	-81796
@@ -10522,6 +10566,7 @@ ont_regions	feecc16a-d70a-4042-95a5-373b256a55d6	ksw2-extz2-sse	-81796
 ont_regions	feecc16a-d70a-4042-95a5-373b256a55d6	wfa-high	-81796
 ont_regions	feecc16a-d70a-4042-95a5-373b256a55d6	wfalm-lowmem	-81796
 ont_regions	feecc16a-d70a-4042-95a5-373b256a55d6	wfalm	-81796
+ont_regions	feecc16a-d70a-4042-95a5-373b256a55d6	wfalm-rec	-81796
 ont_regions	feecc16a-d70a-4042-95a5-373b256a55d6	wfa-low	-81796
 ont_regions	feecc16a-d70a-4042-95a5-373b256a55d6	wfa-med	-81796
 ont_regions	fef35640-18f1-4d3e-911f-b4089a4e462f	biwfa	-51198
@@ -10529,6 +10574,7 @@ ont_regions	fef35640-18f1-4d3e-911f-b4089a4e462f	ksw2-extz2-sse	-51198
 ont_regions	fef35640-18f1-4d3e-911f-b4089a4e462f	wfa-high	-51198
 ont_regions	fef35640-18f1-4d3e-911f-b4089a4e462f	wfalm-lowmem	-51198
 ont_regions	fef35640-18f1-4d3e-911f-b4089a4e462f	wfalm	-51198
+ont_regions	fef35640-18f1-4d3e-911f-b4089a4e462f	wfalm-rec	-51198
 ont_regions	fef35640-18f1-4d3e-911f-b4089a4e462f	wfa-low	-51198
 ont_regions	fef35640-18f1-4d3e-911f-b4089a4e462f	wfa-med	-51198
 ont_regions	ff4fe75f-7209-4d97-a08f-1db33afaa4e3	biwfa	-49402
@@ -10536,6 +10582,7 @@ ont_regions	ff4fe75f-7209-4d97-a08f-1db33afaa4e3	ksw2-extz2-sse	-49402
 ont_regions	ff4fe75f-7209-4d97-a08f-1db33afaa4e3	wfa-high	-49402
 ont_regions	ff4fe75f-7209-4d97-a08f-1db33afaa4e3	wfalm-lowmem	-49402
 ont_regions	ff4fe75f-7209-4d97-a08f-1db33afaa4e3	wfalm	-49402
+ont_regions	ff4fe75f-7209-4d97-a08f-1db33afaa4e3	wfalm-rec	-49402
 ont_regions	ff4fe75f-7209-4d97-a08f-1db33afaa4e3	wfa-low	-49402
 ont_regions	ff4fe75f-7209-4d97-a08f-1db33afaa4e3	wfa-med	-49402
 ont_regions	ff955d13-8c27-49ff-ac04-30275b32e4f8	biwfa	-44190
@@ -10543,6 +10590,7 @@ ont_regions	ff955d13-8c27-49ff-ac04-30275b32e4f8	ksw2-extz2-sse	-44190
 ont_regions	ff955d13-8c27-49ff-ac04-30275b32e4f8	wfa-high	-44190
 ont_regions	ff955d13-8c27-49ff-ac04-30275b32e4f8	wfalm-lowmem	-44190
 ont_regions	ff955d13-8c27-49ff-ac04-30275b32e4f8	wfalm	-44190
+ont_regions	ff955d13-8c27-49ff-ac04-30275b32e4f8	wfalm-rec	-44190
 ont_regions	ff955d13-8c27-49ff-ac04-30275b32e4f8	wfa-low	-44190
 ont_regions	ff955d13-8c27-49ff-ac04-30275b32e4f8	wfa-med	-44190
 ont_regions	ffaa2a5b-ee5e-4d65-bcf8-f2abe5c56d58	biwfa	-78428
@@ -10550,6 +10598,7 @@ ont_regions	ffaa2a5b-ee5e-4d65-bcf8-f2abe5c56d58	ksw2-extz2-sse	-78428
 ont_regions	ffaa2a5b-ee5e-4d65-bcf8-f2abe5c56d58	wfa-high	-78428
 ont_regions	ffaa2a5b-ee5e-4d65-bcf8-f2abe5c56d58	wfalm-lowmem	-78428
 ont_regions	ffaa2a5b-ee5e-4d65-bcf8-f2abe5c56d58	wfalm	-78428
+ont_regions	ffaa2a5b-ee5e-4d65-bcf8-f2abe5c56d58	wfalm-rec	-78428
 ont_regions	ffaa2a5b-ee5e-4d65-bcf8-f2abe5c56d58	wfa-low	-78428
 ont_regions	ffaa2a5b-ee5e-4d65-bcf8-f2abe5c56d58	wfa-med	-78428
 ont_regions	ffd828d8-a93b-48cd-ab26-dca058c8a424	biwfa	-47896
@@ -10557,6 +10606,7 @@ ont_regions	ffd828d8-a93b-48cd-ab26-dca058c8a424	ksw2-extz2-sse	-47896
 ont_regions	ffd828d8-a93b-48cd-ab26-dca058c8a424	wfa-high	-47896
 ont_regions	ffd828d8-a93b-48cd-ab26-dca058c8a424	wfalm-lowmem	-47896
 ont_regions	ffd828d8-a93b-48cd-ab26-dca058c8a424	wfalm	-47896
+ont_regions	ffd828d8-a93b-48cd-ab26-dca058c8a424	wfalm-rec	-47896
 ont_regions	ffd828d8-a93b-48cd-ab26-dca058c8a424	wfa-low	-47896
 ont_regions	ffd828d8-a93b-48cd-ab26-dca058c8a424	wfa-med	-47896
 ONT_UL	seq10	biwfa	-225342

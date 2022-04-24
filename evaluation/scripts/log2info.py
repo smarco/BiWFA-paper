@@ -31,6 +31,8 @@ for line in sys.stdin:
         max_resident_set_size = ''
     elif 'Maximum resident set size' in line:
         max_resident_set_size = line.strip().split('): ')[-1].strip()
+    elif 'Exit status' in line:
+        error = error or line.strip().split(': ')[-1] != '0'
 
         if error:
             elapsed_wall_clock_time = 'nan'

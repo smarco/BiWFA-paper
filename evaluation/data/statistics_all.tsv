@@ -25532,6 +25532,8 @@ ont_regions	f70f0920-35d9-4b81-bf68-eede0c2aec98	wfalm	68.017	time_s
 ont_regions	f70f0920-35d9-4b81-bf68-eede0c2aec98	wfalm	73938548	memory_kb
 ont_regions	f70f0920-35d9-4b81-bf68-eede0c2aec98	wfalm-lowmem	125.411	time_s
 ont_regions	f70f0920-35d9-4b81-bf68-eede0c2aec98	wfalm-lowmem	1580904	memory_kb
+ont_regions	f70f0920-35d9-4b81-bf68-eede0c2aec98	wfalm-rec	396.646	time_s
+ont_regions	f70f0920-35d9-4b81-bf68-eede0c2aec98	wfalm-rec	133088	memory_kb
 ont_regions	f70f0920-35d9-4b81-bf68-eede0c2aec98	wfa-low	76.824	time_s
 ont_regions	f70f0920-35d9-4b81-bf68-eede0c2aec98	wfa-low	1418320	memory_kb
 ont_regions	f70f0920-35d9-4b81-bf68-eede0c2aec98	wfa-med	65.579	time_s
@@ -25550,6 +25552,8 @@ ont_regions	f741ecd7-666f-44fb-8676-07c7724d2116	wfalm	5.734	time_s
 ont_regions	f741ecd7-666f-44fb-8676-07c7724d2116	wfalm	5987660	memory_kb
 ont_regions	f741ecd7-666f-44fb-8676-07c7724d2116	wfalm-lowmem	10.050	time_s
 ont_regions	f741ecd7-666f-44fb-8676-07c7724d2116	wfalm-lowmem	368756	memory_kb
+ont_regions	f741ecd7-666f-44fb-8676-07c7724d2116	wfalm-rec	27.893	time_s
+ont_regions	f741ecd7-666f-44fb-8676-07c7724d2116	wfalm-rec	34424	memory_kb
 ont_regions	f741ecd7-666f-44fb-8676-07c7724d2116	wfa-low	5.527	time_s
 ont_regions	f741ecd7-666f-44fb-8676-07c7724d2116	wfa-low	455608	memory_kb
 ont_regions	f741ecd7-666f-44fb-8676-07c7724d2116	wfa-med	4.469	time_s
@@ -25568,6 +25572,8 @@ ont_regions	f75fb062-b6bd-471b-bc68-64bb06537744	wfalm	4.565	time_s
 ont_regions	f75fb062-b6bd-471b-bc68-64bb06537744	wfalm	4796456	memory_kb
 ont_regions	f75fb062-b6bd-471b-bc68-64bb06537744	wfalm-lowmem	8.003	time_s
 ont_regions	f75fb062-b6bd-471b-bc68-64bb06537744	wfalm-lowmem	203152	memory_kb
+ont_regions	f75fb062-b6bd-471b-bc68-64bb06537744	wfalm-rec	22.112	time_s
+ont_regions	f75fb062-b6bd-471b-bc68-64bb06537744	wfalm-rec	29996	memory_kb
 ont_regions	f75fb062-b6bd-471b-bc68-64bb06537744	wfa-low	4.209	time_s
 ont_regions	f75fb062-b6bd-471b-bc68-64bb06537744	wfa-low	453820	memory_kb
 ont_regions	f75fb062-b6bd-471b-bc68-64bb06537744	wfa-med	3.499	time_s
@@ -25586,6 +25592,8 @@ ont_regions	f776cdd1-cddc-4c16-86ca-42859476a3e9	wfalm	12.710	time_s
 ont_regions	f776cdd1-cddc-4c16-86ca-42859476a3e9	wfalm	13696236	memory_kb
 ont_regions	f776cdd1-cddc-4c16-86ca-42859476a3e9	wfalm-lowmem	23.241	time_s
 ont_regions	f776cdd1-cddc-4c16-86ca-42859476a3e9	wfalm-lowmem	566704	memory_kb
+ont_regions	f776cdd1-cddc-4c16-86ca-42859476a3e9	wfalm-rec	66.644	time_s
+ont_regions	f776cdd1-cddc-4c16-86ca-42859476a3e9	wfalm-rec	55964	memory_kb
 ont_regions	f776cdd1-cddc-4c16-86ca-42859476a3e9	wfa-low	14.091	time_s
 ont_regions	f776cdd1-cddc-4c16-86ca-42859476a3e9	wfa-low	731672	memory_kb
 ont_regions	f776cdd1-cddc-4c16-86ca-42859476a3e9	wfa-med	11.056	time_s
@@ -25604,6 +25612,8 @@ ont_regions	f77e1178-e26a-48da-87a0-881cb85ba9db	wfalm	17.001	time_s
 ont_regions	f77e1178-e26a-48da-87a0-881cb85ba9db	wfalm	18241564	memory_kb
 ont_regions	f77e1178-e26a-48da-87a0-881cb85ba9db	wfalm-lowmem	30.695	time_s
 ont_regions	f77e1178-e26a-48da-87a0-881cb85ba9db	wfalm-lowmem	658588	memory_kb
+ont_regions	f77e1178-e26a-48da-87a0-881cb85ba9db	wfalm-rec	89.583	time_s
+ont_regions	f77e1178-e26a-48da-87a0-881cb85ba9db	wfalm-rec	64944	memory_kb
 ont_regions	f77e1178-e26a-48da-87a0-881cb85ba9db	wfa-low	19.456	time_s
 ont_regions	f77e1178-e26a-48da-87a0-881cb85ba9db	wfa-low	886188	memory_kb
 ont_regions	f77e1178-e26a-48da-87a0-881cb85ba9db	wfa-med	15.862	time_s
@@ -25622,6 +25632,8 @@ ont_regions	f790a381-dbf4-46d1-b732-d3ada7f11af5	wfalm	0.021	time_s
 ont_regions	f790a381-dbf4-46d1-b732-d3ada7f11af5	wfalm	18804	memory_kb
 ont_regions	f790a381-dbf4-46d1-b732-d3ada7f11af5	wfalm-lowmem	0.037	time_s
 ont_regions	f790a381-dbf4-46d1-b732-d3ada7f11af5	wfalm-lowmem	6220	memory_kb
+ont_regions	f790a381-dbf4-46d1-b732-d3ada7f11af5	wfalm-rec	0.078	time_s
+ont_regions	f790a381-dbf4-46d1-b732-d3ada7f11af5	wfalm-rec	3876	memory_kb
 ont_regions	f790a381-dbf4-46d1-b732-d3ada7f11af5	wfa-low	0.028	time_s
 ont_regions	f790a381-dbf4-46d1-b732-d3ada7f11af5	wfa-low	12464	memory_kb
 ont_regions	f790a381-dbf4-46d1-b732-d3ada7f11af5	wfa-med	0.021	time_s
@@ -25640,6 +25652,8 @@ ont_regions	f7aaa074-0a69-4221-a734-b1110b10391e	wfalm	11.816	time_s
 ont_regions	f7aaa074-0a69-4221-a734-b1110b10391e	wfalm	12667192	memory_kb
 ont_regions	f7aaa074-0a69-4221-a734-b1110b10391e	wfalm-lowmem	21.439	time_s
 ont_regions	f7aaa074-0a69-4221-a734-b1110b10391e	wfalm-lowmem	545092	memory_kb
+ont_regions	f7aaa074-0a69-4221-a734-b1110b10391e	wfalm-rec	60.158	time_s
+ont_regions	f7aaa074-0a69-4221-a734-b1110b10391e	wfalm-rec	50336	memory_kb
 ont_regions	f7aaa074-0a69-4221-a734-b1110b10391e	wfa-low	12.245	time_s
 ont_regions	f7aaa074-0a69-4221-a734-b1110b10391e	wfa-low	668068	memory_kb
 ont_regions	f7aaa074-0a69-4221-a734-b1110b10391e	wfa-med	10.004	time_s
@@ -25658,6 +25672,8 @@ ont_regions	f7b2ba60-d743-4764-a828-cf0110672526	wfalm	10.430	time_s
 ont_regions	f7b2ba60-d743-4764-a828-cf0110672526	wfalm	11730576	memory_kb
 ont_regions	f7b2ba60-d743-4764-a828-cf0110672526	wfalm-lowmem	19.818	time_s
 ont_regions	f7b2ba60-d743-4764-a828-cf0110672526	wfalm-lowmem	516372	memory_kb
+ont_regions	f7b2ba60-d743-4764-a828-cf0110672526	wfalm-rec	56.840	time_s
+ont_regions	f7b2ba60-d743-4764-a828-cf0110672526	wfalm-rec	47476	memory_kb
 ont_regions	f7b2ba60-d743-4764-a828-cf0110672526	wfa-low	11.507	time_s
 ont_regions	f7b2ba60-d743-4764-a828-cf0110672526	wfa-low	627416	memory_kb
 ont_regions	f7b2ba60-d743-4764-a828-cf0110672526	wfa-med	9.266	time_s
@@ -25676,6 +25692,8 @@ ont_regions	f7be55d1-87c5-46df-b3d3-1bfc88c6c9a3	wfalm	0.000	time_s
 ont_regions	f7be55d1-87c5-46df-b3d3-1bfc88c6c9a3	wfalm	3420	memory_kb
 ont_regions	f7be55d1-87c5-46df-b3d3-1bfc88c6c9a3	wfalm-lowmem	0.000	time_s
 ont_regions	f7be55d1-87c5-46df-b3d3-1bfc88c6c9a3	wfalm-lowmem	3396	memory_kb
+ont_regions	f7be55d1-87c5-46df-b3d3-1bfc88c6c9a3	wfalm-rec	0.000	time_s
+ont_regions	f7be55d1-87c5-46df-b3d3-1bfc88c6c9a3	wfalm-rec	3236	memory_kb
 ont_regions	f7be55d1-87c5-46df-b3d3-1bfc88c6c9a3	wfa-low	0.000	time_s
 ont_regions	f7be55d1-87c5-46df-b3d3-1bfc88c6c9a3	wfa-low	3484	memory_kb
 ont_regions	f7be55d1-87c5-46df-b3d3-1bfc88c6c9a3	wfa-med	0.000	time_s
@@ -25694,6 +25712,8 @@ ont_regions	f7cec973-a4f1-480c-b12f-05df4ca6d5ba	wfalm	77.300	time_s
 ont_regions	f7cec973-a4f1-480c-b12f-05df4ca6d5ba	wfalm	89081932	memory_kb
 ont_regions	f7cec973-a4f1-480c-b12f-05df4ca6d5ba	wfalm-lowmem	150.269	time_s
 ont_regions	f7cec973-a4f1-480c-b12f-05df4ca6d5ba	wfalm-lowmem	1786568	memory_kb
+ont_regions	f7cec973-a4f1-480c-b12f-05df4ca6d5ba	wfalm-rec	460.906	time_s
+ont_regions	f7cec973-a4f1-480c-b12f-05df4ca6d5ba	wfalm-rec	150196	memory_kb
 ont_regions	f7cec973-a4f1-480c-b12f-05df4ca6d5ba	wfa-low	86.596	time_s
 ont_regions	f7cec973-a4f1-480c-b12f-05df4ca6d5ba	wfa-low	1332208	memory_kb
 ont_regions	f7cec973-a4f1-480c-b12f-05df4ca6d5ba	wfa-med	77.009	time_s
@@ -25712,6 +25732,8 @@ ont_regions	f7d5bbe9-62ad-4db6-81c1-84700f3140be	wfalm	5.853	time_s
 ont_regions	f7d5bbe9-62ad-4db6-81c1-84700f3140be	wfalm	6274016	memory_kb
 ont_regions	f7d5bbe9-62ad-4db6-81c1-84700f3140be	wfalm-lowmem	10.519	time_s
 ont_regions	f7d5bbe9-62ad-4db6-81c1-84700f3140be	wfalm-lowmem	376784	memory_kb
+ont_regions	f7d5bbe9-62ad-4db6-81c1-84700f3140be	wfalm-rec	28.975	time_s
+ont_regions	f7d5bbe9-62ad-4db6-81c1-84700f3140be	wfalm-rec	34304	memory_kb
 ont_regions	f7d5bbe9-62ad-4db6-81c1-84700f3140be	wfa-low	5.615	time_s
 ont_regions	f7d5bbe9-62ad-4db6-81c1-84700f3140be	wfa-low	444216	memory_kb
 ont_regions	f7d5bbe9-62ad-4db6-81c1-84700f3140be	wfa-med	4.573	time_s
@@ -25730,6 +25752,8 @@ ont_regions	f809ca89-18ea-44d6-bae2-346d83087808	wfalm	5.982	time_s
 ont_regions	f809ca89-18ea-44d6-bae2-346d83087808	wfalm	6359244	memory_kb
 ont_regions	f809ca89-18ea-44d6-bae2-346d83087808	wfalm-lowmem	10.656	time_s
 ont_regions	f809ca89-18ea-44d6-bae2-346d83087808	wfalm-lowmem	376980	memory_kb
+ont_regions	f809ca89-18ea-44d6-bae2-346d83087808	wfalm-rec	29.595	time_s
+ont_regions	f809ca89-18ea-44d6-bae2-346d83087808	wfalm-rec	35844	memory_kb
 ont_regions	f809ca89-18ea-44d6-bae2-346d83087808	wfa-low	5.778	time_s
 ont_regions	f809ca89-18ea-44d6-bae2-346d83087808	wfa-low	456196	memory_kb
 ont_regions	f809ca89-18ea-44d6-bae2-346d83087808	wfa-med	4.720	time_s
@@ -25748,6 +25772,8 @@ ont_regions	f82cb147-ba56-4c01-a595-8a40c5e9544e	wfalm	3.316	time_s
 ont_regions	f82cb147-ba56-4c01-a595-8a40c5e9544e	wfalm	3413520	memory_kb
 ont_regions	f82cb147-ba56-4c01-a595-8a40c5e9544e	wfalm-lowmem	5.682	time_s
 ont_regions	f82cb147-ba56-4c01-a595-8a40c5e9544e	wfalm-lowmem	164940	memory_kb
+ont_regions	f82cb147-ba56-4c01-a595-8a40c5e9544e	wfalm-rec	15.274	time_s
+ont_regions	f82cb147-ba56-4c01-a595-8a40c5e9544e	wfalm-rec	26676	memory_kb
 ont_regions	f82cb147-ba56-4c01-a595-8a40c5e9544e	wfa-low	2.778	time_s
 ont_regions	f82cb147-ba56-4c01-a595-8a40c5e9544e	wfa-low	371012	memory_kb
 ont_regions	f82cb147-ba56-4c01-a595-8a40c5e9544e	wfa-med	2.462	time_s
@@ -25766,6 +25792,8 @@ ont_regions	f84ec39c-335a-4598-97c2-2b40e91bdba6	wfalm	6.362	time_s
 ont_regions	f84ec39c-335a-4598-97c2-2b40e91bdba6	wfalm	6780536	memory_kb
 ont_regions	f84ec39c-335a-4598-97c2-2b40e91bdba6	wfalm-lowmem	11.403	time_s
 ont_regions	f84ec39c-335a-4598-97c2-2b40e91bdba6	wfalm-lowmem	385144	memory_kb
+ont_regions	f84ec39c-335a-4598-97c2-2b40e91bdba6	wfalm-rec	30.500	time_s
+ont_regions	f84ec39c-335a-4598-97c2-2b40e91bdba6	wfalm-rec	36160	memory_kb
 ont_regions	f84ec39c-335a-4598-97c2-2b40e91bdba6	wfa-low	5.616	time_s
 ont_regions	f84ec39c-335a-4598-97c2-2b40e91bdba6	wfa-low	565144	memory_kb
 ont_regions	f84ec39c-335a-4598-97c2-2b40e91bdba6	wfa-med	4.581	time_s
@@ -25784,6 +25812,8 @@ ont_regions	f882ae52-52b1-4ea7-835c-20875fb1000a	wfalm	8.866	time_s
 ont_regions	f882ae52-52b1-4ea7-835c-20875fb1000a	wfalm	9584428	memory_kb
 ont_regions	f882ae52-52b1-4ea7-835c-20875fb1000a	wfalm-lowmem	16.161	time_s
 ont_regions	f882ae52-52b1-4ea7-835c-20875fb1000a	wfalm-lowmem	461356	memory_kb
+ont_regions	f882ae52-52b1-4ea7-835c-20875fb1000a	wfalm-rec	45.178	time_s
+ont_regions	f882ae52-52b1-4ea7-835c-20875fb1000a	wfalm-rec	42924	memory_kb
 ont_regions	f882ae52-52b1-4ea7-835c-20875fb1000a	wfa-low	9.343	time_s
 ont_regions	f882ae52-52b1-4ea7-835c-20875fb1000a	wfa-low	553524	memory_kb
 ont_regions	f882ae52-52b1-4ea7-835c-20875fb1000a	wfa-med	7.740	time_s
@@ -25802,6 +25832,8 @@ ont_regions	f8da21ee-abaa-4c73-98a1-b1ca448c579b	wfalm	0.002	time_s
 ont_regions	f8da21ee-abaa-4c73-98a1-b1ca448c579b	wfalm	4164	memory_kb
 ont_regions	f8da21ee-abaa-4c73-98a1-b1ca448c579b	wfalm-lowmem	0.003	time_s
 ont_regions	f8da21ee-abaa-4c73-98a1-b1ca448c579b	wfalm-lowmem	3604	memory_kb
+ont_regions	f8da21ee-abaa-4c73-98a1-b1ca448c579b	wfalm-rec	0.005	time_s
+ont_regions	f8da21ee-abaa-4c73-98a1-b1ca448c579b	wfalm-rec	3516	memory_kb
 ont_regions	f8da21ee-abaa-4c73-98a1-b1ca448c579b	wfa-low	0.003	time_s
 ont_regions	f8da21ee-abaa-4c73-98a1-b1ca448c579b	wfa-low	3744	memory_kb
 ont_regions	f8da21ee-abaa-4c73-98a1-b1ca448c579b	wfa-med	0.002	time_s
@@ -25820,6 +25852,8 @@ ont_regions	f8e0ef8b-d610-4118-9c46-ecf457230f4a	wfalm	6.493	time_s
 ont_regions	f8e0ef8b-d610-4118-9c46-ecf457230f4a	wfalm	6951492	memory_kb
 ont_regions	f8e0ef8b-d610-4118-9c46-ecf457230f4a	wfalm-lowmem	11.676	time_s
 ont_regions	f8e0ef8b-d610-4118-9c46-ecf457230f4a	wfalm-lowmem	394036	memory_kb
+ont_regions	f8e0ef8b-d610-4118-9c46-ecf457230f4a	wfalm-rec	32.005	time_s
+ont_regions	f8e0ef8b-d610-4118-9c46-ecf457230f4a	wfalm-rec	37260	memory_kb
 ont_regions	f8e0ef8b-d610-4118-9c46-ecf457230f4a	wfa-low	6.736	time_s
 ont_regions	f8e0ef8b-d610-4118-9c46-ecf457230f4a	wfa-low	485876	memory_kb
 ont_regions	f8e0ef8b-d610-4118-9c46-ecf457230f4a	wfa-med	5.956	time_s
@@ -25838,6 +25872,8 @@ ont_regions	f8e1f4a8-70b3-454e-a3d0-25a9d5f446c5	wfalm	3.599	time_s
 ont_regions	f8e1f4a8-70b3-454e-a3d0-25a9d5f446c5	wfalm	3784892	memory_kb
 ont_regions	f8e1f4a8-70b3-454e-a3d0-25a9d5f446c5	wfalm-lowmem	6.312	time_s
 ont_regions	f8e1f4a8-70b3-454e-a3d0-25a9d5f446c5	wfalm-lowmem	175252	memory_kb
+ont_regions	f8e1f4a8-70b3-454e-a3d0-25a9d5f446c5	wfalm-rec	17.172	time_s
+ont_regions	f8e1f4a8-70b3-454e-a3d0-25a9d5f446c5	wfalm-rec	28444	memory_kb
 ont_regions	f8e1f4a8-70b3-454e-a3d0-25a9d5f446c5	wfa-low	3.085	time_s
 ont_regions	f8e1f4a8-70b3-454e-a3d0-25a9d5f446c5	wfa-low	433764	memory_kb
 ont_regions	f8e1f4a8-70b3-454e-a3d0-25a9d5f446c5	wfa-med	2.692	time_s
@@ -25856,6 +25892,8 @@ ont_regions	f953f793-3502-4a31-b127-589163cca5e9	wfalm	11.634	time_s
 ont_regions	f953f793-3502-4a31-b127-589163cca5e9	wfalm	13137744	memory_kb
 ont_regions	f953f793-3502-4a31-b127-589163cca5e9	wfalm-lowmem	22.236	time_s
 ont_regions	f953f793-3502-4a31-b127-589163cca5e9	wfalm-lowmem	554896	memory_kb
+ont_regions	f953f793-3502-4a31-b127-589163cca5e9	wfalm-rec	61.805	time_s
+ont_regions	f953f793-3502-4a31-b127-589163cca5e9	wfalm-rec	53196	memory_kb
 ont_regions	f953f793-3502-4a31-b127-589163cca5e9	wfa-low	13.178	time_s
 ont_regions	f953f793-3502-4a31-b127-589163cca5e9	wfa-low	686596	memory_kb
 ont_regions	f953f793-3502-4a31-b127-589163cca5e9	wfa-med	10.451	time_s
@@ -25874,6 +25912,8 @@ ont_regions	f962b77b-57ef-4d36-8839-7b3498a95c63	wfalm	3.377	time_s
 ont_regions	f962b77b-57ef-4d36-8839-7b3498a95c63	wfalm	3561020	memory_kb
 ont_regions	f962b77b-57ef-4d36-8839-7b3498a95c63	wfalm-lowmem	5.909	time_s
 ont_regions	f962b77b-57ef-4d36-8839-7b3498a95c63	wfalm-lowmem	167636	memory_kb
+ont_regions	f962b77b-57ef-4d36-8839-7b3498a95c63	wfalm-rec	15.809	time_s
+ont_regions	f962b77b-57ef-4d36-8839-7b3498a95c63	wfalm-rec	28436	memory_kb
 ont_regions	f962b77b-57ef-4d36-8839-7b3498a95c63	wfa-low	2.885	time_s
 ont_regions	f962b77b-57ef-4d36-8839-7b3498a95c63	wfa-low	393120	memory_kb
 ont_regions	f962b77b-57ef-4d36-8839-7b3498a95c63	wfa-med	2.563	time_s
@@ -25892,6 +25932,8 @@ ont_regions	f98c2ea1-638a-4f7e-8ff6-136346f7f9eb	wfalm	51.250	time_s
 ont_regions	f98c2ea1-638a-4f7e-8ff6-136346f7f9eb	wfalm	56405196	memory_kb
 ont_regions	f98c2ea1-638a-4f7e-8ff6-136346f7f9eb	wfalm-lowmem	95.579	time_s
 ont_regions	f98c2ea1-638a-4f7e-8ff6-136346f7f9eb	wfalm-lowmem	1317252	memory_kb
+ont_regions	f98c2ea1-638a-4f7e-8ff6-136346f7f9eb	wfalm-rec	295.147	time_s
+ont_regions	f98c2ea1-638a-4f7e-8ff6-136346f7f9eb	wfalm-rec	116336	memory_kb
 ont_regions	f98c2ea1-638a-4f7e-8ff6-136346f7f9eb	wfa-low	59.978	time_s
 ont_regions	f98c2ea1-638a-4f7e-8ff6-136346f7f9eb	wfa-low	1375496	memory_kb
 ont_regions	f98c2ea1-638a-4f7e-8ff6-136346f7f9eb	wfa-med	49.539	time_s
@@ -25910,6 +25952,8 @@ ont_regions	f9af14bc-367e-46cd-9131-be346d606f1f	wfalm	8.383	time_s
 ont_regions	f9af14bc-367e-46cd-9131-be346d606f1f	wfalm	8981612	memory_kb
 ont_regions	f9af14bc-367e-46cd-9131-be346d606f1f	wfalm-lowmem	15.114	time_s
 ont_regions	f9af14bc-367e-46cd-9131-be346d606f1f	wfalm-lowmem	445256	memory_kb
+ont_regions	f9af14bc-367e-46cd-9131-be346d606f1f	wfalm-rec	42.501	time_s
+ont_regions	f9af14bc-367e-46cd-9131-be346d606f1f	wfalm-rec	41724	memory_kb
 ont_regions	f9af14bc-367e-46cd-9131-be346d606f1f	wfa-low	8.937	time_s
 ont_regions	f9af14bc-367e-46cd-9131-be346d606f1f	wfa-low	568860	memory_kb
 ont_regions	f9af14bc-367e-46cd-9131-be346d606f1f	wfa-med	7.418	time_s
@@ -25928,6 +25972,8 @@ ont_regions	f9f1bd86-1d23-4e47-af6f-0555720a9214	wfalm	9.625	time_s
 ont_regions	f9f1bd86-1d23-4e47-af6f-0555720a9214	wfalm	10396040	memory_kb
 ont_regions	f9f1bd86-1d23-4e47-af6f-0555720a9214	wfalm-lowmem	17.581	time_s
 ont_regions	f9f1bd86-1d23-4e47-af6f-0555720a9214	wfalm-lowmem	487624	memory_kb
+ont_regions	f9f1bd86-1d23-4e47-af6f-0555720a9214	wfalm-rec	50.343	time_s
+ont_regions	f9f1bd86-1d23-4e47-af6f-0555720a9214	wfalm-rec	44452	memory_kb
 ont_regions	f9f1bd86-1d23-4e47-af6f-0555720a9214	wfa-low	9.931	time_s
 ont_regions	f9f1bd86-1d23-4e47-af6f-0555720a9214	wfa-low	611420	memory_kb
 ont_regions	f9f1bd86-1d23-4e47-af6f-0555720a9214	wfa-med	8.261	time_s
@@ -25946,6 +25992,8 @@ ont_regions	fa0d768a-2927-49ce-999b-e56e4a66a1d8	wfalm	5.075	time_s
 ont_regions	fa0d768a-2927-49ce-999b-e56e4a66a1d8	wfalm	5336476	memory_kb
 ont_regions	fa0d768a-2927-49ce-999b-e56e4a66a1d8	wfalm-lowmem	8.870	time_s
 ont_regions	fa0d768a-2927-49ce-999b-e56e4a66a1d8	wfalm-lowmem	221572	memory_kb
+ont_regions	fa0d768a-2927-49ce-999b-e56e4a66a1d8	wfalm-rec	23.476	time_s
+ont_regions	fa0d768a-2927-49ce-999b-e56e4a66a1d8	wfalm-rec	32744	memory_kb
 ont_regions	fa0d768a-2927-49ce-999b-e56e4a66a1d8	wfa-low	4.952	time_s
 ont_regions	fa0d768a-2927-49ce-999b-e56e4a66a1d8	wfa-low	455400	memory_kb
 ont_regions	fa0d768a-2927-49ce-999b-e56e4a66a1d8	wfa-med	4.106	time_s
@@ -25964,6 +26012,8 @@ ont_regions	fa49a97c-13d5-494f-aacd-560c6ba3c19e	wfalm	7.381	time_s
 ont_regions	fa49a97c-13d5-494f-aacd-560c6ba3c19e	wfalm	8133020	memory_kb
 ont_regions	fa49a97c-13d5-494f-aacd-560c6ba3c19e	wfalm-lowmem	13.739	time_s
 ont_regions	fa49a97c-13d5-494f-aacd-560c6ba3c19e	wfalm-lowmem	428404	memory_kb
+ont_regions	fa49a97c-13d5-494f-aacd-560c6ba3c19e	wfalm-rec	36.242	time_s
+ont_regions	fa49a97c-13d5-494f-aacd-560c6ba3c19e	wfalm-rec	39832	memory_kb
 ont_regions	fa49a97c-13d5-494f-aacd-560c6ba3c19e	wfa-low	7.683	time_s
 ont_regions	fa49a97c-13d5-494f-aacd-560c6ba3c19e	wfa-low	489624	memory_kb
 ont_regions	fa49a97c-13d5-494f-aacd-560c6ba3c19e	wfa-med	6.699	time_s
@@ -25982,6 +26032,8 @@ ont_regions	fa9c0850-46ea-442e-9eff-066a9cec3e85	wfalm	35.095	time_s
 ont_regions	fa9c0850-46ea-442e-9eff-066a9cec3e85	wfalm	37955352	memory_kb
 ont_regions	fa9c0850-46ea-442e-9eff-066a9cec3e85	wfalm-lowmem	64.271	time_s
 ont_regions	fa9c0850-46ea-442e-9eff-066a9cec3e85	wfalm-lowmem	1030744	memory_kb
+ont_regions	fa9c0850-46ea-442e-9eff-066a9cec3e85	wfalm-rec	196.453	time_s
+ont_regions	fa9c0850-46ea-442e-9eff-066a9cec3e85	wfalm-rec	90880	memory_kb
 ont_regions	fa9c0850-46ea-442e-9eff-066a9cec3e85	wfa-low	43.389	time_s
 ont_regions	fa9c0850-46ea-442e-9eff-066a9cec3e85	wfa-low	1426436	memory_kb
 ont_regions	fa9c0850-46ea-442e-9eff-066a9cec3e85	wfa-med	34.194	time_s
@@ -26000,6 +26052,8 @@ ont_regions	fad0e9ce-40aa-46d4-af15-36529dd32478	wfalm	19.657	time_s
 ont_regions	fad0e9ce-40aa-46d4-af15-36529dd32478	wfalm	21565776	memory_kb
 ont_regions	fad0e9ce-40aa-46d4-af15-36529dd32478	wfalm-lowmem	36.328	time_s
 ont_regions	fad0e9ce-40aa-46d4-af15-36529dd32478	wfalm-lowmem	727628	memory_kb
+ont_regions	fad0e9ce-40aa-46d4-af15-36529dd32478	wfalm-rec	107.185	time_s
+ont_regions	fad0e9ce-40aa-46d4-af15-36529dd32478	wfalm-rec	66572	memory_kb
 ont_regions	fad0e9ce-40aa-46d4-af15-36529dd32478	wfa-low	23.220	time_s
 ont_regions	fad0e9ce-40aa-46d4-af15-36529dd32478	wfa-low	1004300	memory_kb
 ont_regions	fad0e9ce-40aa-46d4-af15-36529dd32478	wfa-med	18.569	time_s
@@ -26018,6 +26072,8 @@ ont_regions	fad651df-ce3d-44b1-b92b-7a90245ecc30	wfalm	2.739	time_s
 ont_regions	fad651df-ce3d-44b1-b92b-7a90245ecc30	wfalm	2946056	memory_kb
 ont_regions	fad651df-ce3d-44b1-b92b-7a90245ecc30	wfalm-lowmem	4.746	time_s
 ont_regions	fad651df-ce3d-44b1-b92b-7a90245ecc30	wfalm-lowmem	148340	memory_kb
+ont_regions	fad651df-ce3d-44b1-b92b-7a90245ecc30	wfalm-rec	13.140	time_s
+ont_regions	fad651df-ce3d-44b1-b92b-7a90245ecc30	wfalm-rec	24320	memory_kb
 ont_regions	fad651df-ce3d-44b1-b92b-7a90245ecc30	wfa-low	2.457	time_s
 ont_regions	fad651df-ce3d-44b1-b92b-7a90245ecc30	wfa-low	314624	memory_kb
 ont_regions	fad651df-ce3d-44b1-b92b-7a90245ecc30	wfa-med	2.205	time_s
@@ -26036,6 +26092,8 @@ ont_regions	fb5b5bac-55d2-49a3-b296-4ba9b2c34a6c	wfalm	12.898	time_s
 ont_regions	fb5b5bac-55d2-49a3-b296-4ba9b2c34a6c	wfalm	13873636	memory_kb
 ont_regions	fb5b5bac-55d2-49a3-b296-4ba9b2c34a6c	wfalm-lowmem	23.531	time_s
 ont_regions	fb5b5bac-55d2-49a3-b296-4ba9b2c34a6c	wfalm-lowmem	575176	memory_kb
+ont_regions	fb5b5bac-55d2-49a3-b296-4ba9b2c34a6c	wfalm-rec	66.920	time_s
+ont_regions	fb5b5bac-55d2-49a3-b296-4ba9b2c34a6c	wfalm-rec	56996	memory_kb
 ont_regions	fb5b5bac-55d2-49a3-b296-4ba9b2c34a6c	wfa-low	14.114	time_s
 ont_regions	fb5b5bac-55d2-49a3-b296-4ba9b2c34a6c	wfa-low	737156	memory_kb
 ont_regions	fb5b5bac-55d2-49a3-b296-4ba9b2c34a6c	wfa-med	11.172	time_s
@@ -26054,6 +26112,8 @@ ont_regions	fb884515-2485-48d2-a4e4-2b0b4d74a73c	wfalm	4.761	time_s
 ont_regions	fb884515-2485-48d2-a4e4-2b0b4d74a73c	wfalm	4977568	memory_kb
 ont_regions	fb884515-2485-48d2-a4e4-2b0b4d74a73c	wfalm-lowmem	8.288	time_s
 ont_regions	fb884515-2485-48d2-a4e4-2b0b4d74a73c	wfalm-lowmem	209912	memory_kb
+ont_regions	fb884515-2485-48d2-a4e4-2b0b4d74a73c	wfalm-rec	22.481	time_s
+ont_regions	fb884515-2485-48d2-a4e4-2b0b4d74a73c	wfalm-rec	33468	memory_kb
 ont_regions	fb884515-2485-48d2-a4e4-2b0b4d74a73c	wfa-low	4.335	time_s
 ont_regions	fb884515-2485-48d2-a4e4-2b0b4d74a73c	wfa-low	450668	memory_kb
 ont_regions	fb884515-2485-48d2-a4e4-2b0b4d74a73c	wfa-med	3.634	time_s
@@ -26072,6 +26132,8 @@ ont_regions	fbee843e-abca-41b4-93b4-cdce7378eb5c	wfalm	7.402	time_s
 ont_regions	fbee843e-abca-41b4-93b4-cdce7378eb5c	wfalm	7909984	memory_kb
 ont_regions	fbee843e-abca-41b4-93b4-cdce7378eb5c	wfalm-lowmem	13.776	time_s
 ont_regions	fbee843e-abca-41b4-93b4-cdce7378eb5c	wfalm-lowmem	420308	memory_kb
+ont_regions	fbee843e-abca-41b4-93b4-cdce7378eb5c	wfalm-rec	37.379	time_s
+ont_regions	fbee843e-abca-41b4-93b4-cdce7378eb5c	wfalm-rec	41260	memory_kb
 ont_regions	fbee843e-abca-41b4-93b4-cdce7378eb5c	wfa-low	7.429	time_s
 ont_regions	fbee843e-abca-41b4-93b4-cdce7378eb5c	wfa-low	492764	memory_kb
 ont_regions	fbee843e-abca-41b4-93b4-cdce7378eb5c	wfa-med	6.603	time_s
@@ -26090,6 +26152,8 @@ ont_regions	fbf4cd63-be56-4240-8742-e4d033ccb572	wfalm	3.783	time_s
 ont_regions	fbf4cd63-be56-4240-8742-e4d033ccb572	wfalm	3938504	memory_kb
 ont_regions	fbf4cd63-be56-4240-8742-e4d033ccb572	wfalm-lowmem	6.588	time_s
 ont_regions	fbf4cd63-be56-4240-8742-e4d033ccb572	wfalm-lowmem	181656	memory_kb
+ont_regions	fbf4cd63-be56-4240-8742-e4d033ccb572	wfalm-rec	18.048	time_s
+ont_regions	fbf4cd63-be56-4240-8742-e4d033ccb572	wfalm-rec	29320	memory_kb
 ont_regions	fbf4cd63-be56-4240-8742-e4d033ccb572	wfa-low	3.554	time_s
 ont_regions	fbf4cd63-be56-4240-8742-e4d033ccb572	wfa-low	452924	memory_kb
 ont_regions	fbf4cd63-be56-4240-8742-e4d033ccb572	wfa-med	3.008	time_s
@@ -26108,6 +26172,8 @@ ont_regions	fc068770-914c-40ee-be6e-206af809baa7	wfalm	7.305	time_s
 ont_regions	fc068770-914c-40ee-be6e-206af809baa7	wfalm	7810132	memory_kb
 ont_regions	fc068770-914c-40ee-be6e-206af809baa7	wfalm-lowmem	13.144	time_s
 ont_regions	fc068770-914c-40ee-be6e-206af809baa7	wfalm-lowmem	418456	memory_kb
+ont_regions	fc068770-914c-40ee-be6e-206af809baa7	wfalm-rec	37.175	time_s
+ont_regions	fc068770-914c-40ee-be6e-206af809baa7	wfalm-rec	39392	memory_kb
 ont_regions	fc068770-914c-40ee-be6e-206af809baa7	wfa-low	7.415	time_s
 ont_regions	fc068770-914c-40ee-be6e-206af809baa7	wfa-low	487552	memory_kb
 ont_regions	fc068770-914c-40ee-be6e-206af809baa7	wfa-med	6.404	time_s
@@ -26126,6 +26192,8 @@ ont_regions	fc282150-3eb9-4b24-84de-a1c7a35c73db	wfalm	3.469	time_s
 ont_regions	fc282150-3eb9-4b24-84de-a1c7a35c73db	wfalm	3668184	memory_kb
 ont_regions	fc282150-3eb9-4b24-84de-a1c7a35c73db	wfalm-lowmem	5.896	time_s
 ont_regions	fc282150-3eb9-4b24-84de-a1c7a35c73db	wfalm-lowmem	171056	memory_kb
+ont_regions	fc282150-3eb9-4b24-84de-a1c7a35c73db	wfalm-rec	16.471	time_s
+ont_regions	fc282150-3eb9-4b24-84de-a1c7a35c73db	wfalm-rec	29448	memory_kb
 ont_regions	fc282150-3eb9-4b24-84de-a1c7a35c73db	wfa-low	2.994	time_s
 ont_regions	fc282150-3eb9-4b24-84de-a1c7a35c73db	wfa-low	413484	memory_kb
 ont_regions	fc282150-3eb9-4b24-84de-a1c7a35c73db	wfa-med	2.637	time_s
@@ -26144,6 +26212,8 @@ ont_regions	fce0e0f3-2cdc-4fca-9f21-f441aed6c1ea	wfalm	7.120	time_s
 ont_regions	fce0e0f3-2cdc-4fca-9f21-f441aed6c1ea	wfalm	7875144	memory_kb
 ont_regions	fce0e0f3-2cdc-4fca-9f21-f441aed6c1ea	wfalm-lowmem	12.824	time_s
 ont_regions	fce0e0f3-2cdc-4fca-9f21-f441aed6c1ea	wfalm-lowmem	420300	memory_kb
+ont_regions	fce0e0f3-2cdc-4fca-9f21-f441aed6c1ea	wfalm-rec	37.404	time_s
+ont_regions	fce0e0f3-2cdc-4fca-9f21-f441aed6c1ea	wfalm-rec	38688	memory_kb
 ont_regions	fce0e0f3-2cdc-4fca-9f21-f441aed6c1ea	wfa-low	7.452	time_s
 ont_regions	fce0e0f3-2cdc-4fca-9f21-f441aed6c1ea	wfa-low	481512	memory_kb
 ont_regions	fce0e0f3-2cdc-4fca-9f21-f441aed6c1ea	wfa-med	6.476	time_s
@@ -26162,6 +26232,8 @@ ont_regions	fcf54e27-b989-4583-8646-de86d78d9b3d	wfalm	3.337	time_s
 ont_regions	fcf54e27-b989-4583-8646-de86d78d9b3d	wfalm	3455036	memory_kb
 ont_regions	fcf54e27-b989-4583-8646-de86d78d9b3d	wfalm-lowmem	5.728	time_s
 ont_regions	fcf54e27-b989-4583-8646-de86d78d9b3d	wfalm-lowmem	165352	memory_kb
+ont_regions	fcf54e27-b989-4583-8646-de86d78d9b3d	wfalm-rec	15.447	time_s
+ont_regions	fcf54e27-b989-4583-8646-de86d78d9b3d	wfalm-rec	27852	memory_kb
 ont_regions	fcf54e27-b989-4583-8646-de86d78d9b3d	wfa-low	2.838	time_s
 ont_regions	fcf54e27-b989-4583-8646-de86d78d9b3d	wfa-low	376100	memory_kb
 ont_regions	fcf54e27-b989-4583-8646-de86d78d9b3d	wfa-med	2.504	time_s
@@ -26180,6 +26252,8 @@ ont_regions	fd2101d3-ebab-4753-8308-710401b3fb2c	wfalm	5.643	time_s
 ont_regions	fd2101d3-ebab-4753-8308-710401b3fb2c	wfalm	5938080	memory_kb
 ont_regions	fd2101d3-ebab-4753-8308-710401b3fb2c	wfalm-lowmem	9.956	time_s
 ont_regions	fd2101d3-ebab-4753-8308-710401b3fb2c	wfalm-lowmem	332960	memory_kb
+ont_regions	fd2101d3-ebab-4753-8308-710401b3fb2c	wfalm-rec	27.522	time_s
+ont_regions	fd2101d3-ebab-4753-8308-710401b3fb2c	wfalm-rec	34956	memory_kb
 ont_regions	fd2101d3-ebab-4753-8308-710401b3fb2c	wfa-low	5.466	time_s
 ont_regions	fd2101d3-ebab-4753-8308-710401b3fb2c	wfa-low	453856	memory_kb
 ont_regions	fd2101d3-ebab-4753-8308-710401b3fb2c	wfa-med	4.435	time_s
@@ -26198,6 +26272,8 @@ ont_regions	fd82942c-5f32-4d11-9c78-18fb032545a5	wfalm	9.589	time_s
 ont_regions	fd82942c-5f32-4d11-9c78-18fb032545a5	wfalm	10186188	memory_kb
 ont_regions	fd82942c-5f32-4d11-9c78-18fb032545a5	wfalm-lowmem	17.179	time_s
 ont_regions	fd82942c-5f32-4d11-9c78-18fb032545a5	wfalm-lowmem	479368	memory_kb
+ont_regions	fd82942c-5f32-4d11-9c78-18fb032545a5	wfalm-rec	47.997	time_s
+ont_regions	fd82942c-5f32-4d11-9c78-18fb032545a5	wfalm-rec	44948	memory_kb
 ont_regions	fd82942c-5f32-4d11-9c78-18fb032545a5	wfa-low	9.800	time_s
 ont_regions	fd82942c-5f32-4d11-9c78-18fb032545a5	wfa-low	567480	memory_kb
 ont_regions	fd82942c-5f32-4d11-9c78-18fb032545a5	wfa-med	8.230	time_s
@@ -26216,6 +26292,8 @@ ont_regions	fe0e4312-2f21-4899-be1c-974f53bb1d49	wfalm	5.455	time_s
 ont_regions	fe0e4312-2f21-4899-be1c-974f53bb1d49	wfalm	5723196	memory_kb
 ont_regions	fe0e4312-2f21-4899-be1c-974f53bb1d49	wfalm-lowmem	9.606	time_s
 ont_regions	fe0e4312-2f21-4899-be1c-974f53bb1d49	wfalm-lowmem	231312	memory_kb
+ont_regions	fe0e4312-2f21-4899-be1c-974f53bb1d49	wfalm-rec	25.679	time_s
+ont_regions	fe0e4312-2f21-4899-be1c-974f53bb1d49	wfalm-rec	35464	memory_kb
 ont_regions	fe0e4312-2f21-4899-be1c-974f53bb1d49	wfa-low	5.263	time_s
 ont_regions	fe0e4312-2f21-4899-be1c-974f53bb1d49	wfa-low	456696	memory_kb
 ont_regions	fe0e4312-2f21-4899-be1c-974f53bb1d49	wfa-med	4.332	time_s
@@ -26234,6 +26312,8 @@ ont_regions	fe290ee1-cfed-433d-9c9c-b2e587bad0b0	wfalm	34.986	time_s
 ont_regions	fe290ee1-cfed-433d-9c9c-b2e587bad0b0	wfalm	38445372	memory_kb
 ont_regions	fe290ee1-cfed-433d-9c9c-b2e587bad0b0	wfalm-lowmem	64.750	time_s
 ont_regions	fe290ee1-cfed-433d-9c9c-b2e587bad0b0	wfalm-lowmem	1033216	memory_kb
+ont_regions	fe290ee1-cfed-433d-9c9c-b2e587bad0b0	wfalm-rec	200.249	time_s
+ont_regions	fe290ee1-cfed-433d-9c9c-b2e587bad0b0	wfalm-rec	87908	memory_kb
 ont_regions	fe290ee1-cfed-433d-9c9c-b2e587bad0b0	wfa-low	45.728	time_s
 ont_regions	fe290ee1-cfed-433d-9c9c-b2e587bad0b0	wfa-low	1454192	memory_kb
 ont_regions	fe290ee1-cfed-433d-9c9c-b2e587bad0b0	wfa-med	34.631	time_s
@@ -26252,6 +26332,8 @@ ont_regions	fe6ef483-c508-4fe1-abf0-f983a62e854c	wfalm	10.362	time_s
 ont_regions	fe6ef483-c508-4fe1-abf0-f983a62e854c	wfalm	11216324	memory_kb
 ont_regions	fe6ef483-c508-4fe1-abf0-f983a62e854c	wfalm-lowmem	19.003	time_s
 ont_regions	fe6ef483-c508-4fe1-abf0-f983a62e854c	wfalm-lowmem	505568	memory_kb
+ont_regions	fe6ef483-c508-4fe1-abf0-f983a62e854c	wfalm-rec	51.726	time_s
+ont_regions	fe6ef483-c508-4fe1-abf0-f983a62e854c	wfalm-rec	48420	memory_kb
 ont_regions	fe6ef483-c508-4fe1-abf0-f983a62e854c	wfa-low	11.298	time_s
 ont_regions	fe6ef483-c508-4fe1-abf0-f983a62e854c	wfa-low	654828	memory_kb
 ont_regions	fe6ef483-c508-4fe1-abf0-f983a62e854c	wfa-med	9.128	time_s
@@ -26270,6 +26352,8 @@ ont_regions	fe8f248b-2489-460b-a2b5-d87bf09385b4	wfalm	3.415	time_s
 ont_regions	fe8f248b-2489-460b-a2b5-d87bf09385b4	wfalm	3565124	memory_kb
 ont_regions	fe8f248b-2489-460b-a2b5-d87bf09385b4	wfalm-lowmem	5.757	time_s
 ont_regions	fe8f248b-2489-460b-a2b5-d87bf09385b4	wfalm-lowmem	168924	memory_kb
+ont_regions	fe8f248b-2489-460b-a2b5-d87bf09385b4	wfalm-rec	15.502	time_s
+ont_regions	fe8f248b-2489-460b-a2b5-d87bf09385b4	wfalm-rec	26836	memory_kb
 ont_regions	fe8f248b-2489-460b-a2b5-d87bf09385b4	wfa-low	2.891	time_s
 ont_regions	fe8f248b-2489-460b-a2b5-d87bf09385b4	wfa-low	395208	memory_kb
 ont_regions	fe8f248b-2489-460b-a2b5-d87bf09385b4	wfa-med	2.584	time_s
@@ -26288,6 +26372,8 @@ ont_regions	fec74064-5615-4028-afd5-e8fe3f6d5abc	wfalm	19.562	time_s
 ont_regions	fec74064-5615-4028-afd5-e8fe3f6d5abc	wfalm	21362152	memory_kb
 ont_regions	fec74064-5615-4028-afd5-e8fe3f6d5abc	wfalm-lowmem	35.987	time_s
 ont_regions	fec74064-5615-4028-afd5-e8fe3f6d5abc	wfalm-lowmem	727636	memory_kb
+ont_regions	fec74064-5615-4028-afd5-e8fe3f6d5abc	wfalm-rec	106.738	time_s
+ont_regions	fec74064-5615-4028-afd5-e8fe3f6d5abc	wfalm-rec	65856	memory_kb
 ont_regions	fec74064-5615-4028-afd5-e8fe3f6d5abc	wfa-low	22.656	time_s
 ont_regions	fec74064-5615-4028-afd5-e8fe3f6d5abc	wfa-low	936864	memory_kb
 ont_regions	fec74064-5615-4028-afd5-e8fe3f6d5abc	wfa-med	18.109	time_s
@@ -26306,6 +26392,8 @@ ont_regions	fed78adf-38a6-4805-871a-b27daebc2a6b	wfalm	7.250	time_s
 ont_regions	fed78adf-38a6-4805-871a-b27daebc2a6b	wfalm	7773412	memory_kb
 ont_regions	fed78adf-38a6-4805-871a-b27daebc2a6b	wfalm-lowmem	13.091	time_s
 ont_regions	fed78adf-38a6-4805-871a-b27daebc2a6b	wfalm-lowmem	418968	memory_kb
+ont_regions	fed78adf-38a6-4805-871a-b27daebc2a6b	wfalm-rec	36.672	time_s
+ont_regions	fed78adf-38a6-4805-871a-b27daebc2a6b	wfalm-rec	39896	memory_kb
 ont_regions	fed78adf-38a6-4805-871a-b27daebc2a6b	wfa-low	7.394	time_s
 ont_regions	fed78adf-38a6-4805-871a-b27daebc2a6b	wfa-low	488480	memory_kb
 ont_regions	fed78adf-38a6-4805-871a-b27daebc2a6b	wfa-med	6.423	time_s
@@ -26324,6 +26412,8 @@ ont_regions	feecc16a-d70a-4042-95a5-373b256a55d6	wfalm	18.215	time_s
 ont_regions	feecc16a-d70a-4042-95a5-373b256a55d6	wfalm	19649832	memory_kb
 ont_regions	feecc16a-d70a-4042-95a5-373b256a55d6	wfalm-lowmem	33.226	time_s
 ont_regions	feecc16a-d70a-4042-95a5-373b256a55d6	wfalm-lowmem	690940	memory_kb
+ont_regions	feecc16a-d70a-4042-95a5-373b256a55d6	wfalm-rec	97.230	time_s
+ont_regions	feecc16a-d70a-4042-95a5-373b256a55d6	wfalm-rec	66512	memory_kb
 ont_regions	feecc16a-d70a-4042-95a5-373b256a55d6	wfa-low	20.792	time_s
 ont_regions	feecc16a-d70a-4042-95a5-373b256a55d6	wfa-low	918632	memory_kb
 ont_regions	feecc16a-d70a-4042-95a5-373b256a55d6	wfa-med	16.990	time_s
@@ -26342,6 +26432,8 @@ ont_regions	fef35640-18f1-4d3e-911f-b4089a4e462f	wfalm	7.270	time_s
 ont_regions	fef35640-18f1-4d3e-911f-b4089a4e462f	wfalm	7710468	memory_kb
 ont_regions	fef35640-18f1-4d3e-911f-b4089a4e462f	wfalm-lowmem	13.021	time_s
 ont_regions	fef35640-18f1-4d3e-911f-b4089a4e462f	wfalm-lowmem	417860	memory_kb
+ont_regions	fef35640-18f1-4d3e-911f-b4089a4e462f	wfalm-rec	36.590	time_s
+ont_regions	fef35640-18f1-4d3e-911f-b4089a4e462f	wfalm-rec	38180	memory_kb
 ont_regions	fef35640-18f1-4d3e-911f-b4089a4e462f	wfa-low	7.256	time_s
 ont_regions	fef35640-18f1-4d3e-911f-b4089a4e462f	wfa-low	479860	memory_kb
 ont_regions	fef35640-18f1-4d3e-911f-b4089a4e462f	wfa-med	6.417	time_s
@@ -26360,6 +26452,8 @@ ont_regions	ff4fe75f-7209-4d97-a08f-1db33afaa4e3	wfalm	6.829	time_s
 ont_regions	ff4fe75f-7209-4d97-a08f-1db33afaa4e3	wfalm	7179116	memory_kb
 ont_regions	ff4fe75f-7209-4d97-a08f-1db33afaa4e3	wfalm-lowmem	12.130	time_s
 ont_regions	ff4fe75f-7209-4d97-a08f-1db33afaa4e3	wfalm-lowmem	401772	memory_kb
+ont_regions	ff4fe75f-7209-4d97-a08f-1db33afaa4e3	wfalm-rec	33.504	time_s
+ont_regions	ff4fe75f-7209-4d97-a08f-1db33afaa4e3	wfalm-rec	38168	memory_kb
 ont_regions	ff4fe75f-7209-4d97-a08f-1db33afaa4e3	wfa-low	6.965	time_s
 ont_regions	ff4fe75f-7209-4d97-a08f-1db33afaa4e3	wfa-low	484012	memory_kb
 ont_regions	ff4fe75f-7209-4d97-a08f-1db33afaa4e3	wfa-med	6.157	time_s
@@ -26378,6 +26472,8 @@ ont_regions	ff955d13-8c27-49ff-ac04-30275b32e4f8	wfalm	5.449	time_s
 ont_regions	ff955d13-8c27-49ff-ac04-30275b32e4f8	wfalm	5744456	memory_kb
 ont_regions	ff955d13-8c27-49ff-ac04-30275b32e4f8	wfalm-lowmem	9.559	time_s
 ont_regions	ff955d13-8c27-49ff-ac04-30275b32e4f8	wfalm-lowmem	230676	memory_kb
+ont_regions	ff955d13-8c27-49ff-ac04-30275b32e4f8	wfalm-rec	25.485	time_s
+ont_regions	ff955d13-8c27-49ff-ac04-30275b32e4f8	wfalm-rec	34468	memory_kb
 ont_regions	ff955d13-8c27-49ff-ac04-30275b32e4f8	wfa-low	4.588	time_s
 ont_regions	ff955d13-8c27-49ff-ac04-30275b32e4f8	wfa-low	404328	memory_kb
 ont_regions	ff955d13-8c27-49ff-ac04-30275b32e4f8	wfa-med	3.817	time_s
@@ -26396,6 +26492,8 @@ ont_regions	ffaa2a5b-ee5e-4d65-bcf8-f2abe5c56d58	wfalm	16.676	time_s
 ont_regions	ffaa2a5b-ee5e-4d65-bcf8-f2abe5c56d58	wfalm	18068460	memory_kb
 ont_regions	ffaa2a5b-ee5e-4d65-bcf8-f2abe5c56d58	wfalm-lowmem	30.525	time_s
 ont_regions	ffaa2a5b-ee5e-4d65-bcf8-f2abe5c56d58	wfalm-lowmem	659700	memory_kb
+ont_regions	ffaa2a5b-ee5e-4d65-bcf8-f2abe5c56d58	wfalm-rec	84.050	time_s
+ont_regions	ffaa2a5b-ee5e-4d65-bcf8-f2abe5c56d58	wfalm-rec	66108	memory_kb
 ont_regions	ffaa2a5b-ee5e-4d65-bcf8-f2abe5c56d58	wfa-low	19.617	time_s
 ont_regions	ffaa2a5b-ee5e-4d65-bcf8-f2abe5c56d58	wfa-low	929580	memory_kb
 ont_regions	ffaa2a5b-ee5e-4d65-bcf8-f2abe5c56d58	wfa-med	16.145	time_s
@@ -26414,6 +26512,8 @@ ont_regions	ffd828d8-a93b-48cd-ab26-dca058c8a424	wfalm	6.376	time_s
 ont_regions	ffd828d8-a93b-48cd-ab26-dca058c8a424	wfalm	6748424	memory_kb
 ont_regions	ffd828d8-a93b-48cd-ab26-dca058c8a424	wfalm-lowmem	11.312	time_s
 ont_regions	ffd828d8-a93b-48cd-ab26-dca058c8a424	wfalm-lowmem	386460	memory_kb
+ont_regions	ffd828d8-a93b-48cd-ab26-dca058c8a424	wfalm-rec	31.567	time_s
+ont_regions	ffd828d8-a93b-48cd-ab26-dca058c8a424	wfalm-rec	36132	memory_kb
 ont_regions	ffd828d8-a93b-48cd-ab26-dca058c8a424	wfa-low	6.082	time_s
 ont_regions	ffd828d8-a93b-48cd-ab26-dca058c8a424	wfa-low	468008	memory_kb
 ont_regions	ffd828d8-a93b-48cd-ab26-dca058c8a424	wfa-med	4.950	time_s
