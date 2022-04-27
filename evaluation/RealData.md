@@ -1,20 +1,4 @@
-# Evaluation
-
-Prepare the tools:
-
-```shell
-git clone --recursive https://github.com/smarco/BiWFA-paper.git
-
-# Move the repositories on the cluster
-scp -r BiWFA-paper bsc18995@amdlogin.bsc.es:/gpfs/projects/bsc18/bsc18995/biwfa/
-
-# Build
-module load cmake gcc/10.2.0
-
-cd /gpfs/projects/bsc18/bsc18995/biwfa/BiWFA-paper
-git checkout benchmark
-make clean all
-```
+# Real data
 
 ## ONT PromethION
 
@@ -213,6 +197,8 @@ Collect statistics:
 cd /gpfs/projects/bsc18/bsc18995/biwfa/ont_ul/
 mkdir -p seq_statistics/
 
+rm seq_statistics/lengths.tsv
+
 cat seq_alignments/*.log | python3 ../log2info.py | awk -v OFS='\t' -v SET='ONT_UL' '{print(SET,$0)}' > seq_statistics/statistics.tsv
 grep '^-' seq_alignments/*.out | cut -f 1 | cut -f 2 -d '/' | sed 's/out://' | tr '.' '\t' | awk -v OFS='\t' -v SET="ONT_UL" '{print(SET,$0)}' > seq_statistics/scores.tsv
 
@@ -292,9 +278,12 @@ Merge all statistics:
 ```shell
 cd /gpfs/projects/bsc18/bsc18995/biwfa
 
-cat */seq_statistics/statistics.tsv > statistics_all.tsv
-cat */seq_statistics/scores.tsv > scores_all.tsv
-cat */seq_statistics/lengths.tsv > lengths_all.tsv
+cat hsapiens/seq_statistics/statistics.tsv > statistics_all.tsv
+cat ont_ul/seq_statistics/statistics.tsv >> statistics_all.tsv
+cat hsapiens/seq_statistics/scores.tsv > scores_all.tsv
+cat ont_ul/seq_statistics/scores.tsv >> scores_all.tsv
+cat hsapiens/seq_statistics/lengths.tsv > lengths_all.tsv
+cat ont_ul/seq_statistics/lengths.tsv >> lengths_all.tsv
 ```
 
 Plot the statistics with the `scripts/plots.R` script.

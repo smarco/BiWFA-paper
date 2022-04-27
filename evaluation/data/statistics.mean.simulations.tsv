@@ -1,0 +1,601 @@
+"error.rate"	"length"	"mode"	"statistic"	"mean"
+0.01	50000	"edlib (edit distance)"	"memory_kb"	4074.8
+0.01	50000	"edlib (edit distance)"	"time_s"	0.0236
+0.01	50000	"bitpal (score only)"	"memory_kb"	3398
+0.01	50000	"bitpal (score only)"	"time_s"	0.3101
+0.01	50000	"ksw2-extz2-sse"	"memory_kb"	4888714
+0.01	50000	"ksw2-extz2-sse"	"time_s"	2.4297
+0.01	50000	"WFA-high"	"memory_kb"	42361.2
+0.01	50000	"WFA-high"	"time_s"	0.0127
+0.01	50000	"WFA-med"	"memory_kb"	14713.2
+0.01	50000	"WFA-med"	"time_s"	0.0197
+0.01	50000	"WFA-low"	"memory_kb"	12085.2
+0.01	50000	"WFA-low"	"time_s"	0.0259
+0.01	50000	"wfalm"	"memory_kb"	35046
+0.01	50000	"wfalm"	"time_s"	0.0338
+0.01	50000	"wfalm-low"	"memory_kb"	9272.4
+0.01	50000	"wfalm-low"	"time_s"	0.0506
+0.01	50000	"wfalm-recursive"	"memory_kb"	4860
+0.01	50000	"wfalm-recursive"	"time_s"	0.101
+0.01	50000	"BiWFA"	"memory_kb"	8060.4
+0.01	50000	"BiWFA"	"time_s"	0.0146
+0.01	100000	"edlib (edit distance)"	"memory_kb"	4497.2
+0.01	100000	"edlib (edit distance)"	"time_s"	0.0615
+0.01	100000	"bitpal (score only)"	"memory_kb"	3597.6
+0.01	100000	"bitpal (score only)"	"time_s"	1.2351
+0.01	100000	"ksw2-extz2-sse"	"memory_kb"	19536882.8
+0.01	100000	"ksw2-extz2-sse"	"time_s"	9.7161
+0.01	100000	"WFA-high"	"memory_kb"	133772.4
+0.01	100000	"WFA-high"	"time_s"	0.0465
+0.01	100000	"WFA-med"	"memory_kb"	39858.8
+0.01	100000	"WFA-med"	"time_s"	0.0751
+0.01	100000	"WFA-low"	"memory_kb"	30140.8
+0.01	100000	"WFA-low"	"time_s"	0.0968
+0.01	100000	"wfalm"	"memory_kb"	127055.2
+0.01	100000	"wfalm"	"time_s"	0.1275
+0.01	100000	"wfalm-low"	"memory_kb"	17587.6
+0.01	100000	"wfalm-low"	"time_s"	0.2035
+0.01	100000	"wfalm-recursive"	"memory_kb"	6751.6
+0.01	100000	"wfalm-recursive"	"time_s"	0.4459
+0.01	100000	"BiWFA"	"memory_kb"	10810.4
+0.01	100000	"BiWFA"	"time_s"	0.042
+0.01	200000	"edlib (edit distance)"	"memory_kb"	5332.8
+0.01	200000	"edlib (edit distance)"	"time_s"	0.1534
+0.01	200000	"bitpal (score only)"	"memory_kb"	5668.4
+0.01	200000	"bitpal (score only)"	"time_s"	4.9319
+0.01	200000	"ksw2-extz2-sse"	"memory_kb"	78145344
+0.01	200000	"ksw2-extz2-sse"	"time_s"	38.8965
+0.01	200000	"WFA-high"	"memory_kb"	523008.8
+0.01	200000	"WFA-high"	"time_s"	0.1774
+0.01	200000	"WFA-med"	"memory_kb"	144790.8
+0.01	200000	"WFA-med"	"time_s"	0.3131
+0.01	200000	"WFA-low"	"memory_kb"	102413.2
+0.01	200000	"WFA-low"	"time_s"	0.4023
+0.01	200000	"wfalm"	"memory_kb"	515517.6
+0.01	200000	"wfalm"	"time_s"	0.5071
+0.01	200000	"wfalm-low"	"memory_kb"	55422.8
+0.01	200000	"wfalm-low"	"time_s"	0.8581
+0.01	200000	"wfalm-recursive"	"memory_kb"	11711.6
+0.01	200000	"wfalm-recursive"	"time_s"	2.0427
+0.01	200000	"BiWFA"	"memory_kb"	13179.6
+0.01	200000	"BiWFA"	"time_s"	0.1485
+0.01	500000	"edlib (edit distance)"	"memory_kb"	7798
+0.01	500000	"edlib (edit distance)"	"time_s"	0.7435
+0.01	500000	"bitpal (score only)"	"memory_kb"	7174.8
+0.01	500000	"bitpal (score only)"	"time_s"	30.7925
+0.01	500000	"ksw2-extz2-sse"	"memory_kb"	488322577.6
+0.01	500000	"ksw2-extz2-sse"	"time_s"	242.5037
+0.01	500000	"WFA-high"	"memory_kb"	3225554.8
+0.01	500000	"WFA-high"	"time_s"	1.0647
+0.01	500000	"WFA-med"	"memory_kb"	459910.8
+0.01	500000	"WFA-med"	"time_s"	2.3911
+0.01	500000	"WFA-low"	"memory_kb"	350184.4
+0.01	500000	"WFA-low"	"time_s"	2.668
+0.01	500000	"wfalm"	"memory_kb"	3218306
+0.01	500000	"wfalm"	"time_s"	3.0729
+0.01	500000	"wfalm-low"	"memory_kb"	160310.8
+0.01	500000	"wfalm-low"	"time_s"	5.5982
+0.01	500000	"wfalm-recursive"	"memory_kb"	26866.4
+0.01	500000	"wfalm-recursive"	"time_s"	14.7592
+0.01	500000	"BiWFA"	"memory_kb"	22356
+0.01	500000	"BiWFA"	"time_s"	0.8174
+0.01	1000000	"edlib (edit distance)"	"memory_kb"	12836
+0.01	1000000	"edlib (edit distance)"	"time_s"	2.5341
+0.01	1000000	"bitpal (score only)"	"memory_kb"	9526.4
+0.01	1000000	"bitpal (score only)"	"time_s"	123.3436
+0.01	1000000	"ksw2-extz2-sse"	"memory_kb"	NA
+0.01	1000000	"ksw2-extz2-sse"	"time_s"	NA
+0.01	1000000	"WFA-high"	"memory_kb"	12661636.4
+0.01	1000000	"WFA-high"	"time_s"	4.0894
+0.01	1000000	"WFA-med"	"memory_kb"	1296294.4
+0.01	1000000	"WFA-med"	"time_s"	10.32
+0.01	1000000	"WFA-low"	"memory_kb"	822177.6
+0.01	1000000	"WFA-low"	"time_s"	13.1411
+0.01	1000000	"wfalm"	"memory_kb"	12641856.4
+0.01	1000000	"wfalm"	"time_s"	11.957
+0.01	1000000	"wfalm-low"	"memory_kb"	547653.6
+0.01	1000000	"wfalm-low"	"time_s"	22.4626
+0.01	1000000	"wfalm-recursive"	"memory_kb"	51660.8
+0.01	1000000	"wfalm-recursive"	"time_s"	63.9149
+0.01	1000000	"BiWFA"	"memory_kb"	32825.2
+0.01	1000000	"BiWFA"	"time_s"	3.0851
+0.01	2000000	"edlib (edit distance)"	"memory_kb"	22537.2
+0.01	2000000	"edlib (edit distance)"	"time_s"	9.1467
+0.01	2000000	"bitpal (score only)"	"memory_kb"	14047.6
+0.01	2000000	"bitpal (score only)"	"time_s"	498.3496
+0.01	2000000	"ksw2-extz2-sse"	"memory_kb"	NA
+0.01	2000000	"ksw2-extz2-sse"	"time_s"	NA
+0.01	2000000	"WFA-high"	"memory_kb"	50459274.8
+0.01	2000000	"WFA-high"	"time_s"	15.9327
+0.01	2000000	"WFA-med"	"memory_kb"	4162289.2
+0.01	2000000	"WFA-med"	"time_s"	56.3107
+0.01	2000000	"WFA-low"	"memory_kb"	2585078.8
+0.01	2000000	"WFA-low"	"time_s"	79.4269
+0.01	2000000	"wfalm"	"memory_kb"	50286171.2
+0.01	2000000	"wfalm"	"time_s"	46.6617
+0.01	2000000	"wfalm-low"	"memory_kb"	1227201.6
+0.01	2000000	"wfalm-low"	"time_s"	87.2995
+0.01	2000000	"wfalm-recursive"	"memory_kb"	108468
+0.01	2000000	"wfalm-recursive"	"time_s"	274.9086
+0.01	2000000	"BiWFA"	"memory_kb"	62198.8
+0.01	2000000	"BiWFA"	"time_s"	11.8993
+0.05	50000	"edlib (edit distance)"	"memory_kb"	4148.8
+0.05	50000	"edlib (edit distance)"	"time_s"	0.0463
+0.05	50000	"bitpal (score only)"	"memory_kb"	3386
+0.05	50000	"bitpal (score only)"	"time_s"	0.3103
+0.05	50000	"ksw2-extz2-sse"	"memory_kb"	4889084
+0.05	50000	"ksw2-extz2-sse"	"time_s"	2.4213
+0.05	50000	"WFA-high"	"memory_kb"	698229.6
+0.05	50000	"WFA-high"	"time_s"	0.2268
+0.05	50000	"WFA-med"	"memory_kb"	188337.2
+0.05	50000	"WFA-med"	"time_s"	0.4131
+0.05	50000	"WFA-low"	"memory_kb"	129957.2
+0.05	50000	"WFA-low"	"time_s"	0.527
+0.05	50000	"wfalm"	"memory_kb"	690247.6
+0.05	50000	"wfalm"	"time_s"	0.6691
+0.05	50000	"wfalm-low"	"memory_kb"	63578
+0.05	50000	"wfalm-low"	"time_s"	1.1285
+0.05	50000	"wfalm-recursive"	"memory_kb"	12570.4
+0.05	50000	"wfalm-recursive"	"time_s"	2.7819
+0.05	50000	"BiWFA"	"memory_kb"	10384.4
+0.05	50000	"BiWFA"	"time_s"	0.1835
+0.05	100000	"edlib (edit distance)"	"memory_kb"	4539.2
+0.05	100000	"edlib (edit distance)"	"time_s"	0.1482
+0.05	100000	"bitpal (score only)"	"memory_kb"	4200.8
+0.05	100000	"bitpal (score only)"	"time_s"	1.2329
+0.05	100000	"ksw2-extz2-sse"	"memory_kb"	19510625.6
+0.05	100000	"ksw2-extz2-sse"	"time_s"	9.6825
+0.05	100000	"WFA-high"	"memory_kb"	2676996
+0.05	100000	"WFA-high"	"time_s"	0.8439
+0.05	100000	"WFA-med"	"memory_kb"	463520.4
+0.05	100000	"WFA-med"	"time_s"	2.0499
+0.05	100000	"WFA-low"	"memory_kb"	315868.4
+0.05	100000	"WFA-low"	"time_s"	2.2096
+0.05	100000	"wfalm"	"memory_kb"	2673519.2
+0.05	100000	"wfalm"	"time_s"	2.5052
+0.05	100000	"wfalm-low"	"memory_kb"	139864.8
+0.05	100000	"wfalm-low"	"time_s"	4.5381
+0.05	100000	"wfalm-recursive"	"memory_kb"	23099.2
+0.05	100000	"wfalm-recursive"	"time_s"	11.9351
+0.05	100000	"BiWFA"	"memory_kb"	12515.2
+0.05	100000	"BiWFA"	"time_s"	0.657
+0.05	200000	"edlib (edit distance)"	"memory_kb"	5298.4
+0.05	200000	"edlib (edit distance)"	"time_s"	0.4986
+0.05	200000	"bitpal (score only)"	"memory_kb"	5501.2
+0.05	200000	"bitpal (score only)"	"time_s"	4.9313
+0.05	200000	"ksw2-extz2-sse"	"memory_kb"	78168046.4
+0.05	200000	"ksw2-extz2-sse"	"time_s"	38.9552
+0.05	200000	"WFA-high"	"memory_kb"	10986896.4
+0.05	200000	"WFA-high"	"time_s"	3.3514
+0.05	200000	"WFA-med"	"memory_kb"	1110264.8
+0.05	200000	"WFA-med"	"time_s"	9.1144
+0.05	200000	"WFA-low"	"memory_kb"	713530.8
+0.05	200000	"WFA-low"	"time_s"	11.4084
+0.05	200000	"wfalm"	"memory_kb"	10974779.6
+0.05	200000	"wfalm"	"time_s"	9.9546
+0.05	200000	"wfalm-low"	"memory_kb"	497981.6
+0.05	200000	"wfalm-low"	"time_s"	19.0382
+0.05	200000	"wfalm-recursive"	"memory_kb"	46140
+0.05	200000	"wfalm-recursive"	"time_s"	52.5148
+0.05	200000	"BiWFA"	"memory_kb"	23354
+0.05	200000	"BiWFA"	"time_s"	2.5473
+0.05	500000	"edlib (edit distance)"	"memory_kb"	7808
+0.05	500000	"edlib (edit distance)"	"time_s"	2.4356
+0.05	500000	"bitpal (score only)"	"memory_kb"	7207.2
+0.05	500000	"bitpal (score only)"	"time_s"	30.9358
+0.05	500000	"ksw2-extz2-sse"	"memory_kb"	488368636.4
+0.05	500000	"ksw2-extz2-sse"	"time_s"	244.907
+0.05	500000	"WFA-high"	"memory_kb"	68531039.6
+0.05	500000	"WFA-high"	"time_s"	20.1942
+0.05	500000	"WFA-med"	"memory_kb"	5091882
+0.05	500000	"WFA-med"	"time_s"	77.671
+0.05	500000	"WFA-low"	"memory_kb"	3180286
+0.05	500000	"WFA-low"	"time_s"	114.8679
+0.05	500000	"wfalm"	"memory_kb"	68179469.6
+0.05	500000	"wfalm"	"time_s"	61.8622
+0.05	500000	"wfalm-low"	"memory_kb"	1488954.4
+0.05	500000	"wfalm-low"	"time_s"	115.9021
+0.05	500000	"wfalm-recursive"	"memory_kb"	123993.2
+0.05	500000	"wfalm-recursive"	"time_s"	368.33
+0.05	500000	"BiWFA"	"memory_kb"	38975.6
+0.05	500000	"BiWFA"	"time_s"	15.3983
+0.05	1000000	"edlib (edit distance)"	"memory_kb"	12579.6
+0.05	1000000	"edlib (edit distance)"	"time_s"	8.8905
+0.05	1000000	"bitpal (score only)"	"memory_kb"	9880.8
+0.05	1000000	"bitpal (score only)"	"time_s"	123.5598
+0.05	1000000	"ksw2-extz2-sse"	"memory_kb"	NA
+0.05	1000000	"ksw2-extz2-sse"	"time_s"	NA
+0.05	1000000	"WFA-high"	"memory_kb"	278572898.8
+0.05	1000000	"WFA-high"	"time_s"	81.8757
+0.05	1000000	"WFA-med"	"memory_kb"	18097485.6
+0.05	1000000	"WFA-med"	"time_s"	419.8451
+0.05	1000000	"WFA-low"	"memory_kb"	11002340.8
+0.05	1000000	"WFA-low"	"time_s"	841.2815
+0.05	1000000	"wfalm"	"memory_kb"	272600994.8
+0.05	1000000	"wfalm"	"time_s"	239.4644
+0.05	1000000	"wfalm-low"	"memory_kb"	5097413.2
+0.05	1000000	"wfalm-low"	"time_s"	445.6896
+0.05	1000000	"wfalm-recursive"	"memory_kb"	268435.6
+0.05	1000000	"wfalm-recursive"	"time_s"	1588.3635
+0.05	1000000	"BiWFA"	"memory_kb"	67211.6
+0.05	1000000	"BiWFA"	"time_s"	61.4156
+0.05	2000000	"edlib (edit distance)"	"memory_kb"	22378
+0.05	2000000	"edlib (edit distance)"	"time_s"	34.6421
+0.05	2000000	"bitpal (score only)"	"memory_kb"	13884
+0.05	2000000	"bitpal (score only)"	"time_s"	497.1625
+0.05	2000000	"ksw2-extz2-sse"	"memory_kb"	NA
+0.05	2000000	"ksw2-extz2-sse"	"time_s"	NA
+0.05	2000000	"WFA-high"	"memory_kb"	NA
+0.05	2000000	"WFA-high"	"time_s"	NA
+0.05	2000000	"WFA-med"	"memory_kb"	NA
+0.05	2000000	"WFA-med"	"time_s"	NA
+0.05	2000000	"WFA-low"	"memory_kb"	NA
+0.05	2000000	"WFA-low"	"time_s"	NA
+0.05	2000000	"wfalm"	"memory_kb"	NA
+0.05	2000000	"wfalm"	"time_s"	NA
+0.05	2000000	"wfalm-low"	"memory_kb"	11939059.6
+0.05	2000000	"wfalm-low"	"time_s"	1705.0695
+0.05	2000000	"wfalm-recursive"	"memory_kb"	564507.6
+0.05	2000000	"wfalm-recursive"	"time_s"	6661.8548
+0.05	2000000	"BiWFA"	"memory_kb"	128816
+0.05	2000000	"BiWFA"	"time_s"	260.6185
+0.1	50000	"edlib (edit distance)"	"memory_kb"	4127.6
+0.1	50000	"edlib (edit distance)"	"time_s"	0.0704
+0.1	50000	"bitpal (score only)"	"memory_kb"	3389.6
+0.1	50000	"bitpal (score only)"	"time_s"	0.3079
+0.1	50000	"ksw2-extz2-sse"	"memory_kb"	4887467.2
+0.1	50000	"ksw2-extz2-sse"	"time_s"	2.4286
+0.1	50000	"WFA-high"	"memory_kb"	2279042
+0.1	50000	"WFA-high"	"time_s"	0.7135
+0.1	50000	"WFA-med"	"memory_kb"	461105.6
+0.1	50000	"WFA-med"	"time_s"	1.6481
+0.1	50000	"WFA-low"	"memory_kb"	316007.6
+0.1	50000	"WFA-low"	"time_s"	1.9227
+0.1	50000	"wfalm"	"memory_kb"	2273543.2
+0.1	50000	"wfalm"	"time_s"	2.1488
+0.1	50000	"wfalm-low"	"memory_kb"	128263.6
+0.1	50000	"wfalm-low"	"time_s"	3.8842
+0.1	50000	"wfalm-recursive"	"memory_kb"	20716.8
+0.1	50000	"wfalm-recursive"	"time_s"	9.8863
+0.1	50000	"BiWFA"	"memory_kb"	11458.8
+0.1	50000	"BiWFA"	"time_s"	0.562
+0.1	100000	"edlib (edit distance)"	"memory_kb"	4528.8
+0.1	100000	"edlib (edit distance)"	"time_s"	0.2453
+0.1	100000	"bitpal (score only)"	"memory_kb"	4929.6
+0.1	100000	"bitpal (score only)"	"time_s"	1.2325
+0.1	100000	"ksw2-extz2-sse"	"memory_kb"	19509759.2
+0.1	100000	"ksw2-extz2-sse"	"time_s"	9.6951
+0.1	100000	"WFA-high"	"memory_kb"	9219718.4
+0.1	100000	"WFA-high"	"time_s"	2.7666
+0.1	100000	"WFA-med"	"memory_kb"	848750.4
+0.1	100000	"WFA-med"	"time_s"	7.6056
+0.1	100000	"WFA-low"	"memory_kb"	562109.2
+0.1	100000	"WFA-low"	"time_s"	9.034
+0.1	100000	"wfalm"	"memory_kb"	9210254
+0.1	100000	"wfalm"	"time_s"	8.4426
+0.1	100000	"wfalm-low"	"memory_kb"	453198.4
+0.1	100000	"wfalm-low"	"time_s"	15.8652
+0.1	100000	"wfalm-recursive"	"memory_kb"	41532
+0.1	100000	"wfalm-recursive"	"time_s"	43.9732
+0.1	100000	"BiWFA"	"memory_kb"	19292.4
+0.1	100000	"BiWFA"	"time_s"	2.1501
+0.1	200000	"edlib (edit distance)"	"memory_kb"	5341.6
+0.1	200000	"edlib (edit distance)"	"time_s"	0.8969
+0.1	200000	"bitpal (score only)"	"memory_kb"	5534.8
+0.1	200000	"bitpal (score only)"	"time_s"	4.9327
+0.1	200000	"ksw2-extz2-sse"	"memory_kb"	78156206
+0.1	200000	"ksw2-extz2-sse"	"time_s"	38.825
+0.1	200000	"WFA-high"	"memory_kb"	37072786.4
+0.1	200000	"WFA-high"	"time_s"	10.9696
+0.1	200000	"WFA-med"	"memory_kb"	2585000.8
+0.1	200000	"WFA-med"	"time_s"	34.5271
+0.1	200000	"WFA-low"	"memory_kb"	1595096.8
+0.1	200000	"WFA-low"	"time_s"	45.1535
+0.1	200000	"wfalm"	"memory_kb"	36959465.6
+0.1	200000	"wfalm"	"time_s"	33.474
+0.1	200000	"wfalm-low"	"memory_kb"	1007965.6
+0.1	200000	"wfalm-low"	"time_s"	63.4433
+0.1	200000	"wfalm-recursive"	"memory_kb"	89982
+0.1	200000	"wfalm-recursive"	"time_s"	192.3848
+0.1	200000	"BiWFA"	"memory_kb"	31290.8
+0.1	200000	"BiWFA"	"time_s"	8.4289
+0.1	500000	"edlib (edit distance)"	"memory_kb"	7830
+0.1	500000	"edlib (edit distance)"	"time_s"	4.4075
+0.1	500000	"bitpal (score only)"	"memory_kb"	7160.4
+0.1	500000	"bitpal (score only)"	"time_s"	30.8499
+0.1	500000	"ksw2-extz2-sse"	"memory_kb"	488342402.8
+0.1	500000	"ksw2-extz2-sse"	"time_s"	243.1231
+0.1	500000	"WFA-high"	"memory_kb"	235026598.4
+0.1	500000	"WFA-high"	"time_s"	69.3243
+0.1	500000	"WFA-med"	"memory_kb"	12412588.4
+0.1	500000	"WFA-med"	"time_s"	303.9507
+0.1	500000	"WFA-low"	"memory_kb"	7507929.6
+0.1	500000	"WFA-low"	"time_s"	543.2866
+0.1	500000	"wfalm"	"memory_kb"	230896430.4
+0.1	500000	"wfalm"	"time_s"	203.3284
+0.1	500000	"wfalm-low"	"memory_kb"	4639962
+0.1	500000	"wfalm-low"	"time_s"	380.0708
+0.1	500000	"wfalm-recursive"	"memory_kb"	244775.6
+0.1	500000	"wfalm-recursive"	"time_s"	1347.7422
+0.1	500000	"BiWFA"	"memory_kb"	65406.4
+0.1	500000	"BiWFA"	"time_s"	51.6337
+0.1	1000000	"edlib (edit distance)"	"memory_kb"	12832.4
+0.1	1000000	"edlib (edit distance)"	"time_s"	17.2721
+0.1	1000000	"bitpal (score only)"	"memory_kb"	9953.6
+0.1	1000000	"bitpal (score only)"	"time_s"	123.6766
+0.1	1000000	"ksw2-extz2-sse"	"memory_kb"	NA
+0.1	1000000	"ksw2-extz2-sse"	"time_s"	NA
+0.1	1000000	"WFA-high"	"memory_kb"	956932121.2
+0.1	1000000	"WFA-high"	"time_s"	297.6278
+0.1	1000000	"WFA-med"	"memory_kb"	NA
+0.1	1000000	"WFA-med"	"time_s"	NA
+0.1	1000000	"WFA-low"	"memory_kb"	25962688.4
+0.1	1000000	"WFA-low"	"time_s"	3979.2168
+0.1	1000000	"wfalm"	"memory_kb"	922698028
+0.1	1000000	"wfalm"	"time_s"	781.8662
+0.1	1000000	"wfalm-low"	"memory_kb"	10706836
+0.1	1000000	"wfalm-low"	"time_s"	1464.7174
+0.1	1000000	"wfalm-recursive"	"memory_kb"	520191.6
+0.1	1000000	"wfalm-recursive"	"time_s"	5684.6427
+0.1	1000000	"BiWFA"	"memory_kb"	100876.8
+0.1	1000000	"BiWFA"	"time_s"	218.859
+0.1	2000000	"edlib (edit distance)"	"memory_kb"	22439.6
+0.1	2000000	"edlib (edit distance)"	"time_s"	67.7905
+0.1	2000000	"bitpal (score only)"	"memory_kb"	14298.8
+0.1	2000000	"bitpal (score only)"	"time_s"	498.0385
+0.1	2000000	"ksw2-extz2-sse"	"memory_kb"	NA
+0.1	2000000	"ksw2-extz2-sse"	"time_s"	NA
+0.1	2000000	"WFA-high"	"memory_kb"	NA
+0.1	2000000	"WFA-high"	"time_s"	NA
+0.1	2000000	"WFA-med"	"memory_kb"	NA
+0.1	2000000	"WFA-med"	"time_s"	NA
+0.1	2000000	"WFA-low"	"memory_kb"	NA
+0.1	2000000	"WFA-low"	"time_s"	NA
+0.1	2000000	"wfalm"	"memory_kb"	NA
+0.1	2000000	"wfalm"	"time_s"	NA
+0.1	2000000	"wfalm-low"	"memory_kb"	37204418.4
+0.1	2000000	"wfalm-low"	"time_s"	5718.04
+0.1	2000000	"wfalm-recursive"	"memory_kb"	1088486
+0.1	2000000	"wfalm-recursive"	"time_s"	23787.6961
+0.1	2000000	"BiWFA"	"memory_kb"	206666
+0.1	2000000	"BiWFA"	"time_s"	925.3055
+0.2	50000	"edlib (edit distance)"	"memory_kb"	4112.4
+0.2	50000	"edlib (edit distance)"	"time_s"	0.1198
+0.2	50000	"bitpal (score only)"	"memory_kb"	3445.6
+0.2	50000	"bitpal (score only)"	"time_s"	0.3098
+0.2	50000	"ksw2-extz2-sse"	"memory_kb"	4890749.2
+0.2	50000	"ksw2-extz2-sse"	"time_s"	2.4325
+0.2	50000	"WFA-high"	"memory_kb"	6782093.2
+0.2	50000	"WFA-high"	"time_s"	2.0917
+0.2	50000	"WFA-med"	"memory_kb"	644971.2
+0.2	50000	"WFA-med"	"time_s"	4.8647
+0.2	50000	"WFA-low"	"memory_kb"	427546.8
+0.2	50000	"WFA-low"	"time_s"	5.8249
+0.2	50000	"wfalm"	"memory_kb"	6768944
+0.2	50000	"wfalm"	"time_s"	6.2136
+0.2	50000	"wfalm-low"	"memory_kb"	385982.4
+0.2	50000	"wfalm-low"	"time_s"	11.7775
+0.2	50000	"wfalm-recursive"	"memory_kb"	35417.2
+0.2	50000	"wfalm-recursive"	"time_s"	31.432
+0.2	50000	"BiWFA"	"memory_kb"	16176.8
+0.2	50000	"BiWFA"	"time_s"	1.5935
+0.2	100000	"edlib (edit distance)"	"memory_kb"	4453.2
+0.2	100000	"edlib (edit distance)"	"time_s"	0.439
+0.2	100000	"bitpal (score only)"	"memory_kb"	4760.4
+0.2	100000	"bitpal (score only)"	"time_s"	1.2328
+0.2	100000	"ksw2-extz2-sse"	"memory_kb"	19541577.6
+0.2	100000	"ksw2-extz2-sse"	"time_s"	9.7236
+0.2	100000	"WFA-high"	"memory_kb"	27580449.2
+0.2	100000	"WFA-high"	"time_s"	8.2564
+0.2	100000	"WFA-med"	"memory_kb"	1651206.4
+0.2	100000	"WFA-med"	"time_s"	23.359
+0.2	100000	"WFA-low"	"memory_kb"	898350.8
+0.2	100000	"WFA-low"	"time_s"	27.1647
+0.2	100000	"wfalm"	"memory_kb"	27501672.4
+0.2	100000	"wfalm"	"time_s"	24.9818
+0.2	100000	"wfalm-low"	"memory_kb"	841664.8
+0.2	100000	"wfalm-low"	"time_s"	47.4235
+0.2	100000	"wfalm-recursive"	"memory_kb"	75630.4
+0.2	100000	"wfalm-recursive"	"time_s"	133.252
+0.2	100000	"BiWFA"	"memory_kb"	27211.2
+0.2	100000	"BiWFA"	"time_s"	6.2818
+0.2	200000	"edlib (edit distance)"	"memory_kb"	5346.8
+0.2	200000	"edlib (edit distance)"	"time_s"	1.6839
+0.2	200000	"bitpal (score only)"	"memory_kb"	5693.6
+0.2	200000	"bitpal (score only)"	"time_s"	4.9602
+0.2	200000	"ksw2-extz2-sse"	"memory_kb"	78127244.8
+0.2	200000	"ksw2-extz2-sse"	"time_s"	38.8815
+0.2	200000	"WFA-high"	"memory_kb"	110624032
+0.2	200000	"WFA-high"	"time_s"	32.5296
+0.2	200000	"WFA-med"	"memory_kb"	4012829.2
+0.2	200000	"WFA-med"	"time_s"	109.4474
+0.2	200000	"WFA-low"	"memory_kb"	2079716.8
+0.2	200000	"WFA-low"	"time_s"	132.3382
+0.2	200000	"wfalm"	"memory_kb"	109724216.8
+0.2	200000	"wfalm"	"time_s"	99.0979
+0.2	200000	"wfalm-low"	"memory_kb"	3123485.2
+0.2	200000	"wfalm-low"	"time_s"	184.8562
+0.2	200000	"wfalm-recursive"	"memory_kb"	161677.6
+0.2	200000	"wfalm-recursive"	"time_s"	600.3113
+0.2	200000	"BiWFA"	"memory_kb"	50041.2
+0.2	200000	"BiWFA"	"time_s"	24.582
+0.2	500000	"edlib (edit distance)"	"memory_kb"	7969.2
+0.2	500000	"edlib (edit distance)"	"time_s"	8.5895
+0.2	500000	"bitpal (score only)"	"memory_kb"	7616
+0.2	500000	"bitpal (score only)"	"time_s"	31.0957
+0.2	500000	"ksw2-extz2-sse"	"memory_kb"	488318474
+0.2	500000	"ksw2-extz2-sse"	"time_s"	243.6349
+0.2	500000	"WFA-high"	"memory_kb"	718635090
+0.2	500000	"WFA-high"	"time_s"	217.6939
+0.2	500000	"WFA-med"	"memory_kb"	11816454.4
+0.2	500000	"WFA-med"	"time_s"	775.8574
+0.2	500000	"WFA-low"	"memory_kb"	6013726.8
+0.2	500000	"WFA-low"	"time_s"	1025.7244
+0.2	500000	"wfalm"	"memory_kb"	685363362.8
+0.2	500000	"wfalm"	"time_s"	582.7957
+0.2	500000	"wfalm-low"	"memory_kb"	8855636
+0.2	500000	"wfalm-low"	"time_s"	1102.8607
+0.2	500000	"wfalm-recursive"	"memory_kb"	419711.2
+0.2	500000	"wfalm-recursive"	"time_s"	4040.1887
+0.2	500000	"BiWFA"	"memory_kb"	94261.2
+0.2	500000	"BiWFA"	"time_s"	161.4419
+0.2	1000000	"edlib (edit distance)"	"memory_kb"	12905.2
+0.2	1000000	"edlib (edit distance)"	"time_s"	33.5643
+0.2	1000000	"bitpal (score only)"	"memory_kb"	10010
+0.2	1000000	"bitpal (score only)"	"time_s"	123.7737
+0.2	1000000	"ksw2-extz2-sse"	"memory_kb"	NA
+0.2	1000000	"ksw2-extz2-sse"	"time_s"	NA
+0.2	1000000	"WFA-high"	"memory_kb"	NA
+0.2	1000000	"WFA-high"	"time_s"	NA
+0.2	1000000	"WFA-med"	"memory_kb"	25293393.6
+0.2	1000000	"WFA-med"	"time_s"	3299.2974
+0.2	1000000	"WFA-low"	"memory_kb"	12792809.6
+0.2	1000000	"WFA-low"	"time_s"	4637.5602
+0.2	1000000	"wfalm"	"memory_kb"	NA
+0.2	1000000	"wfalm"	"time_s"	NA
+0.2	1000000	"wfalm-low"	"memory_kb"	31667168.8
+0.2	1000000	"wfalm-low"	"time_s"	4284.5787
+0.2	1000000	"wfalm-recursive"	"memory_kb"	895974.4
+0.2	1000000	"wfalm-recursive"	"time_s"	17192.1546
+0.2	1000000	"BiWFA"	"memory_kb"	188693.2
+0.2	1000000	"BiWFA"	"time_s"	679.1497
+0.2	2000000	"edlib (edit distance)"	"memory_kb"	22866
+0.2	2000000	"edlib (edit distance)"	"time_s"	133.1206
+0.2	2000000	"bitpal (score only)"	"memory_kb"	14093.6
+0.2	2000000	"bitpal (score only)"	"time_s"	495.3001
+0.2	2000000	"ksw2-extz2-sse"	"memory_kb"	NA
+0.2	2000000	"ksw2-extz2-sse"	"time_s"	NA
+0.2	2000000	"WFA-high"	"memory_kb"	NA
+0.2	2000000	"WFA-high"	"time_s"	NA
+0.2	2000000	"WFA-med"	"memory_kb"	NA
+0.2	2000000	"WFA-med"	"time_s"	NA
+0.2	2000000	"WFA-low"	"memory_kb"	26806071.6
+0.2	2000000	"WFA-low"	"time_s"	19875.3767
+0.2	2000000	"wfalm"	"memory_kb"	NA
+0.2	2000000	"wfalm"	"time_s"	NA
+0.2	2000000	"wfalm-low"	"memory_kb"	70846954.8
+0.2	2000000	"wfalm-low"	"time_s"	16810.1221
+0.2	2000000	"wfalm-recursive"	"memory_kb"	1876448.4
+0.2	2000000	"wfalm-recursive"	"time_s"	73095.8061
+0.2	2000000	"BiWFA"	"memory_kb"	253237.2
+0.2	2000000	"BiWFA"	"time_s"	2830.0755
+0.3	50000	"edlib (edit distance)"	"memory_kb"	4087.2
+0.3	50000	"edlib (edit distance)"	"time_s"	0.1278
+0.3	50000	"bitpal (score only)"	"memory_kb"	3377.6
+0.3	50000	"bitpal (score only)"	"time_s"	0.3097
+0.3	50000	"ksw2-extz2-sse"	"memory_kb"	4884478.4
+0.3	50000	"ksw2-extz2-sse"	"time_s"	2.4302
+0.3	50000	"WFA-high"	"memory_kb"	11841407.2
+0.3	50000	"WFA-high"	"time_s"	3.5838
+0.3	50000	"WFA-med"	"memory_kb"	605012.8
+0.3	50000	"WFA-med"	"time_s"	8.2528
+0.3	50000	"WFA-low"	"memory_kb"	561968.8
+0.3	50000	"WFA-low"	"time_s"	9.6984
+0.3	50000	"wfalm"	"memory_kb"	11828083.6
+0.3	50000	"wfalm"	"time_s"	10.7333
+0.3	50000	"wfalm-low"	"memory_kb"	514657.6
+0.3	50000	"wfalm-low"	"time_s"	20.159
+0.3	50000	"wfalm-recursive"	"memory_kb"	47678
+0.3	50000	"wfalm-recursive"	"time_s"	57.2232
+0.3	50000	"BiWFA"	"memory_kb"	18669.6
+0.3	50000	"BiWFA"	"time_s"	2.7352
+0.3	100000	"edlib (edit distance)"	"memory_kb"	4558
+0.3	100000	"edlib (edit distance)"	"time_s"	0.4724
+0.3	100000	"bitpal (score only)"	"memory_kb"	4174.8
+0.3	100000	"bitpal (score only)"	"time_s"	1.2342
+0.3	100000	"ksw2-extz2-sse"	"memory_kb"	19548352
+0.3	100000	"ksw2-extz2-sse"	"time_s"	9.6907
+0.3	100000	"WFA-high"	"memory_kb"	47587714.4
+0.3	100000	"WFA-high"	"time_s"	14.0722
+0.3	100000	"WFA-med"	"memory_kb"	1519552.4
+0.3	100000	"WFA-med"	"time_s"	37.1411
+0.3	100000	"WFA-low"	"memory_kb"	885234.4
+0.3	100000	"WFA-low"	"time_s"	42.1155
+0.3	100000	"wfalm"	"memory_kb"	47426954.8
+0.3	100000	"wfalm"	"time_s"	42.6983
+0.3	100000	"wfalm-low"	"memory_kb"	1185129.6
+0.3	100000	"wfalm-low"	"time_s"	82.1971
+0.3	100000	"wfalm-recursive"	"memory_kb"	95326
+0.3	100000	"wfalm-recursive"	"time_s"	250.6422
+0.3	100000	"BiWFA"	"memory_kb"	34490
+0.3	100000	"BiWFA"	"time_s"	10.6612
+0.3	200000	"edlib (edit distance)"	"memory_kb"	5289.2
+0.3	200000	"edlib (edit distance)"	"time_s"	1.8133
+0.3	200000	"bitpal (score only)"	"memory_kb"	5510
+0.3	200000	"bitpal (score only)"	"time_s"	4.9433
+0.3	200000	"ksw2-extz2-sse"	"memory_kb"	78154332
+0.3	200000	"ksw2-extz2-sse"	"time_s"	38.824
+0.3	200000	"WFA-high"	"memory_kb"	191437705.6
+0.3	200000	"WFA-high"	"time_s"	56.224
+0.3	200000	"WFA-med"	"memory_kb"	3058391.6
+0.3	200000	"WFA-med"	"time_s"	171.056
+0.3	200000	"WFA-low"	"memory_kb"	1811178
+0.3	200000	"WFA-low"	"time_s"	190.8125
+0.3	200000	"wfalm"	"memory_kb"	189301243.6
+0.3	200000	"wfalm"	"time_s"	168.6369
+0.3	200000	"wfalm-low"	"memory_kb"	4158579.6
+0.3	200000	"wfalm-low"	"time_s"	313.5315
+0.3	200000	"wfalm-recursive"	"memory_kb"	202599.6
+0.3	200000	"wfalm-recursive"	"time_s"	1082.7632
+0.3	200000	"BiWFA"	"memory_kb"	51496.4
+0.3	200000	"BiWFA"	"time_s"	42.1376
+0.3	500000	"edlib (edit distance)"	"memory_kb"	8095.6
+0.3	500000	"edlib (edit distance)"	"time_s"	9.4838
+0.3	500000	"bitpal (score only)"	"memory_kb"	7434.8
+0.3	500000	"bitpal (score only)"	"time_s"	30.9132
+0.3	500000	"ksw2-extz2-sse"	"memory_kb"	488176700.4
+0.3	500000	"ksw2-extz2-sse"	"time_s"	243.7864
+0.3	500000	"WFA-high"	"memory_kb"	NA
+0.3	500000	"WFA-high"	"time_s"	NA
+0.3	500000	"WFA-med"	"memory_kb"	8069516.4
+0.3	500000	"WFA-med"	"time_s"	1177.9606
+0.3	500000	"WFA-low"	"memory_kb"	4648505.2
+0.3	500000	"WFA-low"	"time_s"	1311.5855
+0.3	500000	"wfalm"	"memory_kb"	NA
+0.3	500000	"wfalm"	"time_s"	NA
+0.3	500000	"wfalm-low"	"memory_kb"	12615134.8
+0.3	500000	"wfalm-low"	"time_s"	1859.4077
+0.3	500000	"wfalm-recursive"	"memory_kb"	577574.8
+0.3	500000	"wfalm-recursive"	"time_s"	7142.8814
+0.3	500000	"BiWFA"	"memory_kb"	122500
+0.3	500000	"BiWFA"	"time_s"	281.0138
+0.3	1000000	"edlib (edit distance)"	"memory_kb"	12924.4
+0.3	1000000	"edlib (edit distance)"	"time_s"	37.2372
+0.3	1000000	"bitpal (score only)"	"memory_kb"	9972
+0.3	1000000	"bitpal (score only)"	"time_s"	123.8688
+0.3	1000000	"ksw2-extz2-sse"	"memory_kb"	NA
+0.3	1000000	"ksw2-extz2-sse"	"time_s"	NA
+0.3	1000000	"WFA-high"	"memory_kb"	NA
+0.3	1000000	"WFA-high"	"time_s"	NA
+0.3	1000000	"WFA-med"	"memory_kb"	16277186.4
+0.3	1000000	"WFA-med"	"time_s"	4691.7749
+0.3	1000000	"WFA-low"	"memory_kb"	9390426.4
+0.3	1000000	"WFA-low"	"time_s"	5267.8086
+0.3	1000000	"wfalm"	"memory_kb"	NA
+0.3	1000000	"wfalm"	"time_s"	NA
+0.3	1000000	"wfalm-low"	"memory_kb"	42826854
+0.3	1000000	"wfalm-low"	"time_s"	7298.5568
+0.3	1000000	"wfalm-recursive"	"memory_kb"	1229837.6
+0.3	1000000	"wfalm-recursive"	"time_s"	30597.5333
+0.3	1000000	"BiWFA"	"memory_kb"	214455.6
+0.3	1000000	"BiWFA"	"time_s"	1200.3154
+0.3	2000000	"edlib (edit distance)"	"memory_kb"	22968.8
+0.3	2000000	"edlib (edit distance)"	"time_s"	147.9123
+0.3	2000000	"bitpal (score only)"	"memory_kb"	14386
+0.3	2000000	"bitpal (score only)"	"time_s"	497.8068
+0.3	2000000	"ksw2-extz2-sse"	"memory_kb"	NA
+0.3	2000000	"ksw2-extz2-sse"	"time_s"	NA
+0.3	2000000	"WFA-high"	"memory_kb"	NA
+0.3	2000000	"WFA-high"	"time_s"	NA
+0.3	2000000	"WFA-med"	"memory_kb"	33360128.4
+0.3	2000000	"WFA-med"	"time_s"	18717.3367
+0.3	2000000	"WFA-low"	"memory_kb"	19073212.8
+0.3	2000000	"WFA-low"	"time_s"	21600.7279
+0.3	2000000	"wfalm"	"memory_kb"	NA
+0.3	2000000	"wfalm"	"time_s"	NA
+0.3	2000000	"wfalm-low"	"memory_kb"	101026068.8
+0.3	2000000	"wfalm-low"	"time_s"	28746.658
+0.3	2000000	"wfalm-recursive"	"memory_kb"	2587564
+0.3	2000000	"wfalm-recursive"	"time_s"	128780.7789
+0.3	2000000	"BiWFA"	"memory_kb"	315215.6
+0.3	2000000	"BiWFA"	"time_s"	4953.7732
