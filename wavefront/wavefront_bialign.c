@@ -430,11 +430,23 @@ void wavefront_bialign_junction_find(
   // Advance until overlap is found
   const int max_score_scope = wf_aligner_forward->wf_components.max_score_scope;
   const int gap_opening = wf_aligner_forward->penalties.gap_opening1;
+  int max_edge_cost = wf_aligner_forward->penalties.mismatch;
+  switch (distance_metric) {
+    case gap_affine_2p:
+      max_edge_cost = MAX(max_edge_cost, wf_aligner->penalties.gap_opening1 + wf_aligner->penalties.gap_extension1);
+      max_edge_cost = MAX(max_edge_cost, wf_aligner->penalties.gap_opening2 + wf_aligner->penalties.gap_extension2);
+      break;
+    case gap_affine:
+      max_edge_cost = MAX(max_edge_cost, wf_aligner->penalties.gap_opening1 + wf_aligner->penalties.gap_extension1);
+      break;
+    case gap_linear:
+      max_edge_cost = MAX(max_edge_cost, wf_aligner->penalties.gap_opening1);
+  }
   while (true) {
     if (last_wf_forward) {
       // Check overlapping wavefronts
       const int min_score_reverse = (score_reverse > max_score_scope-1) ? score_reverse - (max_score_scope-1) : 0;
-      if (score_forward + min_score_reverse - gap_opening >= junction->score) break; // Done!
+      if (score_forward + min_score_reverse - gap_opening - max_edge_cost >= junction->score) break; // Done!
       wavefront_bialign_forward_overlap(wf_aligner_forward,wf_aligner_reverse,score_forward,score_reverse,junction);
       // Compute-next and extend reverse-wavefront
       ++score_reverse;
@@ -443,7 +455,7 @@ void wavefront_bialign_junction_find(
     }
     // Check overlapping wavefronts
     const int min_score_forward = (score_forward > max_score_scope-1) ? score_forward - (max_score_scope-1) : 0;
-    if (min_score_forward + score_reverse - gap_opening >= junction->score) break; // Done!
+    if (min_score_forward + score_reverse - gap_opening - max_edge_cost >= junction->score) break; // Done!
     wavefront_bialign_reverse_overlap(wf_aligner_forward,wf_aligner_reverse,score_forward,score_reverse,junction);
     // Compute-next and extend forward-wavefront
     ++score_forward;
