@@ -1,12 +1,12 @@
 library(ggplot2)
-library(ggforce)
+library(ggforce) # On Ubuntu 22.04 LTS: sudo apt -y install libfontconfig1-dev
 options(scipen = 9)
 
-stats_df <- read.table('statistics_all.tsv', sep = '\t', header = F)
+stats_df <- read.table('~/git/BiWFA-paper/evaluation/data/statistics_all.tsv', sep = '\t', header = F)
 names(stats_df) <- c('set', 'seq', 'mode', 'value', 'statistic')
-lengths_df <- read.table('lengths_all.tsv', sep = '\t', header = F)
+lengths_df <- read.table('~/git/BiWFA-paper/evaluation/data/lengths_all.tsv', sep = '\t', header = F)
 names(lengths_df) <- c('set', 'seq', 'query.length', 'target.length')
-scores_df <- read.table('scores_all.tsv', sep = '\t', header = T)
+scores_df <- read.table('~/git/BiWFA-paper/evaluation/data/scores_all.tsv', sep = '\t', header = T)
 names(scores_df) <- c('set', 'seq', 'mode', 'score')
 
 statsWithMetadata_df <- merge(
@@ -22,6 +22,10 @@ statsWithMetadata_df <- merge(
   by.x = c('set', 'seq', 'mode'), by.y = c('set', 'seq', 'mode')
 )
 statsWithMetadata_df$score[is.na(statsWithMetadata_df$score)] <- 1
+
+# Force column's type
+statsWithMetadata_df$set <- as.factor(statsWithMetadata_df$set)
+statsWithMetadata_df$mode <- as.factor(statsWithMetadata_df$mode)
 
 # Rename datasets
 levels(statsWithMetadata_df$set)[match("ont_regions",levels(statsWithMetadata_df$set))] <- "ONT PromethION reads vs CHM13 v1.1"
@@ -67,6 +71,7 @@ px <- ggplot(x, aes(x = mode, y = value / 1024, fill=mode)) +
   guides(fill=guide_legend(title="Algorithm")) +
   ggtitle('Memory consumption') +
   xlab("Algorithm") + ylab("")
+px
 
 # Plot runtime
 y <- statsWithMetadata_df[statsWithMetadata_df$statistic == 'time_s' & !is.nan(statsWithMetadata_df$value), ]
