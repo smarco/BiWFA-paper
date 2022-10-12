@@ -1,5 +1,7 @@
 library(ggplot2)
 library(ggforce) # On Ubuntu 22.04 LTS: sudo apt -y install libfontconfig1-dev
+library(ggpubr)
+
 options(scipen = 9)
 
 stats_df <- read.table('~/git/BiWFA-paper/evaluation/data/statistics_all.tsv', sep = '\t', header = F)
@@ -30,6 +32,7 @@ statsWithMetadata_df$mode <- as.factor(statsWithMetadata_df$mode)
 # Rename datasets
 levels(statsWithMetadata_df$set)[match("ont_regions",levels(statsWithMetadata_df$set))] <- "ONT PromethION reads vs CHM13 v1.1"
 levels(statsWithMetadata_df$set)[match("ONT_UL",levels(statsWithMetadata_df$set))] <- "ONT Ultra Long > 500kbps"
+levels(statsWithMetadata_df$set)[match("ONT_UL_SHORT",levels(statsWithMetadata_df$set))] <- "ONT Ultra Long <= 10kbps"
 
 # Rename algorithms and change their order
 levels(statsWithMetadata_df$mode)[match("edlib",levels(statsWithMetadata_df$mode))] <- "edlib (edit distance)"
@@ -46,6 +49,13 @@ statsWithMetadata_df$mode <- factor(
   levels = c("edlib (edit distance)", "bitpal (score only)", "ksw2-extz2-sse", "WFA-high", "WFA-med", "WFA-low",  "wfalm", "wfalm-low", "wfalm-recursive", "BiWFA")
 )
 
+statsWithMetadata_df <- statsWithMetadata_df[statsWithMetadata_df$set %in% c(
+  "ONT PromethION reads vs CHM13 v1.1", "ONT Ultra Long > 500kbps", "ONT Ultra Long <= 10kbps"
+  ),]
+
+################################################################################
+# Sequences >= 10kbps
+#####################
 
 # Plot memory use
 x <- statsWithMetadata_df[statsWithMetadata_df$statistic == 'memory_kb' & !is.nan(statsWithMetadata_df$value), ]
@@ -100,4 +110,64 @@ py
 library(ggpubr)
 pxy <- ggpubr::ggarrange(px, py, align='hv', labels=c('A', 'B'),legend = "right", # legend position,
                          common.legend = T, nrow = 2)
-ggsave(plot = pxy, paste0('Figure1', '.pdf'), width = 30, height = 20, units = "cm", dpi = 100, bg = "transparent", limitsize = FALSE)
+ggsave(plot = pxy, paste0('Figure2', '.pdf'), width = 30, height = 20, units = "cm", dpi = 100, bg = "transparent", limitsize = FALSE)
+################################################################################
+
+################################################################################
+# Sequences < 10kbps
+####################
+
+# Plot memory use
+x <- statsWithMetadata_df[statsWithMetadata_df$statistic == 'memory_kb' & !is.nan(statsWithMetadata_df$value), ]
+x <- x[x$query.length <= 10000 & x$target.length <= 10000,]
+px <- ggplot(x, aes(x = mode, y = value / 1024, fill=mode)) +
+  geom_boxplot() +
+  scale_y_continuous(
+    trans='log10',
+    #labels = scales::comma,
+    limits=c(1, 1000),
+    n.breaks = 6,
+    labels=c("NA" = "", "1" = "1 MB", "10" = "10 MB", "100" = "100 MB", "1000" = "1 GB", "NA" = "")
+  ) +
+  facet_wrap (
+    ~set,
+    ncol = 2
+  ) +
+  theme(
+    plot.title = element_text(hjust = 0.5),
+    legend.position = "top",
+    axis.text.x = element_text(angle = 30, vjust = 1.0, hjust=1)
+  ) +
+  guides(fill=guide_legend(title="Algorithm")) +
+  ggtitle('Memory consumption') +
+  xlab("Algorithm") + ylab("")
+px
+
+# Plot runtime
+y <- statsWithMetadata_df[statsWithMetadata_df$statistic == 'time_s' & !is.nan(statsWithMetadata_df$value), ]
+y <- y[y$query.length <= 10000 & y$target.length <= 10000,]
+py <- ggplot(y, aes(x = mode, y = value + 0.001, fill=mode)) +
+  geom_boxplot() +
+  scale_y_continuous(
+    trans='log10',
+    labels = scales::comma
+  ) +
+  facet_wrap (
+    ~set,
+    ncol = 2
+  ) +
+  theme(
+    plot.title = element_text(hjust = 0.5),
+    legend.position = "top",
+    axis.text.x = element_text(angle = 30, vjust = 1.0, hjust=1)
+  ) +
+  guides(fill=guide_legend(title="Algorithm")) +
+  ggtitle('Execution time') +
+  xlab("Algorithm") + ylab("Seconds")
+py
+
+# Plot both and save the image
+pxy <- ggpubr::ggarrange(px, py, align='hv', labels=c('A', 'B'),legend = "right", # legend position,
+                         common.legend = T, nrow = 2)
+ggsave(plot = pxy, paste0('FigureS1', '.pdf'), width = 30, height = 20, units = "cm", dpi = 100, bg = "transparent", limitsize = FALSE)
+################################################################################
