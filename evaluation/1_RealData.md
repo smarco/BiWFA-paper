@@ -146,9 +146,12 @@ Prepare sequence pairs:
 ```shell
 mkdir -p /gpfs/projects/bsc18/bsc18995/biwfa/ont_ul/seq_pairs
 
+FILTER_SEQ_PY=/gpfs/projects/bsc18/bsc18995/biwfa/BiWFA-paper/evaluation/scripts/filter_seq.py
+
 # Long reads
 c=1
-cat /gpfs/projects/bsc18/bsc18571/wfa2/datasets/real/Nanopore.UL.100K.seq | awk 'length($1) >= 500000' | while read -r line1; do
+cat /gpfs/projects/bsc18/bsc18571/wfa2/datasets/real/Nanopore.UL.100K.seq | python3 $FILTER_SEQ_PY 500000 9999999999 | \
+  while read -r line1; do
   read -r line2
 
   echo $line1 > /gpfs/projects/bsc18/bsc18995/biwfa/ont_ul/seq_pairs/seq$c.seq
