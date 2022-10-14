@@ -49,16 +49,14 @@ statsWithMetadata_df$mode <- factor(
   levels = c("edlib (edit distance)", "bitpal (score only)", "ksw2-extz2-sse", "WFA-high", "WFA-med", "WFA-low",  "wfalm", "wfalm-low", "wfalm-recursive", "BiWFA")
 )
 
-statsWithMetadata_df <- statsWithMetadata_df[statsWithMetadata_df$set %in% c(
-  "ONT PromethION reads vs CHM13 v1.1", "ONT Ultra Long > 500kbps", "ONT Ultra Long <= 10kbps"
-  ),]
-
 ################################################################################
 # Sequences >= 10kbps
-#####################
 
 # Plot memory use
-x <- statsWithMetadata_df[statsWithMetadata_df$statistic == 'memory_kb' & !is.nan(statsWithMetadata_df$value), ]
+x <- statsWithMetadata_df[statsWithMetadata_df$set %in% c(
+  "ONT PromethION reads vs CHM13 v1.1", "ONT Ultra Long > 500kbps"
+),]
+x <- x[x$statistic == 'memory_kb' & !is.nan(x$value), ]
 x <- x[x$query.length >= 10000 & x$target.length >= 10000,] # To clean outliers
 px <- ggplot(x, aes(x = mode, y = value / 1024, fill=mode)) +
   geom_boxplot() +
@@ -73,18 +71,34 @@ px <- ggplot(x, aes(x = mode, y = value / 1024, fill=mode)) +
     ~set,
     ncol = 2
   ) +
+  theme_bw() +
   theme(
-    plot.title = element_text(hjust = 0.5),
-    legend.position = "top",
-    axis.text.x = element_text(angle = 30, vjust = 1.0, hjust=1)
+    plot.title = element_text(hjust = 0.5, size=18),
+    legend.position = "none",
+    
+    axis.title=element_text(size=18),
+    
+    #axis.text.x = element_text(angle = 30, vjust = 1.0, hjust=1, size=15),
+    axis.title.x = element_blank(),
+    axis.text.x=element_blank(), #remove x axis labels
+    #axis.ticks.x=element_blank(), #remove x axis ticks
+    
+    axis.text.y=element_text(size=15),
+    #axis.text.y=element_blank(),  #remove y axis labels
+    #axis.ticks.y=element_blank()  #remove y axis ticks
+    
+    strip.text = element_text(size=15)
   ) +
   guides(fill=guide_legend(title="Algorithm")) +
   ggtitle('Memory consumption') +
-  xlab("Algorithm") + ylab("")
-px
+  xlab("Algorithm") + ylab("") + geom_vline(xintercept=2.5)
+px 
 
 # Plot runtime
-y <- statsWithMetadata_df[statsWithMetadata_df$statistic == 'time_s' & !is.nan(statsWithMetadata_df$value), ]
+y <- statsWithMetadata_df[statsWithMetadata_df$set %in% c(
+  "ONT PromethION reads vs CHM13 v1.1", "ONT Ultra Long > 500kbps"
+),]
+y <- y[y$statistic == 'time_s' & !is.nan(y$value), ]
 y <- y[y$query.length >= 10000 & y$target.length >= 10000,] # To clean outliers
 py <- ggplot(y, aes(x = mode, y = value + 0.001, fill=mode)) +
   geom_boxplot() +
@@ -96,29 +110,54 @@ py <- ggplot(y, aes(x = mode, y = value + 0.001, fill=mode)) +
     ~set,
     ncol = 2
   ) +
+  theme_bw() +
   theme(
-    plot.title = element_text(hjust = 0.5),
-    legend.position = "top",
-    axis.text.x = element_text(angle = 30, vjust = 1.0, hjust=1)
+    plot.title = element_text(hjust = 0.5, size=18),
+    legend.position = "none",
+    
+    axis.title=element_text(size=18),
+    
+    axis.text.x = element_text(angle = 30, vjust = 1.0, hjust=1, size=15),
+    #axis.title.x = element_blank(),
+    #axis.text.x=element_blank(), #remove x axis labels
+    #axis.ticks.x=element_blank(), #remove x axis ticks
+    
+    axis.text.y=element_text(size=15),
+    #axis.text.y=element_blank(),  #remove y axis labels
+    #axis.ticks.y=element_blank()  #remove y axis ticks
+    
+    strip.text = element_text(size=15)
   ) +
   guides(fill=guide_legend(title="Algorithm")) +
   ggtitle('Execution time') +
-  xlab("Algorithm") + ylab("Seconds")
+  xlab("Algorithm") + ylab("Seconds") + geom_vline(xintercept=2.5)
 py
 
 # Plot both and save the image
 library(ggpubr)
-pxy <- ggpubr::ggarrange(px, py, align='hv', labels=c('A', 'B'),legend = "right", # legend position,
-                         common.legend = T, nrow = 2)
+pxy <- ggpubr::ggarrange(
+  px, py,
+  align='v',
+  labels=c('A', 'B'),
+  heights=c(1, 1.4),
+  font.label = list(size = 18),
+  legend = "none", # legend position,
+  common.legend = T,
+  nrow = 2
+) + 
+  theme(plot.margin = margin(0.3, 0.3, 0.3, 0.3, "cm")) # to avoid cutting labels
+pxy
 ggsave(plot = pxy, paste0('Figure2', '.pdf'), width = 30, height = 20, units = "cm", dpi = 100, bg = "transparent", limitsize = FALSE)
 ################################################################################
 
 ################################################################################
-# Sequences < 10kbps
-####################
+# Sequences <= 10kbps
 
 # Plot memory use
-x <- statsWithMetadata_df[statsWithMetadata_df$statistic == 'memory_kb' & !is.nan(statsWithMetadata_df$value), ]
+x <- statsWithMetadata_df[statsWithMetadata_df$set %in% c(
+  "ONT PromethION reads vs CHM13 v1.1", "ONT Ultra Long <= 10kbps"
+),]
+x <- x[x$statistic == 'memory_kb' & !is.nan(x$value), ]
 x <- x[x$query.length <= 10000 & x$target.length <= 10000,]
 px <- ggplot(x, aes(x = mode, y = value / 1024, fill=mode)) +
   geom_boxplot() +
@@ -133,18 +172,34 @@ px <- ggplot(x, aes(x = mode, y = value / 1024, fill=mode)) +
     ~set,
     ncol = 2
   ) +
+  theme_bw() +
   theme(
-    plot.title = element_text(hjust = 0.5),
-    legend.position = "top",
-    axis.text.x = element_text(angle = 30, vjust = 1.0, hjust=1)
+    plot.title = element_text(hjust = 0.5, size=18),
+    legend.position = "none",
+    
+    axis.title=element_text(size=18),
+    
+    #axis.text.x = element_text(angle = 30, vjust = 1.0, hjust=1, size=15),
+    axis.title.x = element_blank(),
+    axis.text.x=element_blank(), #remove x axis labels
+    #axis.ticks.x=element_blank(), #remove x axis ticks
+    
+    axis.text.y=element_text(size=15),
+    #axis.text.y=element_blank(),  #remove y axis labels
+    #axis.ticks.y=element_blank()  #remove y axis ticks
+    
+    strip.text = element_text(size=15)
   ) +
   guides(fill=guide_legend(title="Algorithm")) +
   ggtitle('Memory consumption') +
-  xlab("Algorithm") + ylab("")
+  xlab("Algorithm") + ylab("") + geom_vline(xintercept=2.5)
 px
 
 # Plot runtime
-y <- statsWithMetadata_df[statsWithMetadata_df$statistic == 'time_s' & !is.nan(statsWithMetadata_df$value), ]
+y <- statsWithMetadata_df[statsWithMetadata_df$set %in% c(
+  "ONT PromethION reads vs CHM13 v1.1", "ONT Ultra Long > 500kbps", "ONT Ultra Long <= 10kbps"
+),]
+y <- y[y$statistic == 'time_s' & !is.nan(y$value), ]
 y <- y[y$query.length <= 10000 & y$target.length <= 10000,]
 py <- ggplot(y, aes(x = mode, y = value + 0.001, fill=mode)) +
   geom_boxplot() +
@@ -156,18 +211,253 @@ py <- ggplot(y, aes(x = mode, y = value + 0.001, fill=mode)) +
     ~set,
     ncol = 2
   ) +
+  theme_bw() +
   theme(
-    plot.title = element_text(hjust = 0.5),
-    legend.position = "top",
-    axis.text.x = element_text(angle = 30, vjust = 1.0, hjust=1)
+    plot.title = element_text(hjust = 0.5, size=18),
+    legend.position = "none",
+    
+    axis.title=element_text(size=18),
+    
+    axis.text.x = element_text(angle = 30, vjust = 1.0, hjust=1, size=15),
+    #axis.title.x = element_blank(),
+    #axis.text.x=element_blank(), #remove x axis labels
+    #axis.ticks.x=element_blank(), #remove x axis ticks
+    
+    axis.text.y=element_text(size=15),
+    #axis.text.y=element_blank(),  #remove y axis labels
+    #axis.ticks.y=element_blank()  #remove y axis ticks
+    
+    strip.text = element_text(size=15)
   ) +
   guides(fill=guide_legend(title="Algorithm")) +
   ggtitle('Execution time') +
-  xlab("Algorithm") + ylab("Seconds")
+  xlab("Algorithm") + ylab("Seconds") + geom_vline(xintercept=2.5)
 py
 
 # Plot both and save the image
-pxy <- ggpubr::ggarrange(px, py, align='hv', labels=c('A', 'B'),legend = "right", # legend position,
-                         common.legend = T, nrow = 2)
-ggsave(plot = pxy, paste0('FigureS1', '.pdf'), width = 30, height = 20, units = "cm", dpi = 100, bg = "transparent", limitsize = FALSE)
+pxy <- ggpubr::ggarrange(
+  px, py,
+  align='v',
+  labels=c('A', 'B'),
+  heights=c(1, 1.4),
+  font.label = list(size = 18),
+  legend = "none", # legend position,
+  common.legend = T,
+  nrow = 2
+) + 
+  theme(plot.margin = margin(0.3, 0.3, 0.3, 0.3, "cm")) # to avoid cutting labels
+ggsave(plot = pxy, paste0('FigureS1', '.png'), width = 30, height = 20, units = "cm", dpi = 300, bg = "transparent", limitsize = FALSE)
+################################################################################
+
+
+################################################################################
+# WFA-high vs BiWFA
+
+# Time
+z <- statsWithMetadata_df[statsWithMetadata_df$statistic == 'time_s' & !is.nan(statsWithMetadata_df$value), ]
+levels(z$set)[match("ONT_UL_OTHER",levels(z$set))] <- "ONT Ultra Long"
+#levels(z$set)[match("ONT Ultra Long <= 10kbps",levels(z$set))] <- "ONT Ultra Long"
+#levels(z$set)[match("ONT Ultra Long > 500kbps",levels(z$set))] <- "ONT Ultra Long"
+z <- z[z$mode %in% c('WFA-high', 'BiWFA') & z$set %in% c('ONT Ultra Long'),]
+px <- ggplot(
+  z,
+  aes(x = (query.length + target.length) / 2, y = value + 0.001, color = mode, alpha=I(1/3))
+) +
+  geom_point() +
+  #facet_wrap (
+  #  ~set,
+  #  ncol = 2
+  #) +
+  ggtitle('Execution time') +
+  xlab("Length (base pairs)") + ylab("Seconds") +  theme_bw() +
+  theme(
+    plot.title = element_text(hjust = 0.5, size=18),
+    legend.position = "top",
+    
+    axis.title=element_text(size=18),
+    
+    #axis.text.x = element_text(angle = 30, vjust = 1.0, hjust=1, size=15),
+    axis.title.x = element_blank(),
+    axis.text.x=element_blank(), #remove x axis labels
+    #axis.ticks.x=element_blank(), #remove x axis ticks
+    
+    axis.text.y=element_text(size=15),
+    #axis.text.y=element_blank(),  #remove y axis labels
+    #axis.ticks.y=element_blank()  #remove y axis ticks
+    
+    strip.text = element_text(size=15),
+    
+    legend.title = element_text(size=15),
+    legend.text = element_text(size=14)
+  ) + guides(color=guide_legend(title="Algorithm")) +
+  scale_y_continuous(
+    trans='log10'
+    #labels = scales::comma,
+    #limits=c(1, 1000000),
+    #n.breaks = 6,
+    #labels=c("NA" = "", "1" = "1 MB", "10" = "10 MB", "100" = "100 MB", "1000" = "1 GB", "10000" = "10 GB", "100000" = "100 GB", "1000000" = "1 TB", "NA" = "")
+  ) +
+  scale_x_continuous(
+    trans='log10',
+    #labels = scales::comma,
+    limits=c(min((z$query.length + z$target.length)/2), 500000),
+    n.breaks = 12
+  ) + 
+  scale_color_manual(values=c("#39B600", "#FF62BC"))
+px 
+if (FALSE) {
+  library(dplyr)
+  zz <- z %>%
+    group_by(set, seq, statistic, query.length, target.length, score) %>%
+    summarise_at(vars(value), list(name = diff))
+  ggplot(
+    zz,
+    aes(x = (query.length + target.length) / 2, y = name, alpha=I(1/3))
+  ) +
+    geom_point() +
+    ggtitle('Execution time\nWFA-high - BiWFA') +
+    xlab("Length") + ylab("Seconds") +  theme_bw() +
+    theme(
+      plot.title = element_text(hjust = 0.5, size=18),
+      legend.position = "none",
+      
+      axis.title=element_text(size=18),
+      
+      axis.text.x = element_text(angle = 30, vjust = 1.0, hjust=1, size=15),
+      #axis.title.x = element_blank(),
+      #axis.text.x=element_blank(), #remove x axis labels
+      #axis.ticks.x=element_blank(), #remove x axis ticks
+      
+      axis.text.y=element_text(size=15),
+      #axis.text.y=element_blank(),  #remove y axis labels
+      #axis.ticks.y=element_blank()  #remove y axis ticks
+      
+      strip.text = element_text(size=15)
+    ) +
+    scale_y_continuous(
+      #trans='log10'
+      #labels = scales::comma,
+      #limits=c(1, 1000000),
+      #n.breaks = 6,
+      #labels=c("NA" = "", "1" = "1 MB", "10" = "10 MB", "100" = "100 MB", "1000" = "1 GB", "10000" = "10 GB", "100000" = "100 GB", "1000000" = "1 TB", "NA" = "")
+    ) +
+    scale_x_continuous(
+      #trans='log10',
+      #labels = scales::comma,
+      limits=c(min((z$query.length + z$target.length)/2), 500000),
+      n.breaks = 12
+    )
+}
+
+# Memory
+z <- statsWithMetadata_df[statsWithMetadata_df$statistic != 'time_s' & !is.nan(statsWithMetadata_df$value), ]
+levels(z$set)[match("ONT_UL_OTHER",levels(z$set))] <- "ONT Ultra Long"
+#levels(z$set)[match("ONT Ultra Long <= 10kbps",levels(z$set))] <- "ONT Ultra Long"
+#levels(z$set)[match("ONT Ultra Long > 500kbps",levels(z$set))] <- "ONT Ultra Long"
+z <- z[z$mode %in% c('WFA-high', 'BiWFA') & z$set %in% c('ONT Ultra Long'),]
+py <- ggplot(
+  z,
+  aes(x = (query.length + target.length) / 2, y = value / 1024, color = mode, alpha=I(1/3))
+) +
+  geom_point() +
+  #facet_wrap (
+  #  ~set,
+  #  ncol = 2
+  #) +
+  ggtitle('Memory consumption') +
+  xlab("Length (base pairs)") + ylab("") +  theme_bw() +
+  theme(
+    plot.title = element_text(hjust = 0.5, size=18),
+    legend.position = "top",
+    
+    axis.title=element_text(size=18),
+    
+    axis.text.x = element_text(angle = 30, vjust = 1.0, hjust=1, size=15),
+    #axis.title.x = element_blank(),
+    #axis.text.x=element_blank(), #remove x axis labels
+    #axis.ticks.x=element_blank(), #remove x axis ticks
+    
+    axis.text.y=element_text(size=15),
+    #axis.text.y=element_blank(),  #remove y axis labels
+    #axis.ticks.y=element_blank()  #remove y axis ticks
+    
+    strip.text = element_text(size=15),
+    
+    legend.title = element_text(size=15),
+    legend.text = element_text(size=14),
+  ) + guides(color=guide_legend(title="Algorithm")) +
+  scale_y_continuous(
+    trans='log10',
+    #labels = scales::comma,
+    limits=c(1, 1000000),
+    n.breaks = 6,
+    labels=c("NA" = "", "1" = "1 MB", "10" = "10 MB", "100" = "100 MB", "1000" = "1 GB", "10000" = "10 GB", "100000" = "100 GB", "1000000" = "1 TB", "NA" = "")
+  ) +
+  scale_x_continuous(
+    trans='log10',
+    #labels = scales::comma,
+    limits=c(min((z$query.length + z$target.length)/2), 500000),
+    n.breaks = 12
+  ) + 
+  scale_color_manual(values=c("#39B600", "#FF62BC"))
+py
+
+if(FALSE) {
+  library(dplyr)
+  zz <- z %>%
+    group_by(set, seq, statistic, query.length, target.length, score) %>%
+    summarise_at(vars(value), list(name = diff))
+  ggplot(
+    zz,
+    aes(x = (query.length + target.length) / 2, y = name, alpha=I(1/3))
+  ) +
+    geom_point() +
+    ggtitle('Memory consumption\nWFA-high - BiWFA') +
+    xlab("Length") + ylab("") +  theme_bw() +
+    theme(
+      plot.title = element_text(hjust = 0.5, size=18),
+      legend.position = "none",
+      
+      axis.title=element_text(size=18),
+      
+      axis.text.x = element_text(angle = 30, vjust = 1.0, hjust=1, size=15),
+      #axis.title.x = element_blank(),
+      #axis.text.x=element_blank(), #remove x axis labels
+      #axis.ticks.x=element_blank(), #remove x axis ticks
+      
+      axis.text.y=element_text(size=15),
+      #axis.text.y=element_blank(),  #remove y axis labels
+      #axis.ticks.y=element_blank()  #remove y axis ticks
+      
+      strip.text = element_text(size=15)
+    ) +
+    scale_y_continuous(
+      trans='log10',
+      #labels = scales::comma,
+      limits=c(1, 1000000),
+      n.breaks = 6,
+      labels=c("NA" = "", "1" = "1 MB", "10" = "10 MB", "100" = "100 MB", "1000" = "1 GB", "10000" = "10 GB", "100000" = "100 GB", "1000000" = "1 TB", "NA" = "")
+    ) +
+    scale_x_continuous(
+      #trans='log10',
+      #labels = scales::comma,
+      limits=c(min((z$query.length + z$target.length)/2), 500000),
+      n.breaks = 12
+    )
+}
+
+# Plot both and save the image
+pxy <- ggpubr::ggarrange(
+  px, py,
+  align='v',
+  labels=c('A', 'B'),
+  heights=c(1, 1.25),
+  font.label = list(size = 18),
+  legend = "right", # legend position,
+  common.legend = T,
+  nrow = 2
+) + 
+  theme(plot.margin = margin(0.3, 0.3, 0.3, 0.3, "cm")) # to avoid cutting labels
+pxy
+ggsave(plot = pxy, paste0('FigureS2', '.pdf'), width = 30, height = 20, units = "cm", dpi = 300, bg = "transparent", limitsize = FALSE)
 ################################################################################

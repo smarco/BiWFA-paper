@@ -139,18 +139,18 @@ done
 ```
 
 
-## ONT MinION > 500 kbps
+## ONT MinION
 
 Prepare sequence pairs:
 
 ```shell
 FILTER_SEQ_PY=/gpfs/projects/bsc18/bsc18995/biwfa/BiWFA-paper/evaluation/scripts/filter_seq.py
 
-# Long reads
+# Long reads (> 500 kbps)
 mkdir -p /gpfs/projects/bsc18/bsc18995/biwfa/ont_ul/seq_pairs
 
 c=1
-cat /gpfs/projects/bsc18/bsc18571/wfa2/datasets/real/Nanopore.UL.100K.seq | python3 $FILTER_SEQ_PY 500000 9999999999 | \
+cat /gpfs/projects/bsc18/bsc18571/wfa2/datasets/real/Nanopore.UL.100K.seq | python3 $FILTER_SEQ_PY 500001 9999999999 | \
   while read -r line1; do
   read -r line2
 
@@ -160,7 +160,7 @@ cat /gpfs/projects/bsc18/bsc18571/wfa2/datasets/real/Nanopore.UL.100K.seq | pyth
   c=$((c + 1))
 done
 
-# Short reads (<= 10000 bps)
+# Short reads (<= 10 kbps)
 mkdir -p /gpfs/projects/bsc18/bsc18995/biwfa/ont_ul_10kbps/seq_pairs
 
 c=1
@@ -170,6 +170,20 @@ cat /gpfs/projects/bsc18/bsc18571/wfa2/datasets/real/Nanopore.UL.100K.seq | pyth
 
   echo $line1 > /gpfs/projects/bsc18/bsc18995/biwfa/ont_ul_10kbps/seq_pairs/seq$c.seq
   echo $line2 >> /gpfs/projects/bsc18/bsc18995/biwfa/ont_ul_10kbps/seq_pairs/seq$c.seq
+        
+  c=$((c + 1))
+done
+
+# Other reads (<= 500 kbps)
+mkdir -p /gpfs/projects/bsc18/bsc18995/biwfa/ont_ul_500kbps/seq_pairs
+
+c=1
+cat /gpfs/projects/bsc18/bsc18571/wfa2/datasets/real/Nanopore.UL.100K.seq | python3 $FILTER_SEQ_PY 0 500000 | head -n 60000 | \
+  while read -r line1; do
+  read -r line2
+
+  echo $line1 > /gpfs/projects/bsc18/bsc18995/biwfa/ont_ul_500kbps/seq_pairs/seq$c.seq
+  echo $line2 >> /gpfs/projects/bsc18/bsc18995/biwfa/ont_ul_500kbps/seq_pairs/seq$c.seq
         
   c=$((c + 1))
 done
@@ -209,7 +223,7 @@ ls /gpfs/projects/bsc18/bsc18995/biwfa/ont_ul/seq_pairs/*.seq | while read PATH_
   sbatch -c 128 --exclusive --job-name ksw2-ont_ul      --wrap 'echo wfalm-ont_ul;     echo '$NAME'; TMPFOLDER=/scratch/tmp/$SLURM_JOBID; cd $TMPFOLDER; \time -v '${RUN_BENCHMARK}' -i '${PATH_SEQ}' --affine-penalties 0,4,6,2 -a ksw2-extz2-sse                        --check correct --output '${PREFIX}'.ksw2-extz2-sse.out 2> '${PREFIX}'.ksw2-extz2-sse.log'
 done
 
-# Short reads (<= 10000 bps)
+# Short reads (<= 10 kbps)
 cd /gpfs/projects/bsc18/bsc18995/biwfa/ont_ul_10kbps/
 
 DIR_OUTPUT=/gpfs/projects/bsc18/bsc18995/biwfa/ont_ul_10kbps/seq_alignments
@@ -229,6 +243,17 @@ sbatch -c 128 --exclusive --job-name wfalm-rec-ont_ul --wrap 'echo wfalm-rec-ont
 sbatch -c 128 --exclusive --job-name edlib-ont_ul     --wrap 'echo edlib-ont_ul;     ls /gpfs/projects/bsc18/bsc18995/biwfa/ont_ul_10kbps/seq_pairs/*.seq | while read PATH_SEQ; do NAME=$(basename $PATH_SEQ .seq); PREFIX='$DIR_OUTPUT'/$NAME; TMPFOLDER=/scratch/tmp/$SLURM_JOBID; cd $TMPFOLDER; echo $NAME; \time -v '${RUN_BENCHMARK}' -i ${PATH_SEQ} --affine-penalties 0,4,6,2 -a edlib                                 --check correct --output ${PREFIX}.edlib.out          2> ${PREFIX}.edlib.log; done'
 sbatch -c 128 --exclusive --job-name bitpal-ont_ul    --wrap 'echo bitpal-ont_ul;    ls /gpfs/projects/bsc18/bsc18995/biwfa/ont_ul_10kbps/seq_pairs/*.seq | while read PATH_SEQ; do NAME=$(basename $PATH_SEQ .seq); PREFIX='$DIR_OUTPUT'/$NAME; TMPFOLDER=/scratch/tmp/$SLURM_JOBID; cd $TMPFOLDER; echo $NAME; \time -v '${RUN_BENCHMARK}' -i ${PATH_SEQ} --affine-penalties 0,4,6,2 -a bitpal-scored                         --check correct --output ${PREFIX}.bitpal-scored.out  2> ${PREFIX}.bitpal-scored.log; done'
 sbatch -c 128 --exclusive --job-name ksw2-ont_ul      --wrap 'echo ksw2-ont_ul;      ls /gpfs/projects/bsc18/bsc18995/biwfa/ont_ul_10kbps/seq_pairs/*.seq | while read PATH_SEQ; do NAME=$(basename $PATH_SEQ .seq); PREFIX='$DIR_OUTPUT'/$NAME; TMPFOLDER=/scratch/tmp/$SLURM_JOBID; cd $TMPFOLDER; echo $NAME; \time -v '${RUN_BENCHMARK}' -i ${PATH_SEQ} --affine-penalties 0,4,6,2 -a ksw2-extz2-sse                        --check correct --output ${PREFIX}.ksw2-extz2-sse.out 2> ${PREFIX}.ksw2-extz2-sse.log; done'
+
+# Other reads (<= 500 kbps)
+cd /gpfs/projects/bsc18/bsc18995/biwfa/ont_ul_500kbps/
+
+DIR_OUTPUT=/gpfs/projects/bsc18/bsc18995/biwfa/ont_ul_500kbps/seq_alignments
+mkdir -p $DIR_OUTPUT
+
+# No `*.seq` to avoid the `-bash: /usr/bin/ls: Argument list too long` error
+# NOTE: keep the single ', to avoid bash variables interpolation before sending the jobs
+sbatch -c 128 --exclusive --job-name biwfa-ont_ul     --wrap 'echo biwfa-ont_ul;     ls /gpfs/projects/bsc18/bsc18995/biwfa/ont_ul_500kbps/seq_pairs/*.seq | while read PATH_SEQ; do NAME=$(basename $PATH_SEQ .seq); PREFIX='$DIR_OUTPUT'/$NAME; TMPFOLDER=/scratch/tmp/$SLURM_JOBID; cd $TMPFOLDER; echo $NAME; \time -v '${RUN_BENCHMARK}' -i ${PATH_SEQ} --affine-penalties 0,4,6,2 -a gap-affine-wfa --wfa-bidirectional    --check correct --output ${PREFIX}.biwfa.out          2> ${PREFIX}.biwfa.log; done'
+sbatch -c 128 --exclusive --job-name wfa-high-ont_ul  --wrap 'echo wfa-high-ont_ul;  ls /gpfs/projects/bsc18/bsc18995/biwfa/ont_ul_500kbps/seq_pairs/*.seq | while read PATH_SEQ; do NAME=$(basename $PATH_SEQ .seq); PREFIX='$DIR_OUTPUT'/$NAME; TMPFOLDER=/scratch/tmp/$SLURM_JOBID; cd $TMPFOLDER; echo $NAME; \time -v '${RUN_BENCHMARK}' -i ${PATH_SEQ} --affine-penalties 0,4,6,2 -a gap-affine-wfa --wfa-memory-mode high --check correct --output ${PREFIX}.wfa-high.out       2> ${PREFIX}.wfa-high.log; done'
 ```
 
 Collect statistics:
@@ -250,7 +275,7 @@ ls seq_pairs/*.seq | while read PATH_SEQ; do
   cat $PATH_SEQ | tr '\n' ' ' | less -S | awk -v OFS='\t' -v SET="ONT_UL" -v NAME=$NAME '{print(SET, NAME, length($1), length($2))}' >> seq_statistics/lengths.tsv
 done
 
-# Short reads (<= 10000 bps)
+# Short reads (<= 10 kbps)
 cd /gpfs/projects/bsc18/bsc18995/biwfa/ont_ul_10kbps/
 mkdir -p seq_statistics/
 
@@ -264,6 +289,22 @@ ls seq_pairs/*.seq | while read PATH_SEQ; do
   PREFIX=seq_alignments/$SET/$NAME
     
   cat $PATH_SEQ | tr '\n' ' ' | less -S | awk -v OFS='\t' -v SET="ONT_UL_SHORT" -v NAME=$NAME '{print(SET, NAME, length($1), length($2))}' >> seq_statistics/lengths.tsv
+done
+
+# Other reads (<= 500 kbps)
+cd /gpfs/projects/bsc18/bsc18995/biwfa/ont_ul_500kbps/
+mkdir -p seq_statistics/
+
+rm seq_statistics/lengths.tsv
+
+cat seq_alignments/*.log | python3 ../log2info.py | awk -v OFS='\t' -v SET='ONT_UL_OTHER' '{print(SET,$0)}' > seq_statistics/statistics.tsv
+grep '^-' seq_alignments/*.out | cut -f 1 | cut -f 2 -d '/' | sed 's/out://' | tr '.' '\t' | awk -v OFS='\t' -v SET="ONT_UL_OTHER" '{print(SET,$0)}' > seq_statistics/scores.tsv
+
+ls seq_pairs/*.seq | while read PATH_SEQ; do
+  NAME=$(basename $PATH_SEQ .seq)
+  PREFIX=seq_alignments/$SET/$NAME
+    
+  cat $PATH_SEQ | tr '\n' ' ' | less -S | awk -v OFS='\t' -v SET="ONT_UL_OTHER" -v NAME=$NAME '{print(SET, NAME, length($1), length($2))}' >> seq_statistics/lengths.tsv
 done
 ```
 
@@ -339,14 +380,17 @@ cd /gpfs/projects/bsc18/bsc18995/biwfa
 cat hsapiens/seq_statistics/statistics.tsv > statistics_all.tsv
 cat ont_ul/seq_statistics/statistics.tsv >> statistics_all.tsv
 cat ont_ul_10kbps/seq_statistics/statistics.tsv >> statistics_all.tsv
+cat ont_ul_500kbps/seq_statistics/statistics.tsv >> statistics_all.tsv
 
 cat hsapiens/seq_statistics/scores.tsv > scores_all.tsv
 cat ont_ul/seq_statistics/scores.tsv >> scores_all.tsv
 cat ont_ul_10kbps/seq_statistics/scores.tsv >> scores_all.tsv
+cat ont_ul_500kbps/seq_statistics/scores.tsv >> scores_all.tsv
 
 cat hsapiens/seq_statistics/lengths.tsv > lengths_all.tsv
 cat ont_ul/seq_statistics/lengths.tsv >> lengths_all.tsv
 cat ont_ul_10kbps/seq_statistics/lengths.tsv >> lengths_all.tsv
+cat ont_ul_500kbps/seq_statistics/lengths.tsv >> lengths_all.tsv
 ```
 
 Plot the statistics with the `scripts/plots.R` script.
