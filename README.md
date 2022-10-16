@@ -67,7 +67,7 @@ The *align-benchmark* tool will finish and report overall benchmark time (includ
 If you want to measure the accuracy of the alignment method, you can add the option `--check` and all the alignments will be verified. 
 
 ```
-$> ./bin/align_benchmark -i sample.dataset.seq --wfa-bidirectional --check
+$> ./bin/align_benchmark -i sample.dataset.seq --wfa-memory-mode ultralow --check
 ...processed 10000 reads (benchmark=14596.232 reads/s;alignment=201373.984 reads/s)
 ...processed 20000 reads (benchmark=13807.268 reads/s;alignment=194224.922 reads/s)
 [...]
