@@ -2,7 +2,9 @@
 
 ### 1. WHAT IS BIDIRECTIONAL WFA (BiWFA)?
 
-The bidirectional WFA (BiWFA) algorithm is the first gap-affine algorithm capable of computing optimal alignments in `O(s)` memory while retaining the WFA's time complexity of `O(ns)`.
+This repository is a WFA2-lib development branch implementing the bidirectional WFA (BiWFA) algorithm capable of `O(ns)` alignment using `O(s)` memory.
+
+BiWFA is the first gap-affine algorithm capable of computing optimal alignments in `O(s)` memory while retaining the WFA's time complexity of `O(ns)`.
 The core idea of the BiWFA algorithm is to perform the WFA algorithm simultaneously in both directions on the strings: from start to end, and from end to start.
 Each direction will only retain `max{x,o+e}` wavefronts in memory.
 This is insufficient to perform a full traceback.
@@ -14,6 +16,11 @@ In practice, our implementation never requires more than a few hundred MBs align
 <img src = "img/biwfa.png" width="300px">
 </p>
 
+Usage: Same as [WFA2-lib](https://github.com/smarco/WFA2-lib), adding the option `--wfa-bidirectional`
+
+```
+./bin/align_benchmark -i sequences.seq -o out.alg --affine-penalties 0,3,6,1 --wfa-bidirectional
+```
 
 For more documentation on the library and other features, go to [WFA2-lib](https://github.com/smarco/WFA2-lib).
 
@@ -24,12 +31,11 @@ For more documentation on the library and other features, go to [WFA2-lib](https
 
 ### 1.1 Getting started
 
-The up-to-date version of BiWFA is provided in the [WFA2-lib](https://github.com/smarco/WFA2-lib) repository (the memory mode `ultralow` uses the BiWFA algorithm).
-Therefore, git clone and compile the library, tools, and examples:
+Git clone and compile the library, tools, and examples.
 
 ```
-git clone https://github.com/smarco/WFA2-lib
-cd WFA2-lib
+git clone https://github.com/smarco/BiWFA-paper
+cd BiWFA-paper
 make clean all
 ```
 
@@ -48,11 +54,10 @@ Example:
 [...]
 ```
 
-Once you have the dataset ready, you can run the *align-benchmark* tool to benchmark the performance.
-Remember to specify `--wfa-memory-mode ultralow` to use the BiWFA algorithm.
+Once you have the dataset ready, you can run the *align-benchmark* tool to benchmark the performance:
 
 ```
-$> ./bin/align_benchmark -i sample.dataset.seq ---wfa-memory-mode ultralow
+$> ./bin/align_benchmark -i sample.dataset.seq ---wfa-bidirectional
 ...processed 10000 reads (benchmark=125804.398 reads/s;alignment=188049.469 reads/s)
 ...processed 20000 reads (benchmark=117722.406 reads/s;alignment=180925.031 reads/s)
 [...]
@@ -67,7 +72,7 @@ The *align-benchmark* tool will finish and report overall benchmark time (includ
 If you want to measure the accuracy of the alignment method, you can add the option `--check` and all the alignments will be verified. 
 
 ```
-$> ./bin/align_benchmark -i sample.dataset.seq --wfa-memory-mode ultralow --check
+$> ./bin/align_benchmark -i sample.dataset.seq --wfa-bidirectional --check
 ...processed 10000 reads (benchmark=14596.232 reads/s;alignment=201373.984 reads/s)
 ...processed 20000 reads (benchmark=13807.268 reads/s;alignment=194224.922 reads/s)
 [...]
