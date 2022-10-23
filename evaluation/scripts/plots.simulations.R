@@ -125,7 +125,7 @@ py
 
 # Plot both and save the image
 pxy <- ggpubr::ggarrange(
-  py, px,
+  px, py,
   align='v',
   labels=c('A', 'B'),
   heights=c(1, 1.2),

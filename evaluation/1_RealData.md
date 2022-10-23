@@ -208,7 +208,7 @@ cat seq_alignments/$SET/*/*.log | python3 ../log2info.py | awk -v OFS='\t' -v SE
 #  done
 #done
 
-grep '^-' seq_alignments/$SET/*/*.1.*.out | cut -f 1 | cut -f 4 -d '/' | sed 's/out://' | tr '.' '\t' | awk -v OFS='\t' -v SET=$SET '{print(SET,$0)}' | grep bitpal-scored -v > seq_statistics/scores.10kbps.tsv
+grep '^-' seq_alignments/$SET/*/*.*.out | cut -f 1 | cut -f 4 -d '/' | sed 's/out://' | tr '.' '\t' | awk -v OFS='\t' -v SET=$SET '{print(SET,$0)}' | grep bitpal-scored -v > seq_statistics/scores.10kbps.tsv
   
 ls seq_pairs/$SET/*.seq | while read PATH_SEQ; do
   NAME=$(basename $PATH_SEQ .seq)
@@ -358,27 +358,27 @@ ls seq_pairs/*.seq | while read PATH_SEQ; do
   cat $PATH_SEQ | tr '\n' ' ' | less -S | awk -v OFS='\t' -v SET="ONT_UL" -v NAME=$NAME '{print(SET, NAME, length($1)-1, length($2)-1)}' >> seq_statistics/lengths.tsv
 done
 
-# Short reads (<= 10 kbps)
+# Short reads (<= 10 kbps) for ont_regions
 cd /gpfs/projects/bsc18/bsc18995/biwfa/ont_ul_10kbps/
 mkdir -p seq_statistics/
 
-# Short reads (<= 10 kbps) for ont_regions
 rm seq_statistics/statistics.10kbps.tsv
 rm seq_statistics/scores.10kbps.tsv
 rm seq_statistics/lengths.10kbps.tsv
 
-for ALG in  biwfa wfa-med wfa-low wfa-high wfalm wfalm-lowmem wfalm-rec edlib bitpal-scored ksw2-extz2-sse; do
-  echo $ALG
-  cat seq_alignments/*/*.$ALG.log | python3 ../log2info.py | awk -v OFS='\t' -v SET="ONT_UL_SHORT" '{print(SET,$0)}' >> seq_statistics/statistics.10kbps.tsv
-  grep '^-' seq_alignments/*/*.1.$ALG.out | cut -f 1 | cut -f 4 -d '/' | sed 's/out://' | tr '.' '\t' | awk -v OFS='\t' -v SET="ONT_UL_SHORT" '{print(SET,$0)}' | grep bitpal-scored -v >> seq_statistics/scores.10kbps.tsv
+for ALG in biwfa wfa-med wfa-low wfa-high wfalm wfalm-lowmem wfalm-rec edlib bitpal-scored ksw2-extz2-sse; do
+    echo $ALG
+    seq 1 100 | while read i; do
+      echo $i
+      cat seq_alignments/*/*.$i.$ALG.log | python3 ../log2info.py | awk -v OFS='\t' -v SET="ONT_UL_SHORT" '{print(SET,$0)}' >> seq_statistics/statistics.10kbps.tsv
+    done
+    grep '^-' seq_alignments/*/*.$ALG.out | cut -f 1 | cut -f 3 -d '/' | sed 's/out://' | tr '.' '\t' | awk -v OFS='\t' -v SET="ONT_UL_SHORT" '{print(SET,$0)}' | grep bitpal-scored -v >> seq_statistics/scores.10kbps.tsv
 done
 
 ls seq_pairs/*.seq | while read PATH_SEQ; do
   NAME=$(basename $PATH_SEQ .seq)
   cat $PATH_SEQ | tr '\n' ' ' | less -S | awk -v OFS='\t' -v SET="ONT_UL_SHORT" -v NAME=$NAME '{print(SET, NAME, length($1)-1, length($2)-1)}' >> seq_statistics/lengths.10kbps.tsv
 done
-
-
 
 # Other reads (<= 500 kbps)
 cd /gpfs/projects/bsc18/bsc18995/biwfa/ont_ul_500kbps/
@@ -469,19 +469,26 @@ Merge all statistics:
 cd /gpfs/projects/bsc18/bsc18995/biwfa
 
 cat hsapiens/seq_statistics/statistics.tsv > statistics_all.tsv
+cat hsapiens/seq_statistics/statistics.10kbps.tsv >> statistics_all.tsv
 cat ont_ul/seq_statistics/statistics.tsv >> statistics_all.tsv
-cat ont_ul_10kbps/seq_statistics/statistics.tsv >> statistics_all.tsv
+cat ont_ul_10kbps/seq_statistics/statistics.10kbps.tsv >> statistics_all.tsv
 cat ont_ul_500kbps/seq_statistics/statistics.tsv >> statistics_all.tsv
 
 cat hsapiens/seq_statistics/scores.tsv > scores_all.tsv
+cat hsapiens/seq_statistics/scores.10kbps.tsv >> scores_all.tsv
 cat ont_ul/seq_statistics/scores.tsv >> scores_all.tsv
-cat ont_ul_10kbps/seq_statistics/scores.tsv >> scores_all.tsv
+cat ont_ul_10kbps/seq_statistics/scores.10kbps.tsv >> scores_all.tsv
 cat ont_ul_500kbps/seq_statistics/scores.tsv >> scores_all.tsv
 
 cat hsapiens/seq_statistics/lengths.tsv > lengths_all.tsv
+cat hsapiens/seq_statistics/lengths.10kbps.tsv >> lengths_all.tsv
 cat ont_ul/seq_statistics/lengths.tsv >> lengths_all.tsv
-cat ont_ul_10kbps/seq_statistics/lengths.tsv >> lengths_all.tsv
+cat ont_ul_10kbps/seq_statistics/lengths.10kbps.tsv >> lengths_all.tsv
 cat ont_ul_500kbps/seq_statistics/lengths.tsv >> lengths_all.tsv
+
+pigz statistics_all.tsv -f
+pigz scores_all.tsv -f
+pigz lengths_all.tsv -f
 ```
 
 Plot the statistics with the `scripts/plots.R` script.
