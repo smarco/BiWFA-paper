@@ -57,7 +57,7 @@ Example:
 Once you have the dataset ready, you can run the *align-benchmark* tool to benchmark the performance:
 
 ```
-$> ./bin/align_benchmark -i sample.dataset.seq ---wfa-bidirectional
+$> ./bin/align_benchmark -i sample.dataset.seq --wfa-bidirectional
 ...processed 10000 reads (benchmark=125804.398 reads/s;alignment=188049.469 reads/s)
 ...processed 20000 reads (benchmark=117722.406 reads/s;alignment=180925.031 reads/s)
 [...]

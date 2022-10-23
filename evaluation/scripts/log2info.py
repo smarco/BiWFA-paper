@@ -7,6 +7,7 @@ seq_name = ''
 algorithm = ''
 elapsed_wall_clock_time = ''
 max_resident_set_size = ''
+num_replicate = ''
 
 error = False
 
@@ -39,10 +40,10 @@ for line in sys.stdin:
 
         if 'gap-affine-wfa' in line:
             # The old align_benchmark had the --wfa-bidirectional flag
-            #if 'wfa-bidirectional' in line:
-            #    algorithm = 'biwfa'
-            #else:
-            algorithm = 'wfa-' + line.split('--wfa-memory-mode ')[1].split(' ')[0].strip()
+            if 'wfa-bidirectional' in line:
+                algorithm = 'biwfa'
+            else:
+                algorithm = 'wfa-' + line.split('--wfa-memory-mode ')[1].split(' ')[0].strip()
         else:
             algorithm = line.split(' -a ')[1].split(' ')[0].strip()
 
@@ -58,12 +59,18 @@ for line in sys.stdin:
 
         # Check if the basic information is available
         if seq_name and algorithm:
-            print('\t'.join([seq_name, algorithm, elapsed_wall_clock_time, 'time_s']))
-            print('\t'.join([seq_name, algorithm, max_resident_set_size, 'memory_kb']))
+            if not num_replicate:
+                num_replicate = '1'
+            print('\t'.join([seq_name, algorithm, num_replicate, elapsed_wall_clock_time, 'time_s']))
+            print('\t'.join([seq_name, algorithm, num_replicate, max_resident_set_size, 'memory_kb']))
 
         seq_name = ''
         algorithm = ''
         elapsed_wall_clock_time = ''
         max_resident_set_size = ''
+        num_replicate = ''
 
         error = False
+    elif 'Replicate ' in line:
+        num_replicate = line.strip().split(' ')[-1]
+

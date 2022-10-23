@@ -34,6 +34,7 @@ Prepare sequence pairs:
 cd /gpfs/projects/bsc18/bsc18995/biwfa/hsapiens
 
 mkdir -p seq_pairs/mat_regions/
+mkdir -p seq_pairs/mat_regions_10kbps/
 ls mat_hprc_regions/mat_hprc_regions/*.fa | while read PATH_QUERY_FA; do
   NAME=$(basename $PATH_QUERY_FA .fa)
   echo $NAME
@@ -43,9 +44,16 @@ ls mat_hprc_regions/mat_hprc_regions/*.fa | while read PATH_QUERY_FA; do
 
   grep '^>' -v $PATH_QUERY_FA | tr -d '\n' | sed 's/^/>/' | sed 's/$/\n/' > $PATH_SEQ
   grep '^>' -v $PATH_TARGET_FA | tr -d '\n' | sed 's/^/</' >> $PATH_SEQ
+  
+  A_LEN=$(head $PATH_SEQ -n 1 | awk '{ print length-1 }')
+  B_LEN=$(tail $PATH_SEQ -n 1 | awk '{ print length-1 }')
+  if [ "$A_LEN" -le 10000 ] && [ "$B_LEN" -le 10000 ]; then
+    cp $PATH_SEQ seq_pairs/mat_regions_10kbps/$NAME.seq
+  fi
 done
 
 mkdir -p seq_pairs/pat_regions/
+mkdir -p seq_pairs/pat_regions_10kbps/
 ls pat_hprc_regions/pat_hprc_regions/*.fa | while read PATH_QUERY_FA; do
   NAME=$(basename $PATH_QUERY_FA .fa)
   echo $NAME
@@ -55,9 +63,16 @@ ls pat_hprc_regions/pat_hprc_regions/*.fa | while read PATH_QUERY_FA; do
 
   grep '^>' -v $PATH_QUERY_FA | tr -d '\n' | sed 's/^/>/' | sed 's/$/\n/' > $PATH_SEQ
   grep '^>' -v $PATH_TARGET_FA | tr -d '\n' | sed 's/^/</' >> $PATH_SEQ
+  
+  A_LEN=$(head $PATH_SEQ -n 1 | awk '{ print length-1 }')
+  B_LEN=$(tail $PATH_SEQ -n 1 | awk '{ print length-1 }')
+  if [ "$A_LEN" -le 10000 ] && [ "$B_LEN" -le 10000 ]; then
+    cp $PATH_SEQ seq_pairs/pat_regions_10kbps/$NAME.seq
+  fi
 done
 
 mkdir -p seq_pairs/ont_regions/
+mkdir -p seq_pairs/ont_regions_10kbps/
 ls ont_read_fastas/ont_read_fastas/*.fa | while read PATH_QUERY_FA; do
   NAME=$(basename $PATH_QUERY_FA .fa)
   echo $NAME
@@ -67,9 +82,16 @@ ls ont_read_fastas/ont_read_fastas/*.fa | while read PATH_QUERY_FA; do
 
   grep '^>' -v $PATH_QUERY_FA | tr -d '\n' | sed 's/^/>/' | sed 's/$/\n/' > $PATH_SEQ
   grep '^>' -v $PATH_TARGET_FA | tr -d '\n' | sed 's/^/</' >> $PATH_SEQ
+  
+  A_LEN=$(head $PATH_SEQ -n 1 | awk '{ print length-1 }')
+  B_LEN=$(tail $PATH_SEQ -n 1 | awk '{ print length-1 }')
+  if [ "$A_LEN" -le 10000 ] && [ "$B_LEN" -le 10000 ]; then
+    cp $PATH_SEQ seq_pairs/ont_regions_10kbps/$NAME.seq
+  fi
 done
 
 mkdir -p seq_pairs/hsat1_regions/
+mkdir -p seq_pairs/hsat1_regions_10kbps/
 ls chr13_hsat1_read_fastas/chr13_hsat1_read_fastas/*.fa | while read PATH_QUERY_FA; do
   NAME=$(basename $PATH_QUERY_FA .fa)
   echo $NAME
@@ -77,8 +99,14 @@ ls chr13_hsat1_read_fastas/chr13_hsat1_read_fastas/*.fa | while read PATH_QUERY_
   PATH_TARGET_FA=chr13_hsat1_ref_mapping_fastas/chr13_hsat1_ref_mapping_fastas/$NAME.fa
   PATH_SEQ=seq_pairs/hsat1_regions/$NAME.seq
 
-  grep '^>' -v $PATH_QUERY_FA | tr -d '\n' | sed 's/^/>/' | sed 's/$/\n/' > $PATH_SEQ
-  grep '^>' -v $PATH_TARGET_FA | tr -d '\n' | sed 's/^/</' >> $PATH_SEQ
+  #grep '^>' -v $PATH_QUERY_FA | tr -d '\n' | sed 's/^/>/' | sed 's/$/\n/' > $PATH_SEQ
+  #grep '^>' -v $PATH_TARGET_FA | tr -d '\n' | sed 's/^/</' >> $PATH_SEQ
+  
+  A_LEN=$(head $PATH_SEQ -n 1 | awk '{ print length-1 }')
+  B_LEN=$(tail $PATH_SEQ -n 1 | awk '{ print length-1 }')
+  if [ "$A_LEN" -le 10000 ] && [ "$B_LEN" -le 10000 ]; then
+    cp $PATH_SEQ seq_pairs/hsat1_regions_10kbps/$NAME.seq
+  fi
 done
 ```
 
@@ -89,7 +117,8 @@ module load cmake gcc/10.2.0
 
 cd /gpfs/projects/bsc18/bsc18995/biwfa/hsapiens
 
-ls seq_pairs/ | while read SET; do
+# All sequences
+ls seq_pairs/ | grep -v 10kbp | while read SET; do
   echo $SET
 
   DIR_OUTPUT=/gpfs/projects/bsc18/bsc18995/biwfa/hsapiens/seq_alignments/$SET
@@ -110,6 +139,28 @@ ls seq_pairs/ | while read SET; do
   sbatch -c 128 --exclusive --job-name bitpal-$SET     --wrap 'echo bitpal-'$SET';    ls /gpfs/projects/bsc18/bsc18995/biwfa/hsapiens/seq_pairs/'$SET'/*.seq | while read PATH_SEQ; do NAME=$(basename $PATH_SEQ .seq); PREFIX='$DIR_OUTPUT'/$NAME; TMPFOLDER=/scratch/tmp/$SLURM_JOBID; cd $TMPFOLDER; echo $NAME; \time -v '${RUN_BENCHMARK}' -i ${PATH_SEQ} --affine-penalties 0,4,6,2 -a bitpal-scored                             --check correct --output ${PREFIX}.bitpal-scored.out  2> ${PREFIX}.bitpal-scored.log; done'
   sbatch -c 128 --exclusive --job-name ksw2-$SET       --wrap 'echo ksw2-'$SET';      ls /gpfs/projects/bsc18/bsc18995/biwfa/hsapiens/seq_pairs/'$SET'/*.seq | while read PATH_SEQ; do NAME=$(basename $PATH_SEQ .seq); PREFIX='$DIR_OUTPUT'/$NAME; TMPFOLDER=/scratch/tmp/$SLURM_JOBID; cd $TMPFOLDER; echo $NAME; \time -v '${RUN_BENCHMARK}' -i ${PATH_SEQ} --affine-penalties 0,4,6,2 -a ksw2-extz2-sse                            --check correct --output ${PREFIX}.ksw2-extz2-sse.out 2> ${PREFIX}.ksw2-extz2-sse.log; done'
 done
+
+# Short reads (<= 10 kbps) for ont_regions
+# Small runtimes require multiple runs to take their averages (for the time) and maximum (for the memory)
+SET=ont_regions_10kbps
+DIR_OUTPUT=/gpfs/projects/bsc18/bsc18995/biwfa/hsapiens/seq_alignments/$SET
+mkdir -p $DIR_OUTPUT
+
+# Write just one .out file, not one for each replicate
+RUN_BENCHMARK=/gpfs/projects/bsc18/bsc18995/biwfa/WFA2-lib/bin/align_benchmark
+sbatch -c 128 --exclusive --job-name biwfa-$SET      --wrap 'echo biwfa-'$SET';     ls /gpfs/projects/bsc18/bsc18995/biwfa/hsapiens/seq_pairs/'$SET'/*.seq | while read PATH_SEQ; do NAME=$(basename $PATH_SEQ .seq); seq 1 100 | while read i; do PREFIX='$DIR_OUTPUT'/$NAME/$NAME; mkdir -p '$DIR_OUTPUT'/$NAME/; TMPFOLDER=/scratch/tmp/$SLURM_JOBID; cd $TMPFOLDER; echo $NAME; echo "Replicate $i" > ${PREFIX}.$i.biwfa.log;          \time -v '${RUN_BENCHMARK}' -i ${PATH_SEQ} --affine-penalties 0,4,6,2 -a gap-affine-wfa --wfa-memory-mode ultralow --check correct --output ${PREFIX}.biwfa.out          2>> ${PREFIX}.$i.biwfa.log; done; done'
+sbatch -c 128 --exclusive --job-name wfa-med-$SET    --wrap 'echo wfa-med-'$SET';   ls /gpfs/projects/bsc18/bsc18995/biwfa/hsapiens/seq_pairs/'$SET'/*.seq | while read PATH_SEQ; do NAME=$(basename $PATH_SEQ .seq); seq 1 100 | while read i; do PREFIX='$DIR_OUTPUT'/$NAME/$NAME; mkdir -p '$DIR_OUTPUT'/$NAME/; TMPFOLDER=/scratch/tmp/$SLURM_JOBID; cd $TMPFOLDER; echo $NAME; echo "Replicate $i" > ${PREFIX}.$i.wfa-med.log;        \time -v '${RUN_BENCHMARK}' -i ${PATH_SEQ} --affine-penalties 0,4,6,2 -a gap-affine-wfa --wfa-memory-mode med      --check correct --output ${PREFIX}.wfa-med.out        2>> ${PREFIX}.$i.wfa-med.log; done; done'
+sbatch -c 128 --exclusive --job-name wfa-low-$SET    --wrap 'echo wfa-low-'$SET';   ls /gpfs/projects/bsc18/bsc18995/biwfa/hsapiens/seq_pairs/'$SET'/*.seq | while read PATH_SEQ; do NAME=$(basename $PATH_SEQ .seq); seq 1 100 | while read i; do PREFIX='$DIR_OUTPUT'/$NAME/$NAME; mkdir -p '$DIR_OUTPUT'/$NAME/; TMPFOLDER=/scratch/tmp/$SLURM_JOBID; cd $TMPFOLDER; echo $NAME; echo "Replicate $i" > ${PREFIX}.$i.wfa-low.log;        \time -v '${RUN_BENCHMARK}' -i ${PATH_SEQ} --affine-penalties 0,4,6,2 -a gap-affine-wfa --wfa-memory-mode low      --check correct --output ${PREFIX}.wfa-low.out        2>> ${PREFIX}.$i.wfa-low.log; done; done'
+sbatch -c 128 --exclusive --job-name wfa-high-$SET   --wrap 'echo wfa-high-'$SET';  ls /gpfs/projects/bsc18/bsc18995/biwfa/hsapiens/seq_pairs/'$SET'/*.seq | while read PATH_SEQ; do NAME=$(basename $PATH_SEQ .seq); seq 1 100 | while read i; do PREFIX='$DIR_OUTPUT'/$NAME/$NAME; mkdir -p '$DIR_OUTPUT'/$NAME/; TMPFOLDER=/scratch/tmp/$SLURM_JOBID; cd $TMPFOLDER; echo $NAME; echo "Replicate $i" > ${PREFIX}.$i.wfa-high.log;       \time -v '${RUN_BENCHMARK}' -i ${PATH_SEQ} --affine-penalties 0,4,6,2 -a gap-affine-wfa --wfa-memory-mode high     --check correct --output ${PREFIX}.wfa-high.out       2>> ${PREFIX}.$i.wfa-high.log; done; done'
+
+RUN_BENCHMARK=/gpfs/projects/bsc18/bsc18995/biwfa/BiWFA-paper/bin/align_benchmark
+sbatch -c 128 --exclusive --job-name wfalm-$SET      --wrap 'echo wfalm-'$SET';     ls /gpfs/projects/bsc18/bsc18995/biwfa/hsapiens/seq_pairs/'$SET'/*.seq | while read PATH_SEQ; do NAME=$(basename $PATH_SEQ .seq); seq 1 100 | while read i; do PREFIX='$DIR_OUTPUT'/$NAME/$NAME; mkdir -p '$DIR_OUTPUT'/$NAME/; TMPFOLDER=/scratch/tmp/$SLURM_JOBID; cd $TMPFOLDER; echo $NAME; echo "Replicate $i" > ${PREFIX}.$i.wfalm.log;          \time -v '${RUN_BENCHMARK}' -i ${PATH_SEQ} --affine-penalties 0,4,6,2 -a wfalm                                     --check correct --output ${PREFIX}.wfalm.out          2>> ${PREFIX}.$i.wfalm.log; done; done'
+sbatch -c 128 --exclusive --job-name wfalm-low-$SET  --wrap 'echo wfalm-low-'$SET'; ls /gpfs/projects/bsc18/bsc18995/biwfa/hsapiens/seq_pairs/'$SET'/*.seq | while read PATH_SEQ; do NAME=$(basename $PATH_SEQ .seq); seq 1 100 | while read i; do PREFIX='$DIR_OUTPUT'/$NAME/$NAME; mkdir -p '$DIR_OUTPUT'/$NAME/; TMPFOLDER=/scratch/tmp/$SLURM_JOBID; cd $TMPFOLDER; echo $NAME; echo "Replicate $i" > ${PREFIX}.$i.wfalm-lowmem.log;   \time -v '${RUN_BENCHMARK}' -i ${PATH_SEQ} --affine-penalties 0,4,6,2 -a wfalm-lowmem                              --check correct --output ${PREFIX}.wfalm-lowmem.out   2>> ${PREFIX}.$i.wfalm-lowmem.log; done; done'
+sbatch -c 128 --exclusive --job-name wfalm-rec-$SET  --wrap 'echo wfalm-rec-'$SET'; ls /gpfs/projects/bsc18/bsc18995/biwfa/hsapiens/seq_pairs/'$SET'/*.seq | while read PATH_SEQ; do NAME=$(basename $PATH_SEQ .seq); seq 1 100 | while read i; do PREFIX='$DIR_OUTPUT'/$NAME/$NAME; mkdir -p '$DIR_OUTPUT'/$NAME/; TMPFOLDER=/scratch/tmp/$SLURM_JOBID; cd $TMPFOLDER; echo $NAME; echo "Replicate $i" > ${PREFIX}.$i.wfalm-rec.log;      \time -v '${RUN_BENCHMARK}' -i ${PATH_SEQ} --affine-penalties 0,4,6,2 -a wfalm-rec                                 --check correct --output ${PREFIX}.wfalm-rec.out      2>> ${PREFIX}.$i.wfalm-rec.log; done; done'
+
+sbatch -c 128 --exclusive --job-name edlib-$SET      --wrap 'echo edlib-'$SET';     ls /gpfs/projects/bsc18/bsc18995/biwfa/hsapiens/seq_pairs/'$SET'/*.seq | while read PATH_SEQ; do NAME=$(basename $PATH_SEQ .seq); seq 1 100 | while read i; do PREFIX='$DIR_OUTPUT'/$NAME/$NAME; mkdir -p '$DIR_OUTPUT'/$NAME/; TMPFOLDER=/scratch/tmp/$SLURM_JOBID; cd $TMPFOLDER; echo $NAME; echo "Replicate $i" > ${PREFIX}.$i.edlib.log;          \time -v '${RUN_BENCHMARK}' -i ${PATH_SEQ} --affine-penalties 0,4,6,2 -a edlib                                     --check correct --output ${PREFIX}.edlib.out          2>> ${PREFIX}.$i.edlib.log; done; done'
+sbatch -c 128 --exclusive --job-name bitpal-$SET     --wrap 'echo bitpal-'$SET';    ls /gpfs/projects/bsc18/bsc18995/biwfa/hsapiens/seq_pairs/'$SET'/*.seq | while read PATH_SEQ; do NAME=$(basename $PATH_SEQ .seq); seq 1 100 | while read i; do PREFIX='$DIR_OUTPUT'/$NAME/$NAME; mkdir -p '$DIR_OUTPUT'/$NAME/; TMPFOLDER=/scratch/tmp/$SLURM_JOBID; cd $TMPFOLDER; echo $NAME; echo "Replicate $i" > ${PREFIX}.$i.bitpal-scored.log;  \time -v '${RUN_BENCHMARK}' -i ${PATH_SEQ} --affine-penalties 0,4,6,2 -a bitpal-scored                             --check correct --output ${PREFIX}.bitpal-scored.out  2>> ${PREFIX}.$i.bitpal-scored.log; done; done'
+sbatch -c 128 --exclusive --job-name ksw2-$SET       --wrap 'echo ksw2-'$SET';      ls /gpfs/projects/bsc18/bsc18995/biwfa/hsapiens/seq_pairs/'$SET'/*.seq | while read PATH_SEQ; do NAME=$(basename $PATH_SEQ .seq); seq 1 100 | while read i; do PREFIX='$DIR_OUTPUT'/$NAME/$NAME; mkdir -p '$DIR_OUTPUT'/$NAME/; TMPFOLDER=/scratch/tmp/$SLURM_JOBID; cd $TMPFOLDER; echo $NAME; echo "Replicate $i" > ${PREFIX}.$i.ksw2-extz2-sse.log; \time -v '${RUN_BENCHMARK}' -i ${PATH_SEQ} --affine-penalties 0,4,6,2 -a ksw2-extz2-sse                            --check correct --output ${PREFIX}.ksw2-extz2-sse.out 2>> ${PREFIX}.$i.ksw2-extz2-sse.log; done; done'
 ```
 
 Collect statistics:
@@ -122,7 +173,7 @@ rm seq_statistics/statistics.tsv
 rm seq_statistics/scores.tsv
 rm seq_statistics/lengths.tsv
 
-ls seq_pairs/ | while read SET; do
+ls seq_pairs/ | grep -v 10kbp | while read SET; do
   echo $SET
  
   cat seq_alignments/$SET/*.log | python3 ../log2info.py | awk -v OFS='\t' -v SET=$SET '{print(SET,$0)}' >> seq_statistics/statistics.tsv
@@ -132,12 +183,36 @@ ls seq_pairs/ | while read SET; do
     NAME=$(basename $PATH_SEQ .seq)
     PREFIX=seq_alignments/$SET/$NAME
     
-    cat $PATH_SEQ | tr '\n' ' ' | less -S | awk -v OFS='\t' -v SET=$SET -v NAME=$NAME '{print(SET, NAME, length($1), length($2))}' >> seq_statistics/lengths.tsv
+    cat $PATH_SEQ | tr '\n' ' ' | less -S | awk -v OFS='\t' -v SET=$SET -v NAME=$NAME '{print(SET, NAME, length($1)-1, length($2)-1)}' >> seq_statistics/lengths.tsv
 
 #    grep 'Time.Alignment' $PREFIX.*.log | grep call -v | cut -f 3 -d '/' | cut -f 1,2,4,5 -d '.' | tr -s ' ' | sed 's/ (s)//' | sed 's/.Alignment//' | sed 's/\./ /' | tr ' ' '\t' | awk -v OFS='\t' -v SET=$SET '{print(SET,$0,"time_s")}' >> seq_statistics/statistics.tsv
 #    grep 'Maximum resident' $PREFIX.*.log  | cut -f 3 -d '/' | sed 's/.log://' | sed 's/Maximum resident set size (kbytes): //g' | tr '.' '\t' | awk -v OFS='\t' -v SET=$SET '{print(SET,$0,"memory_kb")}' >> seq_statistics/statistics.tsv
 #    grep '^-' $PREFIX.*.out | cut -f 1 | cut -f 3 -d '/' | sed 's/out://' | tr '.' '\t' | awk -v OFS='\t' -v SET=$SET '{print(SET,$0,"memory_kb")}' >> seq_statistics/scores.tsv
   done
+done
+
+# Short reads (<= 10 kbps) for ont_regions
+SET=ont_regions_10kbps
+rm seq_statistics/lengths.10kbps.tsv
+
+cat seq_alignments/$SET/*/*.log | python3 ../log2info.py | awk -v OFS='\t' -v SET=$SET '{print(SET,$0)}' > seq_statistics/statistics.10kbps.tsv
+# Too slow. Slow, but easy way to collect statistics
+#ls seq_alignments/$SET | while read NAME_SEQ; do
+#  echo $NAME_SEQ
+#  for ALG in  biwfa wfa-med wfa-low wfa-high wfalm wfalm-lowmem wfalm-rec edlib bitpal-scored ksw2-extz2-sse; do
+#    echo $ALG
+#    seq 1 100 | while read i; do
+#      PATH_LOG=seq_alignments/$SET/$NAME/$NAME.$i.$ALG.log
+#      cat $PATH_LOG | python3 ../log2info.py | awk -v OFS='\t' -v SET=$SET -v rep=$i '{print(SET,rep,$0)}' >> seq_statistics/statistics.10kbps.tsv
+#    done
+#  done
+#done
+
+grep '^-' seq_alignments/$SET/*/*.1.*.out | cut -f 1 | cut -f 4 -d '/' | sed 's/out://' | tr '.' '\t' | awk -v OFS='\t' -v SET=$SET '{print(SET,$0)}' | grep bitpal-scored -v > seq_statistics/scores.10kbps.tsv
+  
+ls seq_pairs/$SET/*.seq | while read PATH_SEQ; do
+  NAME=$(basename $PATH_SEQ .seq)
+  cat $PATH_SEQ | tr '\n' ' ' | less -S | awk -v OFS='\t' -v SET=$SET -v NAME=$NAME '{print(SET, NAME, length($1)-1, length($2)-1)}' >> seq_statistics/lengths.10kbps.tsv
 done
 ```
 
@@ -227,27 +302,30 @@ ls /gpfs/projects/bsc18/bsc18995/biwfa/ont_ul/seq_pairs/*.seq | while read PATH_
   sbatch -c 128 --exclusive --job-name ksw2-ont_ul      --wrap 'echo wfalm-ont_ul;     echo '$NAME'; TMPFOLDER=/scratch/tmp/$SLURM_JOBID; cd $TMPFOLDER; \time -v '${RUN_BENCHMARK}' -i '${PATH_SEQ}' --affine-penalties 0,4,6,2 -a ksw2-extz2-sse                           --check correct --output '${PREFIX}'.ksw2-extz2-sse.out 2> '${PREFIX}'.ksw2-extz2-sse.log'
 done
 
+
 # Short reads (<= 10 kbps)
 cd /gpfs/projects/bsc18/bsc18995/biwfa/ont_ul_10kbps/
 
 DIR_OUTPUT=/gpfs/projects/bsc18/bsc18995/biwfa/ont_ul_10kbps/seq_alignments
 mkdir -p $DIR_OUTPUT
 
+# Write just one .out file, not one for each replicate
 # NOTE: keep the single ', to avoid bash variables interpolation before sending the jobs
 RUN_BENCHMARK=/gpfs/projects/bsc18/bsc18995/biwfa/WFA2-lib/bin/align_benchmark
-sbatch -c 128 --exclusive --job-name biwfa-ont_ul     --wrap 'echo biwfa-ont_ul;     ls /gpfs/projects/bsc18/bsc18995/biwfa/ont_ul_10kbps/seq_pairs/*.seq | while read PATH_SEQ; do NAME=$(basename $PATH_SEQ .seq); PREFIX='$DIR_OUTPUT'/$NAME; TMPFOLDER=/scratch/tmp/$SLURM_JOBID; cd $TMPFOLDER; echo $NAME; \time -v '${RUN_BENCHMARK}' -i ${PATH_SEQ} --affine-penalties 0,4,6,2 -a gap-affine-wfa --wfa-memory-mode ultralow --check correct --output ${PREFIX}.biwfa.out          2> ${PREFIX}.biwfa.log; done'
-sbatch -c 128 --exclusive --job-name wfa-med-ont_ul   --wrap 'echo wfa-med-ont_ul;   ls /gpfs/projects/bsc18/bsc18995/biwfa/ont_ul_10kbps/seq_pairs/*.seq | while read PATH_SEQ; do NAME=$(basename $PATH_SEQ .seq); PREFIX='$DIR_OUTPUT'/$NAME; TMPFOLDER=/scratch/tmp/$SLURM_JOBID; cd $TMPFOLDER; echo $NAME; \time -v '${RUN_BENCHMARK}' -i ${PATH_SEQ} --affine-penalties 0,4,6,2 -a gap-affine-wfa --wfa-memory-mode med      --check correct --output ${PREFIX}.wfa-med.out        2> ${PREFIX}.wfa-med.log; done'
-sbatch -c 128 --exclusive --job-name wfa-low-ont_ul   --wrap 'echo wfa-low-ont_ul;   ls /gpfs/projects/bsc18/bsc18995/biwfa/ont_ul_10kbps/seq_pairs/*.seq | while read PATH_SEQ; do NAME=$(basename $PATH_SEQ .seq); PREFIX='$DIR_OUTPUT'/$NAME; TMPFOLDER=/scratch/tmp/$SLURM_JOBID; cd $TMPFOLDER; echo $NAME; \time -v '${RUN_BENCHMARK}' -i ${PATH_SEQ} --affine-penalties 0,4,6,2 -a gap-affine-wfa --wfa-memory-mode low      --check correct --output ${PREFIX}.wfa-low.out        2> ${PREFIX}.wfa-low.log; done'
-sbatch -c 128 --exclusive --job-name wfa-high-ont_ul  --wrap 'echo wfa-high-ont_ul;  ls /gpfs/projects/bsc18/bsc18995/biwfa/ont_ul_10kbps/seq_pairs/*.seq | while read PATH_SEQ; do NAME=$(basename $PATH_SEQ .seq); PREFIX='$DIR_OUTPUT'/$NAME; TMPFOLDER=/scratch/tmp/$SLURM_JOBID; cd $TMPFOLDER; echo $NAME; \time -v '${RUN_BENCHMARK}' -i ${PATH_SEQ} --affine-penalties 0,4,6,2 -a gap-affine-wfa --wfa-memory-mode high     --check correct --output ${PREFIX}.wfa-high.out       2> ${PREFIX}.wfa-high.log; done'
+sbatch -c 128 --exclusive --job-name biwfa-ont_ul     --wrap 'echo biwfa-ont_ul;     ls /gpfs/projects/bsc18/bsc18995/biwfa/ont_ul_10kbps/seq_pairs/*.seq | while read PATH_SEQ; do NAME=$(basename $PATH_SEQ .seq); seq 1 100 | while read i; do PREFIX='$DIR_OUTPUT'/$NAME/$NAME; mkdir -p '$DIR_OUTPUT'/$NAME/; TMPFOLDER=/scratch/tmp/$SLURM_JOBID; cd $TMPFOLDER; echo $NAME; echo "Replicate $i" > ${PREFIX}.$i.biwfa.log;          \time -v '${RUN_BENCHMARK}' -i ${PATH_SEQ} --affine-penalties 0,4,6,2 -a gap-affine-wfa --wfa-memory-mode ultralow --check correct --output ${PREFIX}.biwfa.out          2>> ${PREFIX}.$i.biwfa.log; done; done'
+sbatch -c 128 --exclusive --job-name wfa-med-ont_ul   --wrap 'echo wfa-med-ont_ul;   ls /gpfs/projects/bsc18/bsc18995/biwfa/ont_ul_10kbps/seq_pairs/*.seq | while read PATH_SEQ; do NAME=$(basename $PATH_SEQ .seq); seq 1 100 | while read i; do PREFIX='$DIR_OUTPUT'/$NAME/$NAME; mkdir -p '$DIR_OUTPUT'/$NAME/; TMPFOLDER=/scratch/tmp/$SLURM_JOBID; cd $TMPFOLDER; echo $NAME; echo "Replicate $i" > ${PREFIX}.$i.wfa-med.log;        \time -v '${RUN_BENCHMARK}' -i ${PATH_SEQ} --affine-penalties 0,4,6,2 -a gap-affine-wfa --wfa-memory-mode med      --check correct --output ${PREFIX}.wfa-med.out        2>> ${PREFIX}.$i.wfa-med.log; done; done'
+sbatch -c 128 --exclusive --job-name wfa-low-ont_ul   --wrap 'echo wfa-low-ont_ul;   ls /gpfs/projects/bsc18/bsc18995/biwfa/ont_ul_10kbps/seq_pairs/*.seq | while read PATH_SEQ; do NAME=$(basename $PATH_SEQ .seq); seq 1 100 | while read i; do PREFIX='$DIR_OUTPUT'/$NAME/$NAME; mkdir -p '$DIR_OUTPUT'/$NAME/; TMPFOLDER=/scratch/tmp/$SLURM_JOBID; cd $TMPFOLDER; echo $NAME; echo "Replicate $i" > ${PREFIX}.$i.wfa-low.log;        \time -v '${RUN_BENCHMARK}' -i ${PATH_SEQ} --affine-penalties 0,4,6,2 -a gap-affine-wfa --wfa-memory-mode low      --check correct --output ${PREFIX}.wfa-low.out        2>> ${PREFIX}.$i.wfa-low.log; done; done'
+sbatch -c 128 --exclusive --job-name wfa-high-ont_ul  --wrap 'echo wfa-high-ont_ul;  ls /gpfs/projects/bsc18/bsc18995/biwfa/ont_ul_10kbps/seq_pairs/*.seq | while read PATH_SEQ; do NAME=$(basename $PATH_SEQ .seq); seq 1 100 | while read i; do PREFIX='$DIR_OUTPUT'/$NAME/$NAME; mkdir -p '$DIR_OUTPUT'/$NAME/; TMPFOLDER=/scratch/tmp/$SLURM_JOBID; cd $TMPFOLDER; echo $NAME; echo "Replicate $i" > ${PREFIX}.$i.wfa-high.log;       \time -v '${RUN_BENCHMARK}' -i ${PATH_SEQ} --affine-penalties 0,4,6,2 -a gap-affine-wfa --wfa-memory-mode high     --check correct --output ${PREFIX}.wfa-high.out       2>> ${PREFIX}.$i.wfa-high.log; done; done'
 
 RUN_BENCHMARK=/gpfs/projects/bsc18/bsc18995/biwfa/BiWFA-paper/bin/align_benchmark
-sbatch -c 128 --exclusive --job-name wfalm-ont_ul     --wrap 'echo wfalm-ont_ul;     ls /gpfs/projects/bsc18/bsc18995/biwfa/ont_ul_10kbps/seq_pairs/*.seq | while read PATH_SEQ; do NAME=$(basename $PATH_SEQ .seq); PREFIX='$DIR_OUTPUT'/$NAME; TMPFOLDER=/scratch/tmp/$SLURM_JOBID; cd $TMPFOLDER; echo $NAME; \time -v '${RUN_BENCHMARK}' -i ${PATH_SEQ} --affine-penalties 0,4,6,2 -a wfalm                                     --check correct --output ${PREFIX}.wfalm.out          2> ${PREFIX}.wfalm.log; done'
-sbatch -c 128 --exclusive --job-name wfalm-low-ont_ul --wrap 'echo wfalm-low-ont_ul; ls /gpfs/projects/bsc18/bsc18995/biwfa/ont_ul_10kbps/seq_pairs/*.seq | while read PATH_SEQ; do NAME=$(basename $PATH_SEQ .seq); PREFIX='$DIR_OUTPUT'/$NAME; TMPFOLDER=/scratch/tmp/$SLURM_JOBID; cd $TMPFOLDER; echo $NAME; \time -v '${RUN_BENCHMARK}' -i ${PATH_SEQ} --affine-penalties 0,4,6,2 -a wfalm-lowmem                              --check correct --output ${PREFIX}.wfalm-lowmem.out   2> ${PREFIX}.wfalm-lowmem.log; done'
-sbatch -c 128 --exclusive --job-name wfalm-rec-ont_ul --wrap 'echo wfalm-rec-ont_ul; ls /gpfs/projects/bsc18/bsc18995/biwfa/ont_ul_10kbps/seq_pairs/*.seq | while read PATH_SEQ; do NAME=$(basename $PATH_SEQ .seq); PREFIX='$DIR_OUTPUT'/$NAME; TMPFOLDER=/scratch/tmp/$SLURM_JOBID; cd $TMPFOLDER; echo $NAME; \time -v '${RUN_BENCHMARK}' -i ${PATH_SEQ} --affine-penalties 0,4,6,2 -a wfalm-rec                                 --check correct --output ${PREFIX}.wfalm-rec.out      2> ${PREFIX}.wfalm-rec.log; done'
+sbatch -c 128 --exclusive --job-name wfalm-ont_ul     --wrap 'echo wfalm-ont_ul;     ls /gpfs/projects/bsc18/bsc18995/biwfa/ont_ul_10kbps/seq_pairs/*.seq | while read PATH_SEQ; do NAME=$(basename $PATH_SEQ .seq); seq 1 100 | while read i; do PREFIX='$DIR_OUTPUT'/$NAME/$NAME; mkdir -p '$DIR_OUTPUT'/$NAME/; TMPFOLDER=/scratch/tmp/$SLURM_JOBID; cd $TMPFOLDER; echo $NAME; echo "Replicate $i" > ${PREFIX}.$i.wfalm.log;          \time -v '${RUN_BENCHMARK}' -i ${PATH_SEQ} --affine-penalties 0,4,6,2 -a wfalm                                     --check correct --output ${PREFIX}.wfalm.out          2>> ${PREFIX}.$i.wfalm.log; done; done'
+sbatch -c 128 --exclusive --job-name wfalm-low-ont_ul --wrap 'echo wfalm-low-ont_ul; ls /gpfs/projects/bsc18/bsc18995/biwfa/ont_ul_10kbps/seq_pairs/*.seq | while read PATH_SEQ; do NAME=$(basename $PATH_SEQ .seq); seq 1 100 | while read i; do PREFIX='$DIR_OUTPUT'/$NAME/$NAME; mkdir -p '$DIR_OUTPUT'/$NAME/; TMPFOLDER=/scratch/tmp/$SLURM_JOBID; cd $TMPFOLDER; echo $NAME; echo "Replicate $i" > ${PREFIX}.$i.wfalm-lowmem.log;   \time -v '${RUN_BENCHMARK}' -i ${PATH_SEQ} --affine-penalties 0,4,6,2 -a wfalm-lowmem                              --check correct --output ${PREFIX}.wfalm-lowmem.out   2>> ${PREFIX}.$i.wfalm-lowmem.log; done; done'
+sbatch -c 128 --exclusive --job-name wfalm-rec-ont_ul --wrap 'echo wfalm-rec-ont_ul; ls /gpfs/projects/bsc18/bsc18995/biwfa/ont_ul_10kbps/seq_pairs/*.seq | while read PATH_SEQ; do NAME=$(basename $PATH_SEQ .seq); seq 1 100 | while read i; do PREFIX='$DIR_OUTPUT'/$NAME/$NAME; mkdir -p '$DIR_OUTPUT'/$NAME/; TMPFOLDER=/scratch/tmp/$SLURM_JOBID; cd $TMPFOLDER; echo $NAME; echo "Replicate $i" > ${PREFIX}.$i.wfalm-rec.log;      \time -v '${RUN_BENCHMARK}' -i ${PATH_SEQ} --affine-penalties 0,4,6,2 -a wfalm-rec                                 --check correct --output ${PREFIX}.wfalm-rec.out      2>> ${PREFIX}.$i.wfalm-rec.log; done; done'
 
-sbatch -c 128 --exclusive --job-name edlib-ont_ul     --wrap 'echo edlib-ont_ul;     ls /gpfs/projects/bsc18/bsc18995/biwfa/ont_ul_10kbps/seq_pairs/*.seq | while read PATH_SEQ; do NAME=$(basename $PATH_SEQ .seq); PREFIX='$DIR_OUTPUT'/$NAME; TMPFOLDER=/scratch/tmp/$SLURM_JOBID; cd $TMPFOLDER; echo $NAME; \time -v '${RUN_BENCHMARK}' -i ${PATH_SEQ} --affine-penalties 0,4,6,2 -a edlib                                     --check correct --output ${PREFIX}.edlib.out          2> ${PREFIX}.edlib.log; done'
-sbatch -c 128 --exclusive --job-name bitpal-ont_ul    --wrap 'echo bitpal-ont_ul;    ls /gpfs/projects/bsc18/bsc18995/biwfa/ont_ul_10kbps/seq_pairs/*.seq | while read PATH_SEQ; do NAME=$(basename $PATH_SEQ .seq); PREFIX='$DIR_OUTPUT'/$NAME; TMPFOLDER=/scratch/tmp/$SLURM_JOBID; cd $TMPFOLDER; echo $NAME; \time -v '${RUN_BENCHMARK}' -i ${PATH_SEQ} --affine-penalties 0,4,6,2 -a bitpal-scored                             --check correct --output ${PREFIX}.bitpal-scored.out  2> ${PREFIX}.bitpal-scored.log; done'
-sbatch -c 128 --exclusive --job-name ksw2-ont_ul      --wrap 'echo ksw2-ont_ul;      ls /gpfs/projects/bsc18/bsc18995/biwfa/ont_ul_10kbps/seq_pairs/*.seq | while read PATH_SEQ; do NAME=$(basename $PATH_SEQ .seq); PREFIX='$DIR_OUTPUT'/$NAME; TMPFOLDER=/scratch/tmp/$SLURM_JOBID; cd $TMPFOLDER; echo $NAME; \time -v '${RUN_BENCHMARK}' -i ${PATH_SEQ} --affine-penalties 0,4,6,2 -a ksw2-extz2-sse                            --check correct --output ${PREFIX}.ksw2-extz2-sse.out 2> ${PREFIX}.ksw2-extz2-sse.log; done'
+sbatch -c 128 --exclusive --job-name edlib-ont_ul     --wrap 'echo edlib-ont_ul;     ls /gpfs/projects/bsc18/bsc18995/biwfa/ont_ul_10kbps/seq_pairs/*.seq | while read PATH_SEQ; do NAME=$(basename $PATH_SEQ .seq); seq 1 100 | while read i; do PREFIX='$DIR_OUTPUT'/$NAME/$NAME; mkdir -p '$DIR_OUTPUT'/$NAME/; TMPFOLDER=/scratch/tmp/$SLURM_JOBID; cd $TMPFOLDER; echo $NAME; echo "Replicate $i" > ${PREFIX}.$i.edlib.log;          \time -v '${RUN_BENCHMARK}' -i ${PATH_SEQ} --affine-penalties 0,4,6,2 -a edlib                                     --check correct --output ${PREFIX}.edlib.out          2>> ${PREFIX}.$i.edlib.log; done; done'
+sbatch -c 128 --exclusive --job-name bitpal-ont_ul    --wrap 'echo bitpal-ont_ul;    ls /gpfs/projects/bsc18/bsc18995/biwfa/ont_ul_10kbps/seq_pairs/*.seq | while read PATH_SEQ; do NAME=$(basename $PATH_SEQ .seq); seq 1 100 | while read i; do PREFIX='$DIR_OUTPUT'/$NAME/$NAME; mkdir -p '$DIR_OUTPUT'/$NAME/; TMPFOLDER=/scratch/tmp/$SLURM_JOBID; cd $TMPFOLDER; echo $NAME; echo "Replicate $i" > ${PREFIX}.$i.bitpal-scored.log;  \time -v '${RUN_BENCHMARK}' -i ${PATH_SEQ} --affine-penalties 0,4,6,2 -a bitpal-scored                             --check correct --output ${PREFIX}.bitpal-scored.out  2>> ${PREFIX}.$i.bitpal-scored.log; done; done'
+sbatch -c 128 --exclusive --job-name ksw2-ont_ul      --wrap 'echo ksw2-ont_ul;      ls /gpfs/projects/bsc18/bsc18995/biwfa/ont_ul_10kbps/seq_pairs/*.seq | while read PATH_SEQ; do NAME=$(basename $PATH_SEQ .seq); seq 1 100 | while read i; do PREFIX='$DIR_OUTPUT'/$NAME/$NAME; mkdir -p '$DIR_OUTPUT'/$NAME/; TMPFOLDER=/scratch/tmp/$SLURM_JOBID; cd $TMPFOLDER; echo $NAME; echo "Replicate $i" > ${PREFIX}.$i.ksw2-extz2-sse.log; \time -v '${RUN_BENCHMARK}' -i ${PATH_SEQ} --affine-penalties 0,4,6,2 -a ksw2-extz2-sse                            --check correct --output ${PREFIX}.ksw2-extz2-sse.out 2>> ${PREFIX}.$i.ksw2-extz2-sse.log; done; done'
+
 
 # Other reads (<= 500 kbps)
 cd /gpfs/projects/bsc18/bsc18995/biwfa/ont_ul_500kbps/
@@ -277,24 +355,30 @@ ls seq_pairs/*.seq | while read PATH_SEQ; do
   NAME=$(basename $PATH_SEQ .seq)
   PREFIX=seq_alignments/$SET/$NAME
     
-  cat $PATH_SEQ | tr '\n' ' ' | less -S | awk -v OFS='\t' -v SET="ONT_UL" -v NAME=$NAME '{print(SET, NAME, length($1), length($2))}' >> seq_statistics/lengths.tsv
+  cat $PATH_SEQ | tr '\n' ' ' | less -S | awk -v OFS='\t' -v SET="ONT_UL" -v NAME=$NAME '{print(SET, NAME, length($1)-1, length($2)-1)}' >> seq_statistics/lengths.tsv
 done
 
 # Short reads (<= 10 kbps)
 cd /gpfs/projects/bsc18/bsc18995/biwfa/ont_ul_10kbps/
 mkdir -p seq_statistics/
 
-rm seq_statistics/lengths.tsv
+# Short reads (<= 10 kbps) for ont_regions
+rm seq_statistics/statistics.10kbps.tsv
+rm seq_statistics/scores.10kbps.tsv
+rm seq_statistics/lengths.10kbps.tsv
 
-cat seq_alignments/*.log | python3 ../log2info.py | awk -v OFS='\t' -v SET='ONT_UL_SHORT' '{print(SET,$0)}' > seq_statistics/statistics.tsv
-grep '^-' seq_alignments/*.out | cut -f 1 | cut -f 2 -d '/' | sed 's/out://' | tr '.' '\t' | awk -v OFS='\t' -v SET="ONT_UL_SHORT" '{print(SET,$0)}' > seq_statistics/scores.tsv
+for ALG in  biwfa wfa-med wfa-low wfa-high wfalm wfalm-lowmem wfalm-rec edlib bitpal-scored ksw2-extz2-sse; do
+  echo $ALG
+  cat seq_alignments/*/*.$ALG.log | python3 ../log2info.py | awk -v OFS='\t' -v SET="ONT_UL_SHORT" '{print(SET,$0)}' >> seq_statistics/statistics.10kbps.tsv
+  grep '^-' seq_alignments/*/*.1.$ALG.out | cut -f 1 | cut -f 4 -d '/' | sed 's/out://' | tr '.' '\t' | awk -v OFS='\t' -v SET="ONT_UL_SHORT" '{print(SET,$0)}' | grep bitpal-scored -v >> seq_statistics/scores.10kbps.tsv
+done
 
 ls seq_pairs/*.seq | while read PATH_SEQ; do
   NAME=$(basename $PATH_SEQ .seq)
-  PREFIX=seq_alignments/$SET/$NAME
-    
-  cat $PATH_SEQ | tr '\n' ' ' | less -S | awk -v OFS='\t' -v SET="ONT_UL_SHORT" -v NAME=$NAME '{print(SET, NAME, length($1), length($2))}' >> seq_statistics/lengths.tsv
+  cat $PATH_SEQ | tr '\n' ' ' | less -S | awk -v OFS='\t' -v SET="ONT_UL_SHORT" -v NAME=$NAME '{print(SET, NAME, length($1)-1, length($2)-1)}' >> seq_statistics/lengths.10kbps.tsv
 done
+
+
 
 # Other reads (<= 500 kbps)
 cd /gpfs/projects/bsc18/bsc18995/biwfa/ont_ul_500kbps/
@@ -309,7 +393,7 @@ ls seq_pairs/*.seq | while read PATH_SEQ; do
   NAME=$(basename $PATH_SEQ .seq)
   PREFIX=seq_alignments/$SET/$NAME
     
-  cat $PATH_SEQ | tr '\n' ' ' | less -S | awk -v OFS='\t' -v SET="ONT_UL_OTHER" -v NAME=$NAME '{print(SET, NAME, length($1), length($2))}' >> seq_statistics/lengths.tsv
+  cat $PATH_SEQ | tr '\n' ' ' | less -S | awk -v OFS='\t' -v SET="ONT_UL_OTHER" -v NAME=$NAME '{print(SET, NAME, length($1)-1, length($2)-1)}' >> seq_statistics/lengths.tsv
 done
 ```
 
@@ -365,14 +449,14 @@ Collect statistics:
 cd /gpfs/projects/bsc18/bsc18995/biwfa/pacbio/
 mkdir -p seq_statistics/
    
-cat seq_alignments/*.log | python3 ../log2info.py | awk -v OFS='\t' -v SET='ONT_UL' '{print(SET,$0)}' > seq_statistics/statistics.tsv
+cat seq_alignments/*.log | python3 ../log2info.py | awk -v OFS='\t' -v SET="ONT_UL" '{print(SET,$0)}' > seq_statistics/statistics.tsv
 grep '^-' seq_alignments/*.out | cut -f 1 | cut -f 2 -d '/' | sed 's/out://' | tr '.' '\t' | awk -v OFS='\t' -v SET="ONT_UL" '{print(SET,$0)}' > seq_statistics/scores.tsv
 
 ls seq_pairs/*.seq | while read PATH_SEQ; do
   NAME=$(basename $PATH_SEQ .seq)
   PREFIX=seq_alignments/$SET/$NAME
     
-  cat $PATH_SEQ | tr '\n' ' ' | less -S | awk -v OFS='\t' -v SET="PACBIO" -v NAME=$NAME '{print(SET, NAME, length($1), length($2))}' >> seq_statistics/lengths.tsv
+  cat $PATH_SEQ | tr '\n' ' ' | less -S | awk -v OFS='\t' -v SET="ONT_UL" -v NAME=$NAME '{print(SET, NAME, length($1)-1, length($2)-1)}' >> seq_statistics/lengths.tsv
 done
 ```
 
