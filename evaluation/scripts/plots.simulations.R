@@ -1,12 +1,25 @@
 library(ggplot2)
 library(ggforce) # On Ubuntu 22.04 LTS: sudo apt -y install libfontconfig1-dev
 library(ggpubr)
+library(tidyverse)
 
 options(scipen = 0)
 
-stats_df <- read.table('~/git/BiWFA-paper/evaluation/data/statistics.simulations.tsv', sep = '\t', header = F)
-names(stats_df) <- c('error', 'seq.length', 'seq', 'mode', 'value', 'statistic')
-scores_df <- read.table('~/git/BiWFA-paper/evaluation/data/scores.simulations.tsv', sep = '\t', header = F)
+stats_df <- read.table('~/git/BiWFA-paper/evaluation/data/statistics.simulations.tsv.gz', sep = '\t', header = F)
+names(stats_df) <- c('error', 'seq.length', 'seq', 'mode', 'replicate', 'value', 'statistic')
+# Compute averages for time and maximums for memory
+stats_time_df <- stats_df %>%
+  filter(statistic == 'time_ns') %>%
+  group_by(error, seq.length, seq, mode, statistic) %>%
+  dplyr::summarize(value = mean(value, na.rm=TRUE), num.replicates = n())
+stats_memory_df <- stats_df %>%
+  filter(statistic == 'memory_kb') %>%
+  group_by(error, seq.length, seq, mode, statistic) %>%
+  dplyr::summarize(value = max(value), num.replicates = n())
+stats_df <- bind_rows(stats_time_df, stats_memory_df)
+rm(stats_time_df, stats_memory_df)
+
+scores_df <- read.table('~/git/BiWFA-paper/evaluation/data/scores.simulations.tsv.gz', sep = '\t', header = F)
 names(scores_df) <- c('error', 'seq.length', 'seq', 'mode', 'score')
 
 statsWithMetadata_df <- merge(
@@ -18,8 +31,15 @@ statsWithMetadata_df <- merge(
 statsWithMetadata_df$score[is.na(statsWithMetadata_df$score)] <- 1
 
 # Force column's type
-#statsWithMetadata_df$error <- as.factor(statsWithMetadata_df$error)
+statsWithMetadata_df$error <- as.factor(statsWithMetadata_df$error)
 statsWithMetadata_df$mode <- as.factor(statsWithMetadata_df$mode)
+
+levels(statsWithMetadata_df$error)[match("0.001",levels(statsWithMetadata_df$error))] <- "Error rate = 0.1%"
+levels(statsWithMetadata_df$error)[match("0.01",levels(statsWithMetadata_df$error))] <- "Error rate = 1%"
+levels(statsWithMetadata_df$error)[match("0.05",levels(statsWithMetadata_df$error))] <- "Error rate = 5%"
+levels(statsWithMetadata_df$error)[match("0.1",levels(statsWithMetadata_df$error))] <- "Error rate = 10%"
+levels(statsWithMetadata_df$error)[match("0.2",levels(statsWithMetadata_df$error))] <- "Error rate = 20%"
+levels(statsWithMetadata_df$error)[match("0.3",levels(statsWithMetadata_df$error))] <- "Error rate = 30%"
 
 # Rename algorithms and change their order
 levels(statsWithMetadata_df$mode)[match("wfa-ultralow",levels(statsWithMetadata_df$mode))] <- "BiWFA"
@@ -33,7 +53,7 @@ statsWithMetadata_df$mode <- factor(
 # Plots
 # Memory
 px <- ggplot(
-  statsWithMetadata_df[statsWithMetadata_df$statistic != 'time_ns', ] %>% dplyr::filter(error > 0.0),
+  statsWithMetadata_df[statsWithMetadata_df$statistic != 'time_ns', ],
   aes(x = seq.length, y = value / 1024, color = mode, alpha=I(0.5))
 ) +
   geom_point() +
@@ -41,7 +61,7 @@ px <- ggplot(
     ~error,
     ncol = 2
   ) +
-  ggtitle('Memory consumption') +
+  ggtitle('Maximum memory consumption') +
   guides(color=guide_legend(title="Algorithm")) +
   xlab("Length") + ylab("") +  theme_bw() +
   theme(
@@ -79,7 +99,7 @@ px
 
 # Time
 py <- ggplot(
-  statsWithMetadata_df[statsWithMetadata_df$statistic == 'time_ns', ] %>% dplyr::filter(error > 0.0),
+  statsWithMetadata_df[statsWithMetadata_df$statistic == 'time_ns', ],
   aes(x = seq.length, y = value / 1000, color = mode, alpha=I(0.5))
 ) +
   geom_point() +
@@ -87,7 +107,7 @@ py <- ggplot(
     ~error,
     ncol = 2
   ) +
-  ggtitle('Execution time') +
+  ggtitle('Average execution time') +
   guides(color=guide_legend(title="Algorithm")) +
   xlab("Length") + ylab("Microseconds") +  theme_bw() +
   theme(
