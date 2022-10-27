@@ -65,7 +65,7 @@ grep wfa ont_ul_50kbps/seq_statistics/statistics.score_only.tsv >> statistics.al
 
 cp ont_ul_50kbps/seq_statistics/lengths.tsv lengths.alignment_vs_score_only.tsv
 
-pigz statistics.alignment_vs_score_only.tsv -f
+pigz statistics.alignment_vs_score_only.tsv -11 -f
 pigz lengths.alignment_vs_score_only.tsv -f
 ```
 

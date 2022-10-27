@@ -494,7 +494,7 @@ cat ont_ul/seq_statistics/lengths.tsv >> lengths_all.tsv
 cat ont_ul_10kbps/seq_statistics/lengths.10kbps.tsv >> lengths_all.tsv
 cat ont_ul_50kbps/seq_statistics/lengths.tsv >> lengths_all.tsv
 
-pigz statistics_all.tsv -f
+pigz statistics_all.tsv -11 -f
 pigz scores_all.tsv -f
 pigz lengths_all.tsv -f
 ```
