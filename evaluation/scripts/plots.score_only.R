@@ -1,12 +1,24 @@
 library(ggplot2)
 library(ggforce) # On Ubuntu 22.04 LTS: sudo apt -y install libfontconfig1-dev
 library(ggpubr)
+library(tidyverse)
 
 options(scipen = 9)
 
-stats_df <- read.table('~/git/BiWFA-paper/evaluation/data/statistics.alignment_vs_score_only.tsv', sep = '\t', header = F)
-names(stats_df) <- c('set', 'seq', 'mode', 'value', 'statistic')
-lengths_df <- read.table('~/git/BiWFA-paper/evaluation/data/statistics.alignment_vs_score_only.tsv', sep = '\t', header = F)
+stats_df <- read.table('~/git/BiWFA-paper/evaluation/data/statistics.alignment_vs_score_only.tsv.gz', sep = '\t', header = F)
+names(stats_df) <- c('set', 'seq', 'mode', 'replicate', 'value', 'statistic')
+# Compute averages for time and maximums for memory
+stats_time_df <- stats_df %>%
+  filter(statistic == 'time_ns') %>%
+  group_by(set, seq, mode, statistic) %>%
+  dplyr::summarize(value = mean(value, na.rm=TRUE), num.replicates = n())
+stats_memory_df <- stats_df %>%
+  filter(statistic == 'memory_kb') %>%
+  group_by(set, seq, mode, statistic) %>%
+  dplyr::summarize(value = max(value), num.replicates = n())
+stats_df <- bind_rows(stats_time_df, stats_memory_df)
+rm(stats_time_df, stats_memory_df)
+lengths_df <- read.table('~/git/BiWFA-paper/evaluation/data/lengths.alignment_vs_score_only.tsv.gz', sep = '\t', header = F)
 names(lengths_df) <- c('set', 'seq', 'query.length', 'target.length')
 
 statsWithMetadata_df <- merge(
@@ -25,8 +37,8 @@ levels(statsWithMetadata_df$set)[match("ONT_UL_OTHER",levels(statsWithMetadata_d
 levels(statsWithMetadata_df$set)[match("ONT_UL_OTHER_SCORE_ONLY",levels(statsWithMetadata_df$set))] <- "Score only"
 
 # Rename algorithms and change their order
-levels(statsWithMetadata_df$mode)[match("edlib",levels(statsWithMetadata_df$mode))] <- "edlib (edit distance)"
-levels(statsWithMetadata_df$mode)[match("bitpal-scored",levels(statsWithMetadata_df$mode))] <- "bitpal (score only)"
+#levels(statsWithMetadata_df$mode)[match("edlib",levels(statsWithMetadata_df$mode))] <- "edlib (edit distance)"
+#levels(statsWithMetadata_df$mode)[match("bitpal-scored",levels(statsWithMetadata_df$mode))] <- "bitpal (score only)"
 levels(statsWithMetadata_df$mode)[match("wfa-ultralow",levels(statsWithMetadata_df$mode))] <- "BiWFA"
 levels(statsWithMetadata_df$mode)[match("wfa-high",levels(statsWithMetadata_df$mode))] <- "WFA-high"
 #levels(statsWithMetadata_df$mode)[match("wfa-low",levels(statsWithMetadata_df$mode))] <- "WFA-low"
@@ -46,9 +58,9 @@ px <- ggplot(x, aes(x = set, y = value / 1024, fill=mode)) +
   scale_y_continuous(
     trans='log10',
     #labels = scales::comma,
-    limits=c(1, 1000000),
+    limits=c(1, 10000),
     n.breaks = 6,
-    labels=c("NA" = "", "1" = "1 MB", "10" = "10 MB", "100" = "100 MB", "1000" = "1 GB", "10000" = "10 GB", "100000" = "100 GB", "1000000" = "1 TB", "NA" = "")
+    labels=c("NA" = "", "1" = "1 MB", "10" = "10 MB", "100" = "100 MB", "1000" = "1 GB", "10000" = "10 GB", "NA" = "")
   ) +
   facet_wrap (
     ~mode,
@@ -58,6 +70,8 @@ px <- ggplot(x, aes(x = set, y = value / 1024, fill=mode)) +
   theme(
     plot.title = element_text(hjust = 0.5, size=18),
     legend.position = "none",
+    legend.title = element_text(size=16),
+    legend.text = element_text(size=14),
     
     axis.title=element_text(size=18),
     
@@ -73,14 +87,14 @@ px <- ggplot(x, aes(x = set, y = value / 1024, fill=mode)) +
     strip.text = element_text(size=15)
   ) +
   guides(fill=guide_legend(title="Algorithm")) +
-  ggtitle('Memory consumption') +
+  ggtitle('Maximum memory consumption') +
   xlab("Algorithm") + ylab("") + 
   scale_fill_manual(values=c("#39B600", "#FF62BC"))
 px 
 
 # Plot runtime
-y <- statsWithMetadata_df[statsWithMetadata_df$statistic == 'time_s' & !is.nan(statsWithMetadata_df$value), ]
-py <- ggplot(y, aes(x = set, y = value + 0.001, fill=mode)) +
+y <- statsWithMetadata_df[statsWithMetadata_df$statistic == 'time_ns' & !is.nan(statsWithMetadata_df$value), ]
+py <- ggplot(y, aes(x = set, y = value / 1000 / 1000, fill=mode)) +
   geom_boxplot() +
   scale_y_continuous(
     trans='log10',
@@ -94,6 +108,8 @@ py <- ggplot(y, aes(x = set, y = value + 0.001, fill=mode)) +
   theme(
     plot.title = element_text(hjust = 0.5, size=18),
     legend.position = "none",
+    legend.title = element_text(size=16),
+    legend.text = element_text(size=14),
     
     axis.title=element_text(size=18),
     
@@ -109,8 +125,8 @@ py <- ggplot(y, aes(x = set, y = value + 0.001, fill=mode)) +
     strip.text = element_text(size=15)
   ) +
   guides(fill=guide_legend(title="Algorithm")) +
-  ggtitle('Execution time') +
-  xlab("Algorithm") + ylab("Seconds") + 
+  ggtitle('Average execution time') +
+  xlab("Algorithm") + ylab("Milliseconds") + 
   scale_fill_manual(values=c("#39B600", "#FF62BC"))
 py
 
@@ -128,8 +144,8 @@ pxy <- ggpubr::ggarrange(
 ) + 
   theme(plot.margin = margin(0.3, 0.3, 0.3, 0.3, "cm")) # to avoid cutting labels
 pxy
-ggsave(plot = pxy, paste0('FigureS4', '.pdf'), width = 15, height = 20, units = "cm", dpi = 100, bg = "transparent", limitsize = FALSE)
-ggsave(plot = pxy, paste0('FigureS4', '.png'), width = 15, height = 20, units = "cm", dpi = 100, bg = "transparent", limitsize = FALSE)
+ggsave(plot = pxy, paste0('FigureS4', '.pdf'), width = 15, height = 20, units = "cm", dpi = 300, bg = "transparent", limitsize = FALSE)
+ggsave(plot = pxy, paste0('FigureS4', '.png'), width = 15, height = 20, units = "cm", dpi = 300, bg = "transparent", limitsize = FALSE)
 
 library(dplyr)
 statsWithMetadata_df[statsWithMetadata_df$statistic == 'time_s' & !is.nan(statsWithMetadata_df$value), ] %>%

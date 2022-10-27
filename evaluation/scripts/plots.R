@@ -9,7 +9,7 @@ stats_df <- read.table('~/git/BiWFA-paper/evaluation/data/statistics_all.tsv.gz'
 names(stats_df) <- c('set', 'seq', 'mode', 'replicate', 'value', 'statistic')
 # Compute averages for time and maximums for memory
 stats_time_df <- stats_df %>%
-  filter(statistic == 'time_s') %>%
+  filter(statistic != 'memory_kb') %>% #time_s or time_ns
   group_by(set, seq, mode, statistic) %>%
   dplyr::summarize(value = mean(value, na.rm=TRUE), num.replicates = n())
 stats_memory_df <- stats_df %>%
@@ -272,11 +272,12 @@ ggsave(plot = pxy, paste0('FigureS1', '.png'), width = 30, height = 20, units = 
 # WFA-high vs BiWFA
 
 # Memory
-z <- statsWithMetadata_df[statsWithMetadata_df$statistic != 'time_s' & !is.nan(statsWithMetadata_df$value), ]
+z <- statsWithMetadata_df[statsWithMetadata_df$statistic == 'memory_kb' & !is.nan(statsWithMetadata_df$value), ]
+z <- z[z$mode %in% c('WFA-high', 'BiWFA') & z$num.replicates == 100,]
 levels(z$set)[match("ONT_UL_OTHER",levels(z$set))] <- "ONT Ultra Long"
 #levels(z$set)[match("ONT Ultra Long <= 10kbps",levels(z$set))] <- "ONT Ultra Long"
 #levels(z$set)[match("ONT Ultra Long > 500kbps",levels(z$set))] <- "ONT Ultra Long"
-z <- z[z$mode %in% c('WFA-high', 'BiWFA') & z$set %in% c('ONT Ultra Long'),]
+z <- z[z$set %in% c('ONT Ultra Long'),]
 px <- ggplot(
   z,
   aes(x = (query.length + target.length) / 2, y = value / 1024, color = mode, alpha=I(1/3))
@@ -286,11 +287,13 @@ px <- ggplot(
   #  ~set,
   #  ncol = 2
   #) +
-  ggtitle('Memory consumption') +
+  ggtitle('Maximum memory consumption') +
   xlab("Length (base pairs)") + ylab("") +  theme_bw() +
   theme(
     plot.title = element_text(hjust = 0.5, size=18),
     legend.position = "top",
+    legend.title = element_text(size=16),
+    legend.text = element_text(size=14),
     
     axis.title=element_text(size=18),
     
@@ -304,21 +307,18 @@ px <- ggplot(
     #axis.ticks.y=element_blank()  #remove y axis ticks
     
     strip.text = element_text(size=15),
-    
-    legend.title = element_text(size=15),
-    legend.text = element_text(size=14),
   ) + guides(color=guide_legend(title="Algorithm")) +
   scale_y_continuous(
     trans='log10',
     #labels = scales::comma,
-    limits=c(1, 1000000),
+    limits=c(1, 10000),
     n.breaks = 6,
-    labels=c("NA" = "", "1" = "1 MB", "10" = "10 MB", "100" = "100 MB", "1000" = "1 GB", "10000" = "10 GB", "100000" = "100 GB", "1000000" = "1 TB", "NA" = "")
+    labels=c("NA" = "", "1" = "1 MB", "10" = "10 MB", "100" = "100 MB", "1000" = "1 GB", "10000" = "10 GB", "NA" = "")
   ) +
   scale_x_continuous(
     trans='log10',
     #labels = scales::comma,
-    limits=c(min((z$query.length + z$target.length)/2), 500000),
+    #limits=c(min((z$query.length + z$target.length)/2), 500000),
     n.breaks = 12
   ) + 
   scale_color_manual(values=c("#39B600", "#FF62BC"))
@@ -368,25 +368,28 @@ if(FALSE) {
 }
 
 # Time
-z <- statsWithMetadata_df[statsWithMetadata_df$statistic == 'time_s' & !is.nan(statsWithMetadata_df$value), ]
+z <- statsWithMetadata_df[statsWithMetadata_df$statistic == 'time_ns' & !is.nan(statsWithMetadata_df$value), ]
+z <- z[z$mode %in% c('WFA-high', 'BiWFA') & z$num.replicates == 100,]
 levels(z$set)[match("ONT_UL_OTHER",levels(z$set))] <- "ONT Ultra Long"
 #levels(z$set)[match("ONT Ultra Long <= 10kbps",levels(z$set))] <- "ONT Ultra Long"
 #levels(z$set)[match("ONT Ultra Long > 500kbps",levels(z$set))] <- "ONT Ultra Long"
-z <- z[z$mode %in% c('WFA-high', 'BiWFA') & z$set %in% c('ONT Ultra Long'),]
+z <- z[z$set %in% c('ONT Ultra Long'),]
 py <- ggplot(
   z,
-  aes(x = (query.length + target.length) / 2, y = value + 0.001, color = mode, alpha=I(1/3))
+  aes(x = (query.length + target.length) / 2, y = value / 1000 / 1000, color = mode, alpha=I(1/3))
 ) +
   geom_point() +
   #facet_wrap (
   #  ~set,
   #  ncol = 2
   #) +
-  ggtitle('Execution time') +
-  xlab("Length (base pairs)") + ylab("Seconds") +  theme_bw() +
+  ggtitle('Average execution time') +
+  xlab("Length (base pairs)") + ylab("Milliseconds") +  theme_bw() +
   theme(
     plot.title = element_text(hjust = 0.5, size=18),
     legend.position = "top",
+    legend.title = element_text(size=16),
+    legend.text = element_text(size=14),
     
     axis.title=element_text(size=18),
     
@@ -400,9 +403,6 @@ py <- ggplot(
     #axis.ticks.y=element_blank()  #remove y axis ticks
     
     strip.text = element_text(size=15),
-    
-    legend.title = element_text(size=15),
-    legend.text = element_text(size=14)
   ) + guides(color=guide_legend(title="Algorithm")) +
   scale_y_continuous(
     trans='log10'
@@ -414,7 +414,7 @@ py <- ggplot(
   scale_x_continuous(
     trans='log10',
     #labels = scales::comma,
-    limits=c(min((z$query.length + z$target.length)/2), 500000),
+    #limits=c(min((z$query.length + z$target.length)/2), 500000),
     n.breaks = 12
   ) + 
   scale_color_manual(values=c("#39B600", "#FF62BC"))

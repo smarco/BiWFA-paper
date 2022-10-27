@@ -67,6 +67,8 @@ px <- ggplot(
   theme(
     plot.title = element_text(hjust = 0.5, size=18),
     legend.position = "none",
+    legend.title = element_text(size=16),
+    legend.text = element_text(size=14),
     
     axis.title=element_text(size=18),
     
@@ -113,6 +115,8 @@ py <- ggplot(
   theme(
     plot.title = element_text(hjust = 0.5, size=18),
     legend.position = "none",
+    legend.title = element_text(size=16),
+    legend.text = element_text(size=14),
     
     axis.title=element_text(size=18),
     
@@ -128,10 +132,10 @@ py <- ggplot(
     strip.text = element_text(size=15)
   ) +
   scale_y_continuous(
-    trans='log10'
+    trans='log10',
     #labels = scales::comma,
     #limits=c(1, 1000000),
-    #n.breaks = 6,
+    n.breaks = 6,
     #labels=c("NA" = "", "1" = "1 MB", "10" = "10 MB", "100" = "100 MB", "1000" = "1 GB", "10000" = "10 GB", "100000" = "100 GB", "1000000" = "1 TB", "NA" = "")
   ) +
   scale_x_continuous(
