@@ -34,17 +34,14 @@ For more documentation on the library and other features, go to [WFA2-lib](https
 Git clone and compile the library, tools, and examples.
 
 ```
-git clone https://github.com/smarco/BiWFA-paper
-cd BiWFA-paper
-make clean all
+$> git clone https://github.com/smarco/BiWFA-paper
+$> cd BiWFA-paper
+$> make clean all
 ```
 
 ### 1.2 Alignment Testing & Benchmarking
 
-The BiWFA-paper includes the benchmarking tool *align-benchmark* to test the BiWFA.
-This tool takes as input a dataset containing pairs of sequences (i.e., pattern and text) to align.
-Patterns are preceded by the '>' symbol and texts by the '<' symbol.
-Example:
+The BiWFA-paper includes the benchmarking tool *align-benchmark* to test the BiWFA. This tool takes as input a dataset containing pairs of sequences (i.e., pattern and text) to align. Patterns are preceded by the '>' symbol and texts by the '<' symbol. Example:
 
 ```
 >ATTGGAAAATAGGATTGGGGTTTGTTTATATTTGGGTTGAGGGATGTCCCACCTTCGTCGTCCTTACGTTTCCGGAAGGGAGTGGTTAGCTCGAAGCCCA
@@ -68,8 +65,7 @@ $> ./bin/align_benchmark -i sample.dataset.seq --wfa-bidirectional
   => Time.Alignment      28.20 s  ( 64.20 %) (    5 Mcalls,   5.64 us/call {min438ns,Max47.05ms})
 ```
 
-The *align-benchmark* tool will finish and report overall benchmark time (including reading the input, setup, checking, etc.) and the time taken by the algorithm (i.e., *Time.Alignment*).
-If you want to measure the accuracy of the alignment method, you can add the option `--check` and all the alignments will be verified. 
+The *align-benchmark* tool will finish and report overall benchmark time (including reading the input, setup, checking, etc.) and the time taken by the algorithm (i.e., *Time.Alignment*). If you want to measure the accuracy of the alignment method, you can add the option `--check` and all the alignments will be verified. 
 
 ```
 $> ./bin/align_benchmark -i sample.dataset.seq --wfa-bidirectional --check

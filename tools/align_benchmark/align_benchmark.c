@@ -67,7 +67,6 @@ typedef struct {
   affine_penalties_t affine_penalties;
   // Wavefront parameters
   bool wfa_score_only;
-  bool wfa_bidirectional;
   int wfa_max_threads;
   // Misc
   bool check_display;
@@ -104,7 +103,6 @@ benchmark_args parameters = {
   },
   // Wavefront parameters
   .wfa_score_only = false,
-  .wfa_bidirectional = true,
   .wfa_max_threads = 1,
   // Misc
   .check_bandwidth = -1,
@@ -134,9 +132,9 @@ wavefront_aligner_t* align_input_configure_wavefront(
   // Select flavor
   attributes.affine_penalties = parameters.affine_penalties;
   // Misc
-  attributes.bidirectional_alignment = true; //parameters.wfa_bidirectional;
-  attributes.plot_params.plot_enabled = (parameters.plot > 0);
-  attributes.plot_params.resolution_points = parameters.plot;
+  attributes.memory_mode = wavefront_memory_ultralow;
+  attributes.plot.enabled = (parameters.plot > 0);
+  attributes.plot.resolution_points = parameters.plot;
   attributes.system.verbose = parameters.verbose;
   attributes.system.max_num_threads = parameters.wfa_max_threads;
   // Allocate
@@ -307,8 +305,8 @@ void usage() {
       "        [Penalties]                                                     \n"
       "          --affine-penalties|g M,X,O,E                                  \n"
       "        [Wavefront parameters]                                          \n"
-      "          --wfa-bidirectional                                           \n"
-      "          --wfa-max-threads <INT> (intra-parallelism; default=1)        \n"
+      "          --wfa-score-only                                              \n"
+    //"          --wfa-max-threads <INT> (intra-parallelism; default=1)        \n"
       "        [Misc]                                                          \n"
       "          --check|c 'correct'|'score'|'alignment'                       \n"
       "          --check-distance 'indel'|'edit'|'linear'|'affine'|'affine2p'  \n"
@@ -325,8 +323,8 @@ void parse_arguments(int argc,char** argv) {
     /* Penalties */
     { "affine-penalties", required_argument, 0, 'g' },
     /* Wavefront parameters */
-    { "wfa-bidirectional", no_argument, 0, 1006 },
-    { "wfa-max-threads", required_argument, 0, 1007 },
+    { "wfa-score-only", no_argument, 0, 1006 },
+    //{ "wfa-max-threads", required_argument, 0, 1007 },
     /* Misc */
     { "check", required_argument, 0, 'c' },
     { "check-distance", required_argument, 0, 3001 },
@@ -376,11 +374,8 @@ void parse_arguments(int argc,char** argv) {
     /*
      * Wavefront parameters
      */
-    case 1000: // --wfa-score-only
+    case 1006: // --wfa-score-only
       parameters.wfa_score_only = true;
-      break;
-    case 1006: // --wfa-bidirectional
-      parameters.wfa_bidirectional = true;
       break;
     case 1007: // --wfa-max-threads
       parameters.wfa_max_threads = atoi(optarg);

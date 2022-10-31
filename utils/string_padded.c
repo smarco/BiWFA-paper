@@ -55,7 +55,7 @@ void strings_padded_add_padding(
   if (reverse_sequence) {
     int i;
     for (i=0;i<buffer_length;i++) {
-      (*buffer_padded_begin)[i] = buffer[buffer_length-i-1];
+      (*buffer_padded_begin)[i] = buffer[buffer_length-1-i];
     }
   } else {
     memcpy(*buffer_padded_begin,buffer,buffer_length);

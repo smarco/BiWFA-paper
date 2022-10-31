@@ -49,8 +49,8 @@
  * Alignment scope
  */
 typedef enum {
-  compute_score,          // Only distance/score
-  compute_alignment,      // Full alignment CIGAR
+  compute_score,           // Only distance/score
+  compute_alignment,       // Full alignment CIGAR
 } alignment_scope_t;
 typedef enum {
   alignment_end2end,       // End-to-end alignment (aka global)
@@ -102,9 +102,10 @@ typedef struct {
   uint64_t max_memory_abort;     // Maximum memory allowed to be used before aborting alignment
   // Verbose
   //  0 - Quiet
-  //  1 - Report WFA progress and heavy tasks
-  //  2 - Report each sequence aligned (brief)
-  //  3 - Report each sequence aligned (very verbose)
+  //  1 - Report each sequence aligned                      (brief)
+  //  2 - Report each sequence/subsequence aligned          (brief)
+  //  3 - Report WFA progress (heavy tasks)                 (verbose)
+  //  4 - Full report of each sequence/subsequence aligned  (very verbose)
   int verbose;                   // Verbose (regulates messages during alignment)
   // Debug
   bool check_alignment_correct;  // Verify that the alignment CIGAR output is correct
@@ -119,17 +120,16 @@ typedef struct {
  * Low-memory modes
  */
 typedef enum {
-  wavefront_memory_high = 0,     // High-memore mode (fastest, stores all WFs explicitly)
-  wavefront_memory_med = 1,      // Succing-memory mode (medium, offloads half-full BT-blocks)
-  wavefront_memory_low = 2,      // Succing-memory mode (slow, offloads only full BT-blocks)
+  wavefront_memory_high     = 0, // High-memore mode (fastest, stores all WFs explicitly)
+  wavefront_memory_med      = 1, // Succing-memory mode piggyback-based (medium, offloads half-full BT-blocks)
+  wavefront_memory_low      = 2, // Succing-memory mode piggyback-based (slow, offloads only full BT-blocks)
+  wavefront_memory_ultralow = 3, // Bidirectional WFA
 } wavefront_memory_t;
 
 /*
  * Wavefront Aligner Attributes
  */
 typedef struct {
-  // Alignment mode
-  bool bidirectional_alignment;            // Bidirectional WFA alignment
   // Distance model
   distance_metric_t distance_metric;       // Alignment metric/distance used
   alignment_scope_t alignment_scope;       // Alignment scope (score only or full-CIGAR)
@@ -148,7 +148,7 @@ typedef struct {
   // External MM (instead of allocating one inside)
   mm_allocator_t* mm_allocator;            // MM-Allocator
   // Display
-  wavefront_plot_params_t plot_params;     // Wavefront plot
+  wavefront_plot_attr_t plot;              // Plot wavefront
   // System
   alignment_system_t system;               // System related parameters
 } wavefront_aligner_attr_t;
