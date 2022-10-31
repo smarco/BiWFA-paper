@@ -28,20 +28,52 @@
  * AUTHOR(S): Santiago Marco-Sola <santiagomsola@gmail.com>
  */
 
-#ifndef WAVEFRONT_BIALIGN_H_
-#define WAVEFRONT_BIALIGN_H_
+#ifndef WAVEFRONT_UNIALIGN_H_
+#define WAVEFRONT_UNIALIGN_H_
 
 #include "utils/commons.h"
 #include "wavefront_aligner.h"
 
 /*
- * Bidirectional WFA
+ * Resize
  */
-void wavefront_bialign(
+void wavefront_unialign_resize(
     wavefront_aligner_t* const wf_aligner,
     const char* const pattern,
     const int pattern_length,
     const char* const text,
-    const int text_length);
+    const int text_length,
+    const bool reverse_sequences);
 
-#endif /* WAVEFRONT_BIALIGN_H_ */
+/*
+ * Initialize alignment
+ */
+void wavefront_unialign_initialize_wavefronts(
+    wavefront_aligner_t* const wf_aligner,
+    const int pattern_length,
+    const int text_length);
+void wavefront_unialign_init(
+    wavefront_aligner_t* const wf_aligner,
+    const char* const pattern,
+    const int pattern_length,
+    const char* const text,
+    const int text_length,
+    const affine2p_matrix_type component_begin,
+    const affine2p_matrix_type component_end);
+
+/*
+ * Classic WF-Alignment (Unidirectional)
+ */
+int wavefront_unialign(
+    wavefront_aligner_t* const wf_aligner);
+
+/*
+ * Display
+ */
+void wavefront_unialign_print_status(
+    FILE* const stream,
+    wavefront_aligner_t* const wf_aligner,
+    const int current_score);
+
+#endif /* WAVEFRONT_UNIALIGN_H_ */
+

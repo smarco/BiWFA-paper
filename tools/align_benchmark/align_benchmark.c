@@ -130,12 +130,6 @@ typedef struct {
   linear_penalties_t linear_penalties;
   affine_penalties_t affine_penalties;
   affine2p_penalties_t affine2p_penalties;
-  // Alignment form
-  bool endsfree;
-  double pattern_begin_free;
-  double text_begin_free;
-  double pattern_end_free;
-  double text_end_free;
   // Wavefront parameters
   bool wfa_score_only;
   wf_heuristic_strategy wfa_heuristic;
@@ -143,10 +137,7 @@ typedef struct {
   int wfa_heuristic_p2;
   int wfa_heuristic_p3;
   wavefront_memory_t wfa_memory_mode;
-  alignment_match_funct_t wfa_match_funct;
-  void* wfa_match_funct_arguments;
   uint64_t wfa_max_memory;
-  bool wfa_bidirectional;
   int wfa_max_threads;
   // Other algorithms parameters
   int bandwidth;
@@ -205,23 +196,14 @@ benchmark_args parameters = {
       .gap_opening2 = 24,
       .gap_extension2 = 1,
   },
-  // Alignment form
-  .endsfree = false,
-  .pattern_begin_free = 0.0,
-  .text_begin_free = 0.0,
-  .pattern_end_free = 0.0,
-  .text_end_free = 0.0,
   // Wavefront parameters
   .wfa_score_only = false,
   .wfa_heuristic = wf_heuristic_none,
   .wfa_heuristic_p1 = -1,
   .wfa_heuristic_p2 = -1,
   .wfa_heuristic_p3 = -1,
-  .wfa_memory_mode = wavefront_memory_high,
-  .wfa_match_funct = NULL,
-  .wfa_match_funct_arguments = NULL,
+  .wfa_memory_mode = wavefront_memory_ultralow,
   .wfa_max_memory = UINT64_MAX,
-  .wfa_bidirectional = false,
   .wfa_max_threads = 1,
   // Other algorithms parameters
   .bandwidth = -1,
@@ -248,87 +230,8 @@ benchmark_args parameters = {
 /*
  * Benchmark UTest
  */
-void align_pairwise_test() {
-  // Patters & Texts
-  char * pattern = "GATTACA";
-  char * text = "GATCACTA";
+void align_pairwise_test() { }
 
-  // Penalties
-  linear_penalties_t linear_penalties = {
-      .match = 0,
-      .mismatch = 4,
-      .indel = 2,
-  };
-  affine_penalties_t affine_penalties = {
-      .match = 0,
-      .mismatch = 4, //9,
-      .gap_opening = 6, //13,
-      .gap_extension = 2,
-  };
-  // Ends
-  const int pattern_begin_free = 0;
-  const int pattern_end_free = 0;
-  const int text_begin_free = 0;
-  const int text_end_free = 0;
-  const bool endsfree =
-      pattern_begin_free>0 || pattern_end_free>0 ||
-      text_begin_free>0 || text_end_free>0;
-  /*
-   * Gap-Affine
-   */
-  // Allocate
-  wavefront_aligner_attr_t attributes = wavefront_aligner_attr_default;
-  attributes.distance_metric = gap_affine;
-  attributes.linear_penalties = linear_penalties;
-  attributes.affine_penalties = affine_penalties;
-  attributes.heuristic.strategy = wf_heuristic_none;
-  attributes.heuristic.min_wavefront_length = 256;
-  attributes.heuristic.max_distance_threshold = 4096;
-  attributes.heuristic.steps_between_cutoffs = 10;
-  attributes.alignment_scope = compute_alignment; // compute_score
-  attributes.memory_mode = wavefront_memory_med;
-  attributes.alignment_form.span = (endsfree) ? alignment_endsfree : alignment_end2end;
-  attributes.alignment_form.pattern_begin_free = pattern_begin_free;
-  attributes.alignment_form.pattern_end_free = pattern_end_free;
-  attributes.alignment_form.text_begin_free = text_begin_free;
-  attributes.alignment_form.text_end_free = text_end_free;
-  attributes.plot_params.plot_enabled = false;
-  wavefront_aligner_t* const wf_aligner = wavefront_aligner_new(&attributes);
-  // Align
-  wavefront_align(wf_aligner,
-      pattern,strlen(pattern),text,strlen(text));
-  // CIGAR
-  fprintf(stderr,">> WFA2");
-  cigar_print_pretty(stderr,
-      pattern,strlen(pattern),text,strlen(text),
-      &wf_aligner->cigar,wf_aligner->mm_allocator);
-  fprintf(stderr,"SCORE: %d \n",cigar_score_gap_affine(&wf_aligner->cigar,&affine_penalties));
-  // Plot
-  if (attributes.plot_params.plot_enabled) {
-    FILE* const wf_plot = fopen("test.wfa","w");
-    wavefront_plot_print(wf_plot,wf_aligner);
-    fclose(wf_plot);
-  }
-  // Free
-  wavefront_aligner_delete(wf_aligner);
-}
-/*
- * Simplest Extend-matching function (for testing purposes)
- */
-typedef struct {
-  char* pattern;
-  int pattern_length;
-  char* text;
-  int text_length;
-} match_function_params_t;
-match_function_params_t match_function_params;
-int match_function(int v,int h,void* arguments) {
-  // Extract parameters
-  match_function_params_t* match_arguments = (match_function_params_t*)arguments;
-  // Check match
-  if (v > match_arguments->pattern_length || h > match_arguments->text_length) return 0;
-  return (match_arguments->pattern[v] == match_arguments->text[h]);
-}
 /*
  * Configuration
  */
@@ -400,15 +303,10 @@ wavefront_aligner_t* align_input_configure_wavefront(
       break;
   }
   // Select alignment form
-  attributes.alignment_form.span = (parameters.endsfree) ? alignment_endsfree : alignment_end2end;
+  attributes.alignment_form.span = alignment_end2end;
   // Misc
-  attributes.bidirectional_alignment = parameters.wfa_bidirectional;
-  if (parameters.wfa_match_funct_arguments != NULL) {
-    attributes.match_funct = parameters.wfa_match_funct;
-    attributes.match_funct_arguments = parameters.wfa_match_funct_arguments;
-  }
-  attributes.plot_params.plot_enabled = (parameters.plot > 0);
-  attributes.plot_params.resolution_points = parameters.plot;
+  attributes.plot.enabled = (parameters.plot > 0);
+  attributes.plot.resolution_points = parameters.plot;
   attributes.system.verbose = parameters.verbose;
   attributes.system.max_memory_abort = parameters.wfa_max_memory;
   attributes.system.max_num_threads = parameters.wfa_max_threads;
@@ -424,7 +322,7 @@ void align_input_configure_global(
   align_input->affine_penalties = parameters.affine_penalties;
   align_input->affine2p_penalties = parameters.affine2p_penalties;
   // Alignment form
-  align_input->ends_free = parameters.endsfree;
+  align_input->ends_free = false;
   // Output
   align_input->output_file = parameters.output_file;
   align_input->output_full = parameters.output_full;
@@ -450,30 +348,6 @@ void align_input_configure_global(
   align_input->check_affine2p_penalties = &parameters.affine2p_penalties;
   align_input->check_bandwidth = parameters.check_bandwidth;
   align_input->verbose = parameters.verbose;
-}
-void align_input_configure_local(
-    align_input_t* const align_input) {
-  // Ends-free configuration
-  if (parameters.endsfree) {
-    const int plen = align_input->pattern_length;
-    const int tlen = align_input->text_length;
-    align_input->pattern_begin_free = nominal_prop_u32(plen,parameters.pattern_begin_free);
-    align_input->pattern_end_free = nominal_prop_u32(plen,parameters.pattern_end_free);
-    align_input->text_begin_free = nominal_prop_u32(tlen,parameters.text_begin_free);
-    align_input->text_end_free = nominal_prop_u32(tlen,parameters.text_end_free);
-    if (align_benchmark_is_wavefront(parameters.algorithm)) {
-      wavefront_aligner_set_alignment_free_ends(align_input->wf_aligner,
-          align_input->pattern_begin_free,align_input->pattern_end_free,
-          align_input->text_begin_free,align_input->text_end_free);
-    }
-  }
-  // Custom extend-match function
-  if (parameters.wfa_match_funct != NULL) {
-    match_function_params.pattern = align_input->pattern;
-    match_function_params.pattern_length = align_input->pattern_length;
-    match_function_params.text = align_input->text;
-    match_function_params.text_length = align_input->text_length;
-  }
 }
 void align_benchmark_free(
     align_input_t* const align_input) {
@@ -566,8 +440,6 @@ void align_benchmark_plot_wf(
  */
 void align_benchmark_run_algorithm(
     align_input_t* const align_input) {
-  // Sequence-dependent configuration
-  align_input_configure_local(align_input);
   // Select algorithm
   switch (parameters.algorithm) {
     // Indel
@@ -852,7 +724,7 @@ void usage() {
       "          --ends-free P0,Pf,T0,Tf                                       \n"
       "        [Wavefront parameters]                                          \n"
       "          --wfa-score-only                                              \n"
-      "          --wfa-memory-mode 'high'|'med'|'low'                          \n"
+      "          --wfa-memory-mode 'high'|'med'|'low'|'ultralow'               \n"
       "          --wfa-heuristic <Strategy>                                    \n"
       "          --wfa-heuristic-parameters  <P1>,<P2>[,<P3>]                  \n"
       "            [Strategy='banded-static']                                  \n"
@@ -905,15 +777,12 @@ void parse_arguments(int argc,char** argv) {
     { "linear-penalties", required_argument, 0, 'p' },
     { "affine-penalties", required_argument, 0, 'g' },
     { "affine2p-penalties", required_argument, 0, 900 },
-    { "ends-free", required_argument, 0, 901 },
     /* Wavefront parameters */
     { "wfa-score-only", no_argument, 0, 1000 },
     { "wfa-memory-mode", required_argument, 0, 1001 },
     { "wfa-heuristic", required_argument, 0, 1002 },
     { "wfa-heuristic-parameters", required_argument, 0, 1003 },
-    { "wfa-custom-match-funct", no_argument, 0, 1004 },
     { "wfa-max-memory", required_argument, 0, 1005 },
-    { "wfa-bidirectional", no_argument, 0, 1006 },
     { "wfa-max-threads", required_argument, 0, 1007 },
     /* Other alignment parameters */
     { "bandwidth", required_argument, 0, 2000 },
@@ -1077,33 +946,23 @@ void parse_arguments(int argc,char** argv) {
       parameters.affine2p_penalties.gap_extension2 = atoi(sentinel);
       break;
     }
-    case 901: { // --ends-free P0,Pf,T0,Tf
-      parameters.endsfree = true;
-      char* sentinel = strtok(optarg,",");
-      parameters.pattern_begin_free = atof(sentinel);
-      sentinel = strtok(NULL,",");
-      parameters.pattern_end_free = atof(sentinel);
-      sentinel = strtok(NULL,",");
-      parameters.text_begin_free = atof(sentinel);
-      sentinel = strtok(NULL,",");
-      parameters.text_end_free = atof(sentinel);
-      break;
-    }
     /*
      * Wavefront parameters
      */
     case 1000: // --wfa-score-only
       parameters.wfa_score_only = true;
       break;
-    case 1001: // --wfa-memory-mode in {'high','med','low'}
+    case 1001: // --wfa-memory-mode in {'high','med','low','ultralow'}
       if (strcmp(optarg,"high")==0) {
         parameters.wfa_memory_mode = wavefront_memory_high;
       } else if (strcmp(optarg,"med")==0) {
         parameters.wfa_memory_mode = wavefront_memory_med;
       } else if (strcmp(optarg,"low")==0) {
         parameters.wfa_memory_mode = wavefront_memory_low;
+      } else if (strcmp(optarg,"low")==0 || strcmp(optarg,"biwfa")==0) {
+        parameters.wfa_memory_mode = wavefront_memory_ultralow;
       } else {
-        fprintf(stderr,"Option '--wfa-memory-mode' must be in {'high','med','low'}\n");
+        fprintf(stderr,"Option '--wfa-memory-mode' must be in {'high','med','low','ultralow'}\n");
         exit(1);
       }
       break;
@@ -1139,15 +998,8 @@ void parse_arguments(int argc,char** argv) {
       }
       break;
     }
-    case 1004: // --wfa-custom-match-funct
-      parameters.wfa_match_funct = match_function;
-      parameters.wfa_match_funct_arguments = &match_function_params;
-      break;
     case 1005: // --wfa-max-memory
       parameters.wfa_max_memory = atol(optarg);
-      break;
-    case 1006: // --wfa-bidirectional
-      parameters.wfa_bidirectional = true;
       break;
     case 1007: // --wfa-max-threads
       parameters.wfa_max_threads = atoi(optarg);
@@ -1254,24 +1106,6 @@ void parse_arguments(int argc,char** argv) {
   if (parameters.algorithm!=alignment_test && parameters.input_filename==NULL) {
     fprintf(stderr,"Option --input is required \n");
     exit(1);
-  }
-  // Check 'ends-free' parameter
-  if (parameters.endsfree) {
-    switch (parameters.algorithm) {
-      case alignment_gap_affine_swg:
-        parameters.algorithm = alignment_gap_affine_swg_endsfree;
-        break;
-      case alignment_indel_wavefront:
-      case alignment_edit_wavefront:
-      case alignment_gap_linear_wavefront:
-      case alignment_gap_affine_wavefront:
-      case alignment_gap_affine2p_wavefront:
-        break;
-      default:
-        fprintf(stderr,"Ends-free variant not implemented for the selected algorithm\n");
-        exit(1);
-        break;
-    }
   }
   // Check 'bandwidth' parameter
   switch (parameters.algorithm) {
