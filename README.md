@@ -16,10 +16,10 @@ In practice, our implementation never requires more than a few hundred MBs align
 <img src = "img/biwfa.png" width="300px">
 </p>
 
-Usage: Same as [WFA2-lib](https://github.com/smarco/WFA2-lib), adding the option `--wfa-bidirectional`
+Usage: Same as [WFA2-lib](https://github.com/smarco/WFA2-lib)
 
 ```
-./bin/align_benchmark -i sequences.seq -o out.alg --affine-penalties 0,3,6,1 --wfa-bidirectional
+./bin/align_benchmark -i sequences.seq -o out.alg --affine-penalties 0,3,6,1
 ```
 
 For more documentation on the library and other features, go to [WFA2-lib](https://github.com/smarco/WFA2-lib).
@@ -54,7 +54,7 @@ The BiWFA-paper includes the benchmarking tool *align-benchmark* to test the BiW
 Once you have the dataset ready, you can run the *align-benchmark* tool to benchmark the performance:
 
 ```
-$> ./bin/align_benchmark -i sample.dataset.seq --wfa-bidirectional
+$> ./bin/align_benchmark -i sample.dataset.seq
 ...processed 10000 reads (benchmark=125804.398 reads/s;alignment=188049.469 reads/s)
 ...processed 20000 reads (benchmark=117722.406 reads/s;alignment=180925.031 reads/s)
 [...]
@@ -68,7 +68,7 @@ $> ./bin/align_benchmark -i sample.dataset.seq --wfa-bidirectional
 The *align-benchmark* tool will finish and report overall benchmark time (including reading the input, setup, checking, etc.) and the time taken by the algorithm (i.e., *Time.Alignment*). If you want to measure the accuracy of the alignment method, you can add the option `--check` and all the alignments will be verified. 
 
 ```
-$> ./bin/align_benchmark -i sample.dataset.seq --wfa-bidirectional --check
+$> ./bin/align_benchmark -i sample.dataset.seq --check
 ...processed 10000 reads (benchmark=14596.232 reads/s;alignment=201373.984 reads/s)
 ...processed 20000 reads (benchmark=13807.268 reads/s;alignment=194224.922 reads/s)
 [...]
