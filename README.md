@@ -4,13 +4,7 @@
 
 This repository is a WFA2-lib development branch implementing the bidirectional WFA (BiWFA) algorithm capable of `O(ns)` alignment using `O(s)` memory.
 
-BiWFA is the first gap-affine algorithm capable of computing optimal alignments in `O(s)` memory while retaining the WFA's time complexity of `O(ns)`.
-The core idea of the BiWFA algorithm is to perform the WFA algorithm simultaneously in both directions on the strings: from start to end, and from end to start.
-Each direction will only retain `max{x,o+e}` wavefronts in memory.
-This is insufficient to perform a full traceback.
-However, when they "meet" in the middle, we can infer a breakpoint in the alignment that divides the optimal score roughly in half.
-Then, we can then apply the same procedure on the two sides of the breakpoint recursively.
-In practice, our implementation never requires more than a few hundred MBs aligning noisy Oxford Nanopore Technologies reads up to 1 Mbp long while maintaining competitive execution times.
+BiWFA is the first gap-affine algorithm capable of computing optimal alignments in `O(s)` memory while retaining the WFA's time complexity of `O(ns)`. The core idea of the BiWFA algorithm is to perform the WFA algorithm simultaneously in both directions on the strings: from start to end, and from end to start. Each direction will only retain `max{x,o+e}` wavefronts in memory. This is insufficient to perform a full traceback. However, when they "meet" in the middle, we can infer a breakpoint in the alignment that divides the optimal score roughly in half. Then, we can then apply the same procedure on the two sides of the breakpoint recursively. In practice, our implementation never requires more than a few hundred MBs aligning noisy Oxford Nanopore Technologies reads up to 1 Mbp long while maintaining competitive execution times.
 
 <p align = "center">
 <img src = "img/biwfa.png" width="300px">
@@ -34,9 +28,9 @@ For more documentation on the library and other features, go to [WFA2-lib](https
 Git clone and compile the library, tools, and examples.
 
 ```
-$> git clone https://github.com/smarco/BiWFA-paper
-$> cd BiWFA-paper
-$> make clean all
+git clone https://github.com/smarco/BiWFA-paper
+cd BiWFA-paper
+make clean all
 ```
 
 ### 1.2 Alignment Testing & Benchmarking
