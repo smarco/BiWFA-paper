@@ -34,7 +34,10 @@ for line in sys.stdin:
         seq_name = line.split('.seq ')[0].split('/')[-1]
 
         if 'gap-affine-wfa' in line:
-            algorithm = 'wfa-' + line.split('--wfa-memory-mode ')[1].split(' ')[0].strip()
+            if '--wfa-memory-mode' in line:
+                algorithm = 'wfa-' + line.split('--wfa-memory-mode ')[1].split(' ')[0].strip()
+            else:
+                algorithm = 'wfa-ultralow'
         else:
             algorithm = line.split(' -a ')[1].split(' ')[0].strip()
 
