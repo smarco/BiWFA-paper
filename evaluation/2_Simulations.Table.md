@@ -30,7 +30,7 @@ DIR_RESULTS=/gpfs/projects/bsc18/bsc18995/biwfa/simulations_table/results
 mkdir -p $DIR_RESULTS
 
 for input in "sim.l100.n1M" "sim.l1K.n100K" "sim.l10K.n1K" "sim.l100K.n10" "sim.l1M.n1" "sim.l2M.n1"; do
-  for error in 0.40 0.20 0.10 0.05 0.01 0.001
+  for error in 0.40 0.20 0.10 0.05 0.01 0.001; do
     PREFIX=${DIR_RESULTS}/$input.$error
     PATH_SEQ=/gpfs/projects/bsc18/bsc18995/biwfa/simulations_table/datasets/$input.$error.seq
     
