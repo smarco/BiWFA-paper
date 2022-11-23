@@ -219,7 +219,7 @@ done
 
 ## ONT MinION
 
-Prepare sequence pairs:
+Prepare the sequence pairs (from [Bowden et. al, 2019](https://doi.org/10.1038/s41467-019-09637-5)):
 
 ```shell
 FILTER_SEQ_PY=/gpfs/projects/bsc18/bsc18995/biwfa/BiWFA-paper/evaluation/scripts/filter_seq.py
@@ -267,7 +267,10 @@ cat /gpfs/projects/bsc18/bsc18571/wfa2/datasets/real/Nanopore.UL.100K.seq | pyth
 done
 ```
 
-You can find the long sequence pairs in the `~/BiWFA-paper/evaluation/data/ONT_MinION_UL.500kbps.zip` file.
+You can find the sequence pairs in the following files:
+- `~/BiWFA-paper/evaluation/data/ONT_MinION_UL.500kbps.zip`
+- `~/BiWFA-paper/evaluation/data/ONT_MinION_UL.10kbps.5000.tar.gz`
+- `~/BiWFA-paper/evaluation/data/ONT_MinION_UL.50kbps.10000.tar.gz`
 
 
 Align sequences:
