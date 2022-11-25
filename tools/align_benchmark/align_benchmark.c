@@ -119,6 +119,7 @@ typedef struct {
   char *input_filename;
   char *output_filename;
   bool output_full;
+  int target_bases_aligned;
   // I/O internals
   FILE* input_file;
   char* line1;
@@ -170,6 +171,7 @@ benchmark_args parameters = {
   .output_filename = NULL,
   .output_full = false,
   .output_file = NULL,
+  .target_bases_aligned = 1000000,
   // I/O internals
   .input_file = NULL,
   .line1 = NULL,
@@ -383,59 +385,6 @@ bool align_benchmark_read_input(
   return true;
 }
 /*
- * Display
- */
-void align_benchmark_print_progress(
-    const int seqs_processed) {
-  const uint64_t time_elapsed_alg = timer_get_current_total_ns(&parameters.timer_global);
-  const float rate_alg = (float)seqs_processed/(float)TIMER_CONVERT_NS_TO_S(time_elapsed_alg);
-  fprintf(stderr,"...processed %d reads (alignment = %2.3f seq/s)\n",seqs_processed,rate_alg);
-}
-void align_benchmark_print_results(
-    align_input_t* const align_input,
-    const int seqs_processed,
-    const bool print_stats) {
-  // Print benchmark results
-  fprintf(stderr,"[Benchmark]\n");
-  fprintf(stderr,"=> Total.reads            %d\n",seqs_processed);
-  fprintf(stderr,"=> Time.Benchmark      ");
-  timer_print(stderr,&parameters.timer_global,NULL);
-  if (parameters.num_threads == 1) {
-    fprintf(stderr,"  => Time.Alignment    %2.3f (s)\n",
-        TIMER_CONVERT_NS_TO_S(timer_get_total_ns(&align_input->timer)));
-    //timer_print(stderr,&align_input->timer,&parameters.timer_global);
-  } else {
-    for (int i=0;i<parameters.num_threads;++i) {
-      fprintf(stderr,"  => Time.Alignment.Thread.%0d    %2.3f (s)\n",i,
-          TIMER_CONVERT_NS_TO_S(timer_get_total_ns(&align_input[i].timer)));
-      //timer_print(stderr,&align_input[i].timer,&parameters.timer_global);
-    }
-  }
-  // Print Stats
-  const bool checks_enabled =
-      parameters.check_display || parameters.check_correct ||
-      parameters.check_score || parameters.check_alignments;
-  if (checks_enabled && parameters.num_threads==1) {
-    const bool print_wf_stats = (parameters.algorithm == alignment_gap_affine_wavefront);
-    benchmark_print_stats(stderr,align_input,print_wf_stats);
-  }
-}
-void align_benchmark_plot_wf(
-    align_input_t* const align_input,
-    const int seq_id) {
-  // Setup filename
-  char filename[500];
-  if (parameters.output_filename != NULL) {
-    sprintf(filename,"%s.%03d.wfa",parameters.output_filename,seq_id);
-  } else {
-    sprintf(filename,"%s.%03d.wfa",parameters.input_filename,seq_id);
-  }
-  // Open file
-  FILE* const wf_plot = fopen(filename,"w");
-  wavefront_plot_print(wf_plot,align_input->wf_aligner);
-  fclose(wf_plot);
-}
-/*
  * Benchmark
  */
 void align_benchmark_run_algorithm(
@@ -542,9 +491,6 @@ void align_benchmark_run_algorithm(
   }
 }
 void align_benchmark_sequential() {
-  // PROFILE
-  timer_reset(&parameters.timer_global);
-  timer_start(&parameters.timer_global);
   // I/O files
   parameters.input_file = fopen(parameters.input_filename, "r");
   if (parameters.input_file == NULL) {
@@ -558,7 +504,7 @@ void align_benchmark_sequential() {
   align_input_t align_input;
   align_input_configure_global(&align_input);
   // Read-align loop
-  int seqs_processed = 0, progress = 0;
+  int seqs_processed = 0;
   while (true) {
     // Read input sequence-pair
     const bool input_read = align_benchmark_read_input(
@@ -567,99 +513,28 @@ void align_benchmark_sequential() {
         seqs_processed,&align_input);
     if (!input_read) break;
     // Execute the selected algorithm
-    align_benchmark_run_algorithm(&align_input);
-    // Update progress
-    ++seqs_processed;
-    if (++progress == parameters.progress) {
-      progress = 0;
-      align_benchmark_print_progress(seqs_processed);
+    timer_reset(&align_input.timer);
+    int bases_aligned = 0, times_aligned = 0;
+    while (bases_aligned < parameters.target_bases_aligned) {
+      align_benchmark_run_algorithm(&align_input);
+      bases_aligned += align_input.pattern_length;
+      times_aligned++;
     }
-    // DEBUG
-    // mm_allocator_print(stderr,align_input.wf_aligner->mm_allocator,true);
-    // Plot
-    if (parameters.plot > 0) align_benchmark_plot_wf(&align_input,seqs_processed);
+    /*
+     * Print stats
+     * <LENGTH>    <TIME(ms)>    <SCORE>    <ERROR(%)>
+     */
+    const double time_ms = TIMER_CONVERT_NS_TO_MS(timer_get_total_ns(&align_input.timer));
+    fprintf(stderr,"%d\t%2.6f\t%d\t%2.2f\n",
+        align_input.pattern_length,
+        time_ms/(double)times_aligned,
+        align_input.wf_aligner->cigar->score,
+        100.0*(double)cigar_score_edit(align_input.wf_aligner->cigar)/(double)align_input.pattern_length);
+    // Next
+    ++seqs_processed;
   }
-  // Print benchmark results
-  timer_stop(&parameters.timer_global);
-  align_benchmark_print_results(&align_input,seqs_processed,true);
   // Free
   align_benchmark_free(&align_input);
-  fclose(parameters.input_file);
-  if (parameters.output_file) fclose(parameters.output_file);
-  free(parameters.line1);
-  free(parameters.line2);
-}
-void align_benchmark_parallel() {
-  // PROFILE
-  timer_reset(&parameters.timer_global);
-  timer_start(&parameters.timer_global);
-  // Open input file
-  parameters.input_file = fopen(parameters.input_filename, "r");
-  if (parameters.input_file == NULL) {
-    fprintf(stderr,"Input file '%s' couldn't be opened\n",parameters.input_filename);
-    exit(1);
-  }
-  if (parameters.output_filename != NULL) {
-    parameters.output_file = fopen(parameters.output_filename, "w");
-  }
-  // Global configuration
-  align_input_t align_input[parameters.num_threads];
-  for (int tid=0;tid<parameters.num_threads;++tid) {
-    align_input_configure_global(align_input+tid);
-  }
-  // Read-align loop
-  sequence_buffer_t* const sequence_buffer = sequence_buffer_new(2*parameters.batch_size,100);
-  int seqs_processed = 0, progress = 0, seqs_batch = 0;
-  while (true) {
-    // Read batch-input sequence-pair
-    sequence_buffer_clear(sequence_buffer);
-    for (seqs_batch=0;seqs_batch<parameters.batch_size;++seqs_batch) {
-      const bool seqs_pending = align_benchmark_read_input(
-          parameters.input_file,&parameters.line1,&parameters.line2,
-          &parameters.line1_allocated,&parameters.line2_allocated,
-          seqs_processed,align_input);
-      if (!seqs_pending) break;
-      // Add pair pattern-text
-      sequence_buffer_add_pair(sequence_buffer,
-          align_input->pattern,align_input->pattern_length,
-          align_input->text,align_input->text_length);
-    }
-    if (seqs_batch == 0) break;
-    // Parallel processing of the sequences batch
-    #pragma omp parallel num_threads(parameters.num_threads)
-    {
-      int tid = omp_get_thread_num();
-      #pragma omp for
-      for (int seq_idx=0;seq_idx<seqs_batch;++seq_idx) {
-        // Configure sequence
-        sequence_offset_t* const offset = sequence_buffer->offsets + seq_idx;
-        align_input[tid].sequence_id = seqs_processed;
-        align_input[tid].pattern = sequence_buffer->buffer + offset->pattern_offset;
-        align_input[tid].pattern_length = offset->pattern_length;
-        align_input[tid].text = sequence_buffer->buffer + offset->text_offset;
-        align_input[tid].text_length = offset->text_length;
-        // Execute the selected algorithm
-        align_benchmark_run_algorithm(align_input+tid);
-      }
-    }
-    // Update progress
-    seqs_processed += seqs_batch;
-    progress += seqs_batch;
-    if (progress >= parameters.progress) {
-      progress -= parameters.progress;
-      align_benchmark_print_progress(seqs_processed);
-    }
-    // DEBUG
-    // mm_allocator_print(stderr,align_input.wf_aligner->mm_allocator,true);
-  }
-  // Print benchmark results
-  timer_stop(&parameters.timer_global);
-  align_benchmark_print_results(align_input,seqs_processed,true);
-  // Free
-  for (int tid=0;tid<parameters.num_threads;++tid) {
-    align_benchmark_free(align_input+tid);
-  }
-  sequence_buffer_delete(sequence_buffer);
   fclose(parameters.input_file);
   if (parameters.output_file) fclose(parameters.output_file);
   free(parameters.line1);
@@ -717,6 +592,7 @@ void usage() {
       "          --input|i <File>                                              \n"
       "          --output|o <File>                                             \n"
       "          --output-full <File>                                          \n"
+      "          --repeat|-r <TargetBasesAligned>                              \n"
       "        [Penalties & Span]                                              \n"
       "          --linear-penalties|p M,X,I                                    \n"
       "          --affine-penalties|g M,X,O,E                                  \n"
@@ -761,8 +637,8 @@ void usage() {
       "          --check-bandwidth <INT>                                       \n"
       "          --plot                                                        \n"
       "        [System]                                                        \n"
-      "          --num-threads|t <INT>                                         \n"
-      "          --batch-size <INT>                                            \n"
+    //"          --num-threads|t <INT>                                         \n"
+    //"          --batch-size <INT>                                            \n"
     //"          --progress|P <INT>                                            \n"
       "          --help|h                                                      \n");
 }
@@ -773,6 +649,7 @@ void parse_arguments(int argc,char** argv) {
     { "input", required_argument, 0, 'i' },
     { "output", required_argument, 0, 'o' },
     { "output-full", required_argument, 0, 800 },
+    { "repeat", required_argument, 0, 'r' },
     /* Penalties */
     { "linear-penalties", required_argument, 0, 'p' },
     { "affine-penalties", required_argument, 0, 'g' },
@@ -810,7 +687,7 @@ void parse_arguments(int argc,char** argv) {
     exit(0);
   }
   while (1) {
-    c=getopt_long(argc,argv,"a:i:o:p:g:P:c:v::t:h",long_options,&option_index);
+    c=getopt_long(argc,argv,"a:i:o:r:p:g:P:c:v::t:h",long_options,&option_index);
     if (c==-1) break;
     switch (c) {
     /*
@@ -907,6 +784,9 @@ void parse_arguments(int argc,char** argv) {
     case 800: // --output-full
       parameters.output_filename = optarg;
       parameters.output_full = true;
+      break;
+    case 'r': // --repeat
+      parameters.target_bases_aligned = atoi(optarg);
       break;
     /*
      * Penalties
@@ -1162,10 +1042,6 @@ int main(int argc,char* argv[]) {
     align_pairwise_test();
   } else {
     // Execute benchmark
-    if (parameters.num_threads == 1) {
-      align_benchmark_sequential();
-    } else {
-      align_benchmark_parallel();
-    }
+    align_benchmark_sequential();
   }
 }
