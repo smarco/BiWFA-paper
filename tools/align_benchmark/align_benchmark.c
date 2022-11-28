@@ -171,7 +171,7 @@ benchmark_args parameters = {
   .output_filename = NULL,
   .output_full = false,
   .output_file = NULL,
-  .target_bases_aligned = 1000000,
+  .target_bases_aligned = 0,
   // I/O internals
   .input_file = NULL,
   .line1 = NULL,
@@ -385,6 +385,35 @@ bool align_benchmark_read_input(
   return true;
 }
 /*
+ * Display
+ */
+void align_benchmark_print_progress(
+    const int seqs_processed) {
+  const uint64_t time_elapsed_alg = timer_get_current_total_ns(&parameters.timer_global);
+  const float rate_alg = (float)seqs_processed/(float)TIMER_CONVERT_NS_TO_S(time_elapsed_alg);
+  fprintf(stderr,"...processed %d reads (alignment = %2.3f seq/s)\n",seqs_processed,rate_alg);
+}
+void align_benchmark_print_results(
+    align_input_t* const align_input,
+    const int seqs_processed,
+    const bool print_stats) {
+  // Print benchmark results
+  fprintf(stderr,"[Benchmark]\n");
+  fprintf(stderr,"=> Total.reads            %d\n",seqs_processed);
+  fprintf(stderr,"=> Time.Benchmark      ");
+  timer_print(stderr,&parameters.timer_global,NULL);
+  fprintf(stderr,"  => Time.Alignment    %2.3f (s)\n",
+      TIMER_CONVERT_NS_TO_S(timer_get_total_ns(&align_input->timer)));
+  //timer_print(stderr,&align_input->timer,&parameters.timer_global);
+  // Print Stats
+  const bool checks_enabled =
+      parameters.check_display || parameters.check_correct ||
+      parameters.check_score || parameters.check_alignments;
+  if (checks_enabled) {
+    benchmark_print_stats(stderr,align_input,true);
+  }
+}
+/*
  * Benchmark
  */
 void align_benchmark_run_algorithm(
@@ -491,6 +520,9 @@ void align_benchmark_run_algorithm(
   }
 }
 void align_benchmark_sequential() {
+  // PROFILE
+  timer_reset(&parameters.timer_global);
+  timer_start(&parameters.timer_global);
   // I/O files
   parameters.input_file = fopen(parameters.input_filename, "r");
   if (parameters.input_file == NULL) {
@@ -504,7 +536,8 @@ void align_benchmark_sequential() {
   align_input_t align_input;
   align_input_configure_global(&align_input);
   // Read-align loop
-  int seqs_processed = 0;
+  const bool aggregated_stats = (parameters.target_bases_aligned == 0);
+  int seqs_processed = 0, progress = 0;
   while (true) {
     // Read input sequence-pair
     const bool input_read = align_benchmark_read_input(
@@ -513,25 +546,44 @@ void align_benchmark_sequential() {
         seqs_processed,&align_input);
     if (!input_read) break;
     // Execute the selected algorithm
-    timer_reset(&align_input.timer);
-    int bases_aligned = 0, times_aligned = 0;
-    while (bases_aligned < parameters.target_bases_aligned) {
+    if (aggregated_stats) {
       align_benchmark_run_algorithm(&align_input);
-      bases_aligned += align_input.pattern_length;
-      times_aligned++;
+    } else {
+      timer_reset(&align_input.timer);
+      int bases_aligned = 0, times_aligned = 0;
+      while (bases_aligned < parameters.target_bases_aligned) {
+        align_benchmark_run_algorithm(&align_input);
+        bases_aligned += align_input.pattern_length;
+        times_aligned++;
+      }
+      /*
+       * Print stats
+       * <LENGTH>    <TIME(ms)>    <SCORE>    <ERROR(%)>
+       */
+      const double time_ms = TIMER_CONVERT_NS_TO_MS(timer_get_total_ns(&align_input.timer));
+      if (align_input.wf_aligner == NULL) {
+        fprintf(stderr,"%d\t%2.6f\n",
+            align_input.pattern_length,
+            time_ms/(double)times_aligned);
+      } else {
+        fprintf(stderr,"%d\t%2.6f\t%d\t%2.2f\n",
+            align_input.pattern_length,
+            time_ms/(double)times_aligned,
+            align_input.wf_aligner->cigar->score,
+            100.0*(double)cigar_score_edit(align_input.wf_aligner->cigar)/(double)align_input.pattern_length);
+      }
     }
-    /*
-     * Print stats
-     * <LENGTH>    <TIME(ms)>    <SCORE>    <ERROR(%)>
-     */
-    const double time_ms = TIMER_CONVERT_NS_TO_MS(timer_get_total_ns(&align_input.timer));
-    fprintf(stderr,"%d\t%2.6f\t%d\t%2.2f\n",
-        align_input.pattern_length,
-        time_ms/(double)times_aligned,
-        align_input.wf_aligner->cigar->score,
-        100.0*(double)cigar_score_edit(align_input.wf_aligner->cigar)/(double)align_input.pattern_length);
-    // Next
+    // Update progress
     ++seqs_processed;
+    if (aggregated_stats && ++progress == parameters.progress) {
+      progress = 0;
+      align_benchmark_print_progress(seqs_processed);
+    }
+  }
+  // Print benchmark results
+  if (aggregated_stats) {
+    timer_stop(&parameters.timer_global);
+    align_benchmark_print_results(&align_input,seqs_processed,true);
   }
   // Free
   align_benchmark_free(&align_input);
