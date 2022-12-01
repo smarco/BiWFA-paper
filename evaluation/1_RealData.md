@@ -240,7 +240,7 @@ cat /gpfs/projects/bsc18/bsc18571/wfa2/datasets/real/Nanopore.UL.100K.seq | pyth
 done
 ```
 
-You can find the sequence pairs in the `~/BiWFA-paper/evaluation/data/ONT_MinION_UL.zip` file. 
+You can find the sequence pairs in the `~/BiWFA-paper/evaluation/data/ONT_MinION_UL.2000.tar.gz` file. 
 
 Prepare batches (for better parallelization):
 ```shell
