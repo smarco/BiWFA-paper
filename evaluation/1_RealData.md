@@ -106,7 +106,7 @@ ls datasets/chr13_hsat1_read_fastas/chr13_hsat1_read_fastas/*.fa | while read PA
 done
 ```
 
-Align sequences:
+Prepare batches (for better parallelization):
 
 ```shell
 cd /gpfs/projects/bsc18/bsc18995/biwfa/hsapiens
@@ -116,15 +116,12 @@ ls seq_pairs/ | grep ont | while read SET; do
   echo $SET
   ls /gpfs/projects/bsc18/bsc18995/biwfa/hsapiens/seq_pairs/$SET/*.seq | split -l 200 - ${SET}_chunk_
 done
+```
 
-# Put sequences of the same chunk together
-ls seq_pairs/ | grep ont | while read SET; do
-  echo $SET
-  ls ${SET}_chunk_* | while read PATH_CHUNK; do
-    echo $PATH_CHUNK
-    cat $(cat $PATH_CHUNK) > $PATH_CHUNK.seq
-  done
-done
+Align sequences:
+
+```shell
+cd /gpfs/projects/bsc18/bsc18995/biwfa/hsapiens
 
 module load cmake gcc/10.2.0
 RUN_BENCHMARK=/gpfs/projects/bsc18/bsc18995/biwfa/BiWFA-paper/bin/align_benchmark
@@ -187,7 +184,7 @@ rm seq_statistics/statistics.tsv
 rm seq_statistics/scores.tsv
 rm seq_statistics/lengths.tsv
 
-ls seq_pairs/ | grep -v 10kbp | while read SET; do
+ls seq_alignments/ | while read SET; do
   echo $SET
  
   cat seq_alignments/$SET/*.log | python3 ../log2info.py | awk -v OFS='\t' -v SET=$SET '{print(SET,$0)}' >> seq_statistics/statistics.tsv
@@ -203,30 +200,6 @@ ls seq_pairs/ | grep -v 10kbp | while read SET; do
 #    grep 'Maximum resident' $PREFIX.*.log  | cut -f 3 -d '/' | sed 's/.log://' | sed 's/Maximum resident set size (kbytes): //g' | tr '.' '\t' | awk -v OFS='\t' -v SET=$SET '{print(SET,$0,"memory_kb")}' >> seq_statistics/statistics.tsv
 #    grep '^-' $PREFIX.*.out | cut -f 1 | cut -f 3 -d '/' | sed 's/out://' | tr '.' '\t' | awk -v OFS='\t' -v SET=$SET '{print(SET,$0,"memory_kb")}' >> seq_statistics/scores.tsv
   done
-done
-
-# Short reads (<= 10 kbps) for ont_regions
-SET=ont_regions_10kbps
-rm seq_statistics/lengths.10kbps.tsv
-
-cat seq_alignments/$SET/*/*.log | python3 ../log2info.py | awk -v OFS='\t' -v SET=$SET '{print(SET,$0)}' > seq_statistics/statistics.10kbps.tsv
-# Too slow. Slow, but easy way to collect statistics
-#ls seq_alignments/$SET | while read NAME_SEQ; do
-#  echo $NAME_SEQ
-#  for ALG in  biwfa wfa-med wfa-low wfa-high wfalm wfalm-lowmem wfalm-rec edlib bitpal-scored ksw2-extz2-sse; do
-#    echo $ALG
-#    seq 1 100 | while read i; do
-#      PATH_LOG=seq_alignments/$SET/$NAME/$NAME.$i.$ALG.log
-#      cat $PATH_LOG | python3 ../log2info.py | awk -v OFS='\t' -v SET=$SET -v rep=$i '{print(SET,rep,$0)}' >> seq_statistics/statistics.10kbps.tsv
-#    done
-#  done
-#done
-
-grep '^-' seq_alignments/$SET/*/*.*.out | cut -f 1 | cut -f 4 -d '/' | sed 's/out://' | tr '.' '\t' | awk -v OFS='\t' -v SET=$SET '{print(SET,$0)}' | grep bitpal-scored -v > seq_statistics/scores.10kbps.tsv
-  
-ls seq_pairs/$SET/*.seq | while read PATH_SEQ; do
-  NAME=$(basename $PATH_SEQ .seq)
-  cat $PATH_SEQ | tr '\n' ' ' | less -S | awk -v OFS='\t' -v SET=$SET -v NAME=$NAME '{print(SET, NAME, length($1)-1, length($2)-1)}' >> seq_statistics/lengths.10kbps.tsv
 done
 ```
 
@@ -269,6 +242,13 @@ done
 
 You can find the sequence pairs in the `~/BiWFA-paper/evaluation/data/ONT_MinION_UL.zip` file. 
 
+Prepare batches (for better parallelization):
+```shell
+cd /gpfs/projects/bsc18/bsc18995/biwfa/ont_ul/
+
+# Divide in chunks to avoid too long jobs
+ls /gpfs/projects/bsc18/bsc18995/biwfa/ont_ul/seq_pairs/*.seq | split -l 200 - chunk_
+```
 
 Align sequences:
 
@@ -281,15 +261,6 @@ SET=ont_ul
 
 module load cmake gcc/10.2.0
 RUN_BENCHMARK=/gpfs/projects/bsc18/bsc18995/biwfa/BiWFA-paper/bin/align_benchmark
-
-# Divide in chunks to avoid too long jobs
-ls /gpfs/projects/bsc18/bsc18995/biwfa/ont_ul/seq_pairs/*.seq | split -l 200 - chunk_
-
-# Put sequences of the same chunk together
-ls chunk_* | while read PATH_CHUNK; do
-  echo $PATH_CHUNK
-  cat $(cat $PATH_CHUNK) > $PATH_CHUNK.seq
-done
 
 ls chunk_* | while read PATH_CHUNK; do
   echo $PATH_CHUNK

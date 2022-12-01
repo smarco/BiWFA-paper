@@ -8,6 +8,8 @@ algorithm = ''
 elapsed_wall_clock_time = ''
 max_resident_set_size = ''
 num_replicate = ''
+error_rate = 'na'
+time_unit_of_measure = ''
 
 error = False
 
@@ -34,13 +36,25 @@ for line in sys.stdin:
                 elapsed_wall_clock_time = 0.0
             elapsed_wall_clock_time = str(elapsed_wall_clock_time)
 
+        time_unit_of_measure = 'time_s'
+        max_resident_set_size = ''
+    elif 'InfoAlignment' in line:
+        # InfoAlignment: 162789	1225.355969	-43276	5.21
+        # QUERY_LENTH, AVERAGE_TIME_MS[, SCORE, ERROR_RATE]
+        info = line.strip().split('InfoAlignment: ')[1].split('\t')
+        elapsed_wall_clock_time = info[1]
+        if len(info) > 2:
+            # WFA-based alignments report also the score and the error rate
+            error_rate = info[3]
+
+        time_unit_of_measure = 'time_ms'
         max_resident_set_size = ''
     elif 'Command being timed' in line:
         seq_name = line.split('.seq ')[0].split('/')[-1]
 
         if 'gap-affine-wfa' in line:
             # The old align_benchmark had the --wfa-bidirectional flag
-            if 'wfa-bidirectional' in line:
+            if 'wfa-bidirectional' in line or 'biwfa' in line:
                 algorithm = 'biwfa'
             else:
                 if '--wfa-memory-mode' in line:
@@ -64,14 +78,16 @@ for line in sys.stdin:
         if seq_name and algorithm:
             if not num_replicate:
                 num_replicate = '1'
-            print('\t'.join([seq_name, algorithm, num_replicate, elapsed_wall_clock_time, 'time_s']))
-            print('\t'.join([seq_name, algorithm, num_replicate, max_resident_set_size, 'memory_kb']))
+            print('\t'.join([seq_name, algorithm, num_replicate, elapsed_wall_clock_time, time_unit_of_measure, error_rate]))
+            print('\t'.join([seq_name, algorithm, num_replicate, max_resident_set_size, 'memory_kb', error_rate]))
 
         seq_name = ''
         algorithm = ''
         elapsed_wall_clock_time = ''
         max_resident_set_size = ''
         num_replicate = ''
+        error_rate = 'na'
+        time_unit_of_measure = ''
 
         error = False
     elif 'Replicate ' in line:
