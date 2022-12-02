@@ -262,7 +262,7 @@ SET=ont_ul
 module load cmake gcc/10.2.0
 RUN_BENCHMARK=/gpfs/projects/bsc18/bsc18995/biwfa/BiWFA-paper/bin/align_benchmark
 
-ls chunk_* | head -n 10 | while read PATH_CHUNK; do
+ls chunk_* | while read PATH_CHUNK; do
   echo $PATH_CHUNK
 
   # Write just one .out file, not one for each replicate
