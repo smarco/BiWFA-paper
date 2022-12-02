@@ -8,7 +8,7 @@ algorithm = ''
 elapsed_wall_clock_time = ''
 max_resident_set_size = ''
 num_replicate = ''
-error_rate = 'na'
+error_rate = 'nan'
 time_unit_of_measure = ''
 
 error = False
@@ -54,7 +54,7 @@ for line in sys.stdin:
 
         if 'gap-affine-wfa' in line:
             # The old align_benchmark had the --wfa-bidirectional flag
-            if 'wfa-bidirectional' in line or 'biwfa' in line:
+            if 'wfa-bidirectional' in line or '--wfa-memory-mode biwfa' in line:
                 algorithm = 'biwfa'
             else:
                 if '--wfa-memory-mode' in line:

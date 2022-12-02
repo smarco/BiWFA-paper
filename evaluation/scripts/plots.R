@@ -6,18 +6,19 @@ library(tidyverse)
 options(scipen = 9)
 
 stats_df <- read.table('~/git/BiWFA-paper/evaluation/data/statistics_all.tsv.gz', sep = '\t', header = F)
-names(stats_df) <- c('set', 'seq', 'mode', 'replicate', 'value', 'statistic')
+names(stats_df) <- c('set', 'seq', 'mode', 'replicate', 'value', 'statistic', 'error.rate')
+
 # Compute averages for time and maximums for memory
-stats_time_df <- stats_df %>%
-  filter(statistic != 'memory_kb') %>% #time_s or time_ns
-  group_by(set, seq, mode, statistic) %>%
-  dplyr::summarize(value = mean(value, na.rm=TRUE), num.replicates = n())
-stats_memory_df <- stats_df %>%
-  filter(statistic == 'memory_kb') %>%
-  group_by(set, seq, mode, statistic) %>%
-  dplyr::summarize(value = max(value), num.replicates = n())
-stats_df <- bind_rows(stats_time_df, stats_memory_df)
-rm(stats_time_df, stats_memory_df)
+#stats_time_df <- stats_df %>%
+#  filter(statistic != 'memory_kb') %>% #time_s or time_ns
+#  group_by(set, seq, mode, statistic) %>%
+#  dplyr::summarize(value = mean(value, na.rm=TRUE), error.rate = mean(error.rate, na.rm=TRUE), num.replicates = n())
+#stats_memory_df <- stats_df %>%
+#  filter(statistic == 'memory_kb') %>%
+#  group_by(set, seq, mode, statistic) %>%
+#  dplyr::summarize(value = max(value), error.rate = mean(error.rate, na.rm=TRUE), num.replicates = n())
+#stats_df <- bind_rows(stats_time_df, stats_memory_df)
+#rm(stats_time_df, stats_memory_df)
 
 lengths_df <- read.table('~/git/BiWFA-paper/evaluation/data/lengths_all.tsv.gz', sep = '\t', header = F)
 names(lengths_df) <- c('set', 'seq', 'query.length', 'target.length')
@@ -38,6 +39,7 @@ statsWithMetadata_df <- merge(
   by.x = c('set', 'seq', 'mode'), by.y = c('set', 'seq', 'mode')
 )
 statsWithMetadata_df$score[is.na(statsWithMetadata_df$score)] <- 1
+statsWithMetadata_df$statistic[statsWithMetadata_df$statistic == ''] <- NaN
 
 # Force column's type
 statsWithMetadata_df$set <- as.factor(statsWithMetadata_df$set)
@@ -45,14 +47,16 @@ statsWithMetadata_df$mode <- as.factor(statsWithMetadata_df$mode)
 
 # Rename datasets
 levels(statsWithMetadata_df$set)[match("ont_regions",levels(statsWithMetadata_df$set))] <- "ONT PromethION reads vs CHM13 v1.1"
-levels(statsWithMetadata_df$set)[match("ont_regions_10kbps",levels(statsWithMetadata_df$set))] <- "ONT PromethION reads vs CHM13 v1.1 <= 10kbps"
-levels(statsWithMetadata_df$set)[match("ONT_UL",levels(statsWithMetadata_df$set))] <- "ONT Ultra Long > 500kbps"
-levels(statsWithMetadata_df$set)[match("ONT_UL_SHORT",levels(statsWithMetadata_df$set))] <- "ONT Ultra Long <= 10kbps"
+levels(statsWithMetadata_df$set)[match("ONT",levels(statsWithMetadata_df$set))] <- "ONT Ultra Long"
+statsWithMetadata_df$set <- factor(
+  statsWithMetadata_df$set,
+  levels = c("ONT PromethION reads vs CHM13 v1.1", "ONT Ultra Long")
+)
 
 # Rename algorithms and change their order
 levels(statsWithMetadata_df$mode)[match("edlib",levels(statsWithMetadata_df$mode))] <- "edlib (edit distance)"
 levels(statsWithMetadata_df$mode)[match("bitpal-scored",levels(statsWithMetadata_df$mode))] <- "bitpal (score only)"
-levels(statsWithMetadata_df$mode)[match("wfa-ultralow",levels(statsWithMetadata_df$mode))] <- "BiWFA"
+levels(statsWithMetadata_df$mode)[match("biwfa",levels(statsWithMetadata_df$mode))] <- "BiWFA"
 levels(statsWithMetadata_df$mode)[match("wfa-high",levels(statsWithMetadata_df$mode))] <- "WFA-high"
 levels(statsWithMetadata_df$mode)[match("wfa-low",levels(statsWithMetadata_df$mode))] <- "WFA-low"
 levels(statsWithMetadata_df$mode)[match("wfa-med",levels(statsWithMetadata_df$mode))] <- "WFA-med"
@@ -65,14 +69,18 @@ statsWithMetadata_df$mode <- factor(
 )
 
 ################################################################################
-# Sequences >= 10kbps
+# Long sequences
+z <- statsWithMetadata_df[statsWithMetadata_df$set %in% c(
+  "ONT PromethION reads vs CHM13 v1.1", "ONT Ultra Long"
+),]
+z <- z[
+  (z$set == 'ONT PromethION reads vs CHM13 v1.1' & z$query.length > 10000 & z$target.length > 10000) |
+   z$set == 'ONT Ultra Long' & z$query.length > 500000 & z$target.length > 500000,]
+levels(z$set)[match("ONT PromethION reads vs CHM13 v1.1",levels(z$set))] <- "ONT PromethION reads vs CHM13 v1.1 > 10 kbps"
+levels(z$set)[match("ONT Ultra Long",levels(z$set))] <- "ONT Ultra Long > 500 kbps"
 
 # Plot memory use
-x <- statsWithMetadata_df[statsWithMetadata_df$set %in% c(
-  "ONT PromethION reads vs CHM13 v1.1", "ONT Ultra Long > 500kbps"
-),]
-x <- x[x$statistic == 'memory_kb' & !is.nan(x$value), ]
-x <- x[x$query.length >= 10000 & x$target.length >= 10000,] # To clean outliers
+x <- z[z$statistic == 'memory_kb' & !is.nan(z$value), ]
 px <- ggplot(x, aes(x = mode, y = value / 1024, fill=mode)) +
   geom_boxplot() +
   scale_y_continuous(
@@ -105,17 +113,13 @@ px <- ggplot(x, aes(x = mode, y = value / 1024, fill=mode)) +
     strip.text = element_text(size=15)
   ) +
   guides(fill=guide_legend(title="Algorithm")) +
-  ggtitle('Memory consumption') +
+  ggtitle('Maximum memory consumption') +
   xlab("Algorithm") + ylab("") + geom_vline(xintercept=2.5)
-px 
+px
 
 # Plot runtime
-y <- statsWithMetadata_df[statsWithMetadata_df$set %in% c(
-  "ONT PromethION reads vs CHM13 v1.1", "ONT Ultra Long > 500kbps"
-),]
-y <- y[y$statistic == 'time_s' & !is.nan(y$value), ]
-y <- y[y$query.length >= 10000 & y$target.length >= 10000,] # To clean outliers
-py <- ggplot(y, aes(x = mode, y = value + 0.001, fill=mode)) +
+y <- z[z$statistic == 'time_ms' & !is.nan(z$value), ]
+py <- ggplot(y, aes(x = mode, y = value / 1000, fill=mode)) +
   geom_boxplot() +
   scale_y_continuous(
     trans='log10',
@@ -168,13 +172,15 @@ ggsave(plot = pxy, paste0('Figure2', '.png'), width = 30, height = 20, units = "
 
 ################################################################################
 # Sequences <= 10kbps
+z <- statsWithMetadata_df[statsWithMetadata_df$set %in% c(
+  "ONT PromethION reads vs CHM13 v1.1", "ONT Ultra Long"
+),]
+z <- z[z$query.length <= 10000 & z$target.length <= 10000,]
+levels(z$set)[match("ONT PromethION reads vs CHM13 v1.1",levels(z$set))] <- "ONT PromethION reads vs CHM13 v1.1 <= 10 kbps"
+levels(z$set)[match("ONT Ultra Long",levels(z$set))] <- "ONT Ultra Long <= 10 kbps"
 
 # Plot memory use
-x <- statsWithMetadata_df[statsWithMetadata_df$set %in% c(
-  "ONT PromethION reads vs CHM13 v1.1 <= 10kbps", "ONT Ultra Long <= 10kbps"
-),]
-x <- x[x$statistic == 'memory_kb' & !is.nan(x$value), ]
-x <- x[x$query.length <= 10000 & x$target.length <= 10000 & x$num.replicates == 100,]
+x <- z[z$statistic == 'memory_kb' & !is.nan(z$value), ]
 px <- ggplot(x, aes(x = mode, y = value / 1024, fill=mode)) +
   geom_boxplot() +
   scale_y_continuous(
@@ -212,12 +218,8 @@ px <- ggplot(x, aes(x = mode, y = value / 1024, fill=mode)) +
 px
 
 # Plot runtime
-y <- statsWithMetadata_df[statsWithMetadata_df$set %in% c(
-  "ONT PromethION reads vs CHM13 v1.1 <= 10kbps", "ONT Ultra Long > 500kbps", "ONT Ultra Long <= 10kbps"
-),]
-y <- y[y$statistic == 'time_s' & !is.nan(y$value), ]
-y <- y[y$query.length <= 10000 & y$target.length <= 10000 & y$num.replicates == 100,]
-py <- ggplot(y, aes(x = mode, y = value + 0.001, fill=mode)) +
+y <- z[z$statistic == 'time_ms' & !is.nan(z$value), ]
+py <- ggplot(y, aes(x = mode, y = value, fill=mode)) +
   geom_boxplot() +
   scale_y_continuous(
     trans='log10',
@@ -247,7 +249,7 @@ py <- ggplot(y, aes(x = mode, y = value + 0.001, fill=mode)) +
   ) +
   guides(fill=guide_legend(title="Algorithm")) +
   ggtitle('Average execution time') +
-  xlab("Algorithm") + ylab("Seconds") + geom_vline(xintercept=2.5)
+  xlab("Algorithm") + ylab("Milliseconds") + geom_vline(xintercept=2.5)
 py
 
 # Plot both and save the image
@@ -273,16 +275,14 @@ ggsave(plot = pxy, paste0('FigureS1', '.png'), width = 30, height = 20, units = 
 
 # Memory
 z <- statsWithMetadata_df[statsWithMetadata_df$statistic == 'memory_kb' & !is.nan(statsWithMetadata_df$value), ]
-z <- z[z$mode %in% c('WFA-high', 'BiWFA') & z$num.replicates == 100,]
-levels(z$set)[match("ONT_UL_OTHER",levels(z$set))] <- "ONT Ultra Long"
-#levels(z$set)[match("ONT Ultra Long <= 10kbps",levels(z$set))] <- "ONT Ultra Long"
-#levels(z$set)[match("ONT Ultra Long > 500kbps",levels(z$set))] <- "ONT Ultra Long"
+z <- z[z$mode %in% c('WFA-high', 'BiWFA'),]# & z$num.replicates == 100,]
 z <- z[z$set %in% c('ONT Ultra Long'),]
+z $error.rate <- as.numeric(z$error.rate)
 px <- ggplot(
   z,
-  aes(x = (query.length + target.length) / 2, y = value / 1024, color = mode, alpha=I(1/3))
+  aes(x = (query.length + target.length) / 2, y = value / 1024, color = error.rate, shape=mode, alpha=I(1/2))
 ) +
-  geom_point() +
+  geom_point(size=2) +
   #facet_wrap (
   #  ~set,
   #  ncol = 2
@@ -307,7 +307,7 @@ px <- ggplot(
     #axis.ticks.y=element_blank()  #remove y axis ticks
     
     strip.text = element_text(size=15),
-  ) + guides(color=guide_legend(title="Algorithm")) +
+  ) + guides(color=guide_legend(title="Error rate (%)"), shape=guide_legend(title="Algorithm")) +
   scale_y_continuous(
     trans='log10',
     #labels = scales::comma,
@@ -321,7 +321,7 @@ px <- ggplot(
     #limits=c(min((z$query.length + z$target.length)/2), 500000),
     n.breaks = 12
   ) + 
-  scale_color_manual(values=c("#39B600", "#FF62BC"))
+  scale_color_gradient(low = "green", high = "red") #+ scale_color_manual(values=c("#39B600", "#FF62BC"))
 px
 if(FALSE) {
   library(dplyr)
@@ -368,17 +368,15 @@ if(FALSE) {
 }
 
 # Time
-z <- statsWithMetadata_df[statsWithMetadata_df$statistic == 'time_ns' & !is.nan(statsWithMetadata_df$value), ]
-z <- z[z$mode %in% c('WFA-high', 'BiWFA') & z$num.replicates == 100,]
-levels(z$set)[match("ONT_UL_OTHER",levels(z$set))] <- "ONT Ultra Long"
-#levels(z$set)[match("ONT Ultra Long <= 10kbps",levels(z$set))] <- "ONT Ultra Long"
-#levels(z$set)[match("ONT Ultra Long > 500kbps",levels(z$set))] <- "ONT Ultra Long"
+z <- statsWithMetadata_df[statsWithMetadata_df$statistic == 'time_ms' & !is.nan(statsWithMetadata_df$value), ]
+z <- z[z$mode %in% c('WFA-high', 'BiWFA'),]# & z$num.replicates == 100,]
 z <- z[z$set %in% c('ONT Ultra Long'),]
+z $error.rate <- as.numeric(z$error.rate)
 py <- ggplot(
   z,
-  aes(x = (query.length + target.length) / 2, y = value / 1000 / 1000, color = mode, alpha=I(1/3))
+  aes(x = (query.length + target.length) / 2, y = value, color = mode, shape = mode, alpha=I(1/2))
 ) +
-  geom_point() +
+  geom_point(size=2) +
   #facet_wrap (
   #  ~set,
   #  ncol = 2
@@ -416,8 +414,8 @@ py <- ggplot(
     #labels = scales::comma,
     #limits=c(min((z$query.length + z$target.length)/2), 500000),
     n.breaks = 12
-  ) + 
-  scale_color_manual(values=c("#39B600", "#FF62BC"))
+  ) + scale_color_manual(values=c("#39B600", "#FF62BC"))
+  #scale_color_gradient(low = "green", high = "red") #
 py
 if (FALSE) {
   library(dplyr)
@@ -482,12 +480,12 @@ ggsave(plot = pxy, paste0('FigureS2', '.png'), width = 30, height = 20, units = 
 
 
 # Statistics
-for (current_stat in unique(statsWithMetadata_df$statistic)) {
+for (current_stat in unique(statsWithMetadata_df$statistic[statsWithMetadata_df$statistic != 'NaN'])) {
   print(current_stat)
   for (current_set in unique(statsWithMetadata_df$set)) {
     print(current_set)
     tmp_df <- statsWithMetadata_df[statsWithMetadata_df$statistic == current_stat & !is.nan(statsWithMetadata_df$value) & statsWithMetadata_df$set == current_set, ]
-    tmp_df <- tmp_df[tmp_df$query.length >= 10000 & tmp_df$target.length >= 10000,] # To clean outliers
+    tmp_df <- tmp_df[tmp_df$query.length > 10000 & tmp_df$target.length > 10000,]
     
     mean_BiWFA <- mean(tmp_df[tmp_df$mode == 'BiWFA',]$value)
     
@@ -502,11 +500,11 @@ for (current_stat in unique(statsWithMetadata_df$statistic)) {
 }
 
 current_stat = 'memory_kb'
-# 'ONT PromethION reads vs CHM13 v1.1', 'ONT Ultra Long > 500kbps'
-current_set = 'ONT Ultra Long > 500kbps'
+# 'ONT PromethION reads vs CHM13 v1.1', 'ONT Ultra Long'
+current_set = 'ONT Ultra Long'
 current_mode = 'WFA-high'
 tmp_df <- statsWithMetadata_df[statsWithMetadata_df$statistic == current_stat & !is.nan(statsWithMetadata_df$value) & statsWithMetadata_df$set == current_set, ]
-tmp_df <- tmp_df[tmp_df$query.length >= 10000 & tmp_df$target.length >= 10000,] # To clean outliers
+tmp_df <- tmp_df[tmp_df$query.length > 10000 & tmp_df$target.length > 10000,]
 mean_BiWFA <- mean(tmp_df[tmp_df$mode == 'BiWFA',]$value)
 mean_XXX <- mean(tmp_df[tmp_df$mode == current_mode,]$value)
 mean_XXX/mean_BiWFA
