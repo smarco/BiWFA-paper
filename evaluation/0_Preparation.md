@@ -17,6 +17,7 @@ tar -xf BiWFA-paper.tar.gz
 rm BiWFA-paper.tar.gz
 cd BiWFA-paper
 git checkout benchmark
+git checkout d5532da3b861d545d5c34ea4ef314ec439591d05
 
 # Build
 module load cmake gcc/10.2.0
