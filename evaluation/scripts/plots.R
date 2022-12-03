@@ -370,17 +370,19 @@ if(FALSE) {
 # Time
 z <- statsWithMetadata_df[statsWithMetadata_df$statistic == 'time_ms' & !is.nan(statsWithMetadata_df$value), ]
 z <- z[z$mode %in% c('WFA-high', 'BiWFA'),]# & z$num.replicates == 100,]
-z <- z[z$set %in% c('ONT Ultra Long'),]
 z $error.rate <- as.numeric(z$error.rate)
 py <- ggplot(
   z,
-  aes(x = (query.length + target.length) / 2, y = value, color = mode, shape = mode, alpha=I(1/2))
+  aes(
+    x = (query.length + target.length) / 2,
+    y = value,
+    color = mode, shape = mode, alpha=I(1/2))
 ) +
   geom_point(size=2) +
-  #facet_wrap (
-  #  ~set,
-  #  ncol = 2
-  #) +
+  facet_wrap (
+    ~set,
+    ncol = 2
+  ) +
   ggtitle('Average execution time') +
   xlab("Length (base pairs)") + ylab("Milliseconds") +  theme_bw() +
   theme(
@@ -417,6 +419,64 @@ py <- ggplot(
   ) + scale_color_manual(values=c("#39B600", "#FF62BC"))
   #scale_color_gradient(low = "green", high = "red") #
 py
+
+zz <- z %>%
+  spread(key = mode, value = value) %>%
+  mutate(BiWFA_div_WFA = log2(BiWFA/`WFA-high`))
+pzz <- ggplot(
+  zz,
+  aes(
+    (query.length + target.length) / 2,
+    y = BiWFA_div_WFA,
+    alpha=I(0.5)#, color = error.rate
+    )
+) +
+  geom_point(size=1.5) +
+  facet_wrap (
+    ~set,
+    ncol = 2
+  ) +
+  ggtitle('Average execution time ratio') +
+  guides(color=guide_legend(title="Algorithm")) +
+  xlab("Length") + ylab(expression("log"[2]("BiWFA / WFA-high"))) +  theme_bw() +
+  theme(
+    plot.title = element_text(hjust = 0.5, size=18),
+    legend.position = "none",
+    legend.title = element_text(size=16),
+    legend.text = element_text(size=14),
+    
+    axis.title=element_text(size=18),
+    
+    axis.text.x = element_text(angle = 30, vjust = 1.0, hjust=1, size=15),
+    #axis.title.x = element_blank(),
+    #axis.text.x=element_blank(), #remove x axis labels
+    #axis.ticks.x=element_blank(), #remove x axis ticks
+    
+    axis.text.y=element_text(size=15),
+    #axis.text.y=element_blank(),  #remove y axis labels
+    #axis.ticks.y=element_blank()  #remove y axis ticks
+    
+    strip.text = element_text(size=15)
+  ) +
+  scale_y_continuous(
+    #trans='log10',
+    #labels = scales::comma,
+    limits=c(-1, 2.5),
+    n.breaks = 8,
+    #labels=c("NA" = "", "1" = "1 MB", "10" = "10 MB", "100" = "100 MB", "1000" = "1 GB", "10000" = "10 GB", "100000" = "100 GB", "1000000" = "1 TB", "NA" = "")
+  ) +
+  scale_x_continuous(
+    #trans='log10'
+    #labels = scales::comma,
+    limits=c(100, 350000),
+    n.breaks = 18
+  ) + geom_hline(yintercept=0) #+ scale_color_gradient(low = "green", high = "red") #+ 
+  #scale_color_manual(values=c("#39B600", "#FF62BC")) +
+  
+pzz
+ggsave(plot = pzz, paste0('FigureSX', '.pdf'), width = 40, height = 25, units = "cm", dpi = 300, bg = "transparent", limitsize = FALSE)
+ggsave(plot = pzz, paste0('FigureSX', '.png'), width = 40, height = 25, units = "cm", dpi = 300, bg = "transparent", limitsize = FALSE)
+
 if (FALSE) {
   library(dplyr)
   zz <- z %>%
