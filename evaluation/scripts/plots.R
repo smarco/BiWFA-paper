@@ -166,8 +166,8 @@ pxy <- ggpubr::ggarrange(
 ) + 
   theme(plot.margin = margin(0.3, 0.3, 0.3, 0.3, "cm")) # to avoid cutting labels
 pxy
-ggsave(plot = pxy, paste0('Figure2', '.pdf'), width = 30, height = 20, units = "cm", dpi = 100, bg = "transparent", limitsize = FALSE)
-ggsave(plot = pxy, paste0('Figure2', '.png'), width = 30, height = 20, units = "cm", dpi = 100, bg = "transparent", limitsize = FALSE)
+ggsave(plot = pxy, paste0('Figure2', '.pdf'), width = 30, height = 20, units = "cm", dpi = 300, bg = "transparent", limitsize = FALSE)
+ggsave(plot = pxy, paste0('Figure2', '.png'), width = 30, height = 20, units = "cm", dpi = 300, bg = "transparent", limitsize = FALSE)
 ################################################################################
 
 ################################################################################
@@ -534,8 +534,8 @@ pxy <- ggpubr::ggarrange(
 ) + 
   theme(plot.margin = margin(0.3, 0.3, 0.3, 0.3, "cm")) # to avoid cutting labels
 pxy
-ggsave(plot = pxy, paste0('FigureS2', '.pdf'), width = 30, height = 20, units = "cm", dpi = 300, bg = "transparent", limitsize = FALSE)
-ggsave(plot = pxy, paste0('FigureS2', '.png'), width = 30, height = 20, units = "cm", dpi = 300, bg = "transparent", limitsize = FALSE)
+#ggsave(plot = pxy, paste0('FigureS2', '.pdf'), width = 30, height = 20, units = "cm", dpi = 300, bg = "transparent", limitsize = FALSE)
+#ggsave(plot = pxy, paste0('FigureS2', '.png'), width = 30, height = 20, units = "cm", dpi = 300, bg = "transparent", limitsize = FALSE)
 ################################################################################
 
 
